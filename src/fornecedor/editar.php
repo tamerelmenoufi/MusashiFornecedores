@@ -1,9 +1,16 @@
 <?php
     require "../../lib/config.php";
-
     global $pdo;
 
-    $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
+    if($_POST['acao'] == 'excluir_contato'){
+
+        $sql = $pdo->prepare("UPDATE contatos set situacao = '0' WHERE codigo = '{$_POST['codigo_contato']}'");
+        $sql->execute();
+
+    }
+
+
+    $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE situacao = '1' and codigo = :c");
     $sql->bindValue(':c', $_POST['codigo_fornecedor']);
     $sql->execute();
 
@@ -68,20 +75,20 @@
             </div>
             <div contatos class="col-md-9">
                 <?php
-                    $sql = $pdo->prepare("SELECT * FROM contatos WHERE codigo_fornecedora = :c");
+                    $sql = $pdo->prepare("SELECT * FROM contatos WHERE situacao = '1' and codigo_fornecedora = :c");
                     $sql->bindValue(':c', $_POST['codigo_fornecedor']);
                     $sql->execute();
 
                     if($sql->rowCount() > 0){
 
-                        while($d = $sql->fetch()){ 
+                        while($d = $sql->fetch()){
                     ?>
                         <div class="row border p-3" style="border-left: 5px solid green !important; margin: 0px 0px 12px 0px">
-                            <div class="col-md-4 fw-bolder fs-6">
+                            <div class="col-md-3 fw-bolder fs-6">
                                 <span class="text-secondary" style="font-size: 11px">Nome:</span><br>
                                 <p><?=utf8_encode($d["nome"])?></p>
                             </div>
-                            <div class="col-md-4 fw-bolder fs-6">
+                            <div class="col-md-3 fw-bolder fs-6">
                                 <span class="text-secondary" style="font-size: 11px">E-mail:</span><br>
                                 <p><?=$d["email"]?></p>
                             </div>
@@ -92,6 +99,9 @@
                             <div class="col-md-2 fw-bolder fs-6">
                                 <span class="text-secondary" style="font-size: 11px">Setor/Função:</span><br>
                                 <p><?=utf8_encode($d["setor"])?></p>
+                            </div>
+                            <div class="col-md-2 fw-bolder fs-6">
+                                <button excluir_contato cod="<?=$d["codigo"]?>" class='btn btn-danger btn-lg'>Excluir</button>
                             </div>
                         </div>
                     <?php
@@ -142,7 +152,27 @@
         })
     })
 
-    popup_att_resultado = ''; 
+
+    $('button[excluir_contato]').click(function(){
+        codigo = $(this).attr("cod");
+        $.ajax({
+            url: 'src/fornecedor/editar.php',
+            type:'POST',
+            data:{
+                codigo_contato:codigo,
+                codigo_fornecedor:'<?=$_POST['codigo_fornecedor']?>',
+                acao:'excluir_contato'
+            },
+            success: function(retorno){
+                $('div#home').html(retorno)
+            }
+        })
+    })
+
+
+
+
+    popup_att_resultado = '';
 
 
     (function () { 'use strict'
@@ -158,7 +188,7 @@
                 let data_fim = $('input#data_fim').val()
                 let tipo = $('select#tipo').val()
 
-                
+
                 if (!form.checkValidity()) {
 
                     $.alert('<h4 class="text-warning">Aviso <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h4><p>Preencha corretamente todos os campos.</p>')
