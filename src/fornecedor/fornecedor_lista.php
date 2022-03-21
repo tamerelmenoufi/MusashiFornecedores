@@ -99,13 +99,14 @@
 
     $('button[editar]').click(function(){
         let codigo_fornecedor = $(this).attr('cod')
-
+        alert(codigo_fornecedor)
         $.ajax({
             url: 'src/fornecedor/fornecedor_lista.php',
             method: 'POST',
             data: {
                 codigo_fornecedor
-            },success: function(retorno){
+            },
+            success: function(retorno){
                 $('div#home').html(retorno)
             }
         })
