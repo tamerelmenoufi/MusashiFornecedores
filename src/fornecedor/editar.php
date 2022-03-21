@@ -155,18 +155,30 @@
 
     $('button[excluir_contato]').click(function(){
         codigo = $(this).attr("cod");
-        $.ajax({
-            url: 'src/fornecedor/editar.php',
-            type:'POST',
-            data:{
-                codigo_contato:codigo,
-                codigo_fornecedor:'<?=$_POST['codigo_fornecedor']?>',
-                acao:'excluir_contato'
-            },
-            success: function(retorno){
-                $('div#home').html(retorno)
+        $.confirm({
+            content:"Confirma a exclusão do contato?",
+            title:false,
+            buttons:{
+                'SIM':function(){
+                    $.ajax({
+                        url: 'src/fornecedor/editar.php',
+                        type:'POST',
+                        data:{
+                            codigo_contato:codigo,
+                            codigo_fornecedor:'<?=$_POST['codigo_fornecedor']?>',
+                            acao:'excluir_contato'
+                        },
+                        success: function(retorno){
+                            $('div#home').html(retorno)
+                        }
+                    })
+                },
+                'NÃO':function(){
+
+                }
             }
-        })
+        });
+
     })
 
 
