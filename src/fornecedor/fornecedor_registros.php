@@ -7,7 +7,7 @@
         $sql->bindValue(':c', $codigo);
         $sql->execute();
 
-        $d = $sql->fetch(); 
+        $d = $sql->fetch();
 
 ?>
     <div class="container-fluid" >
@@ -154,7 +154,7 @@
         let codigo = $(this).attr('cod')
         let data = $(this).attr('data')
         let fornecedor = $('input[fornecedor]').attr('fornecedor')
-        
+
 
         $.ajax({
             url: local,

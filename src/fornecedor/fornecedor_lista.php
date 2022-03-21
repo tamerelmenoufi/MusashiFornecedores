@@ -2,6 +2,12 @@
     require "../../lib/config.php";
 
     global $pdo;
+
+    if($_POST['acao'] == 'excluir'){
+        $update = $pdo->prepare("UPDATE fornecedores set situacao = '0' WHERE codigo = {$_POST['codigo_fornecedor']}");
+        $update->execute();
+    }
+
 ?>
 <div class="container-fluid" >
     <div class="row justify-content-center align-items-center g-3 m-3">
@@ -48,11 +54,15 @@
                                     <button relatorio cod="<?=$d['codigo']?>" type="button" class="btn btn-dark btn-sm" title="Relatório">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Relatorio
-                                    </button>     
+                                    </button>
+                                    <button excluir cod="<?=$d['codigo']?>" type="button" class="btn btn-danger btn-sm" title="Excluir">
+                                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
+                                        Excluir
+                                    </button>
                                 </td>
                             </tr>
                         <?php
-                                // } 
+                                // }
                                 $count++;
                             }
                         ?>
@@ -85,10 +95,25 @@
         let codigo_fornecedor = $(this).attr('cod')
 
         $.ajax({
-            url: 'src/fornecedor/editar.php',
+            url: 'src/fornecedor/fornecedor_lista.php',
             method: 'POST',
             data: {
                 codigo_fornecedor
+            },success: function(retorno){
+                $('div#home').html(retorno)
+            }
+        })
+    })
+
+    $('button[excluir]').click(function(){
+        let codigo_fornecedor = $(this).attr('cod')
+
+        $.ajax({
+            url: 'src/fornecedor/editar.php',
+            method: 'POST',
+            data: {
+                codigo_fornecedor,
+                acao:'excluir'
             },success: function(retorno){
                 $('div#home').html(retorno)
             }
@@ -113,7 +138,7 @@
                         codigo: codigo_fornecedor
                     },success: function(chart){
                         $('div[grafico]').html(chart)
-                        
+
                     }
                 })
             }
