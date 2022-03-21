@@ -55,10 +55,16 @@
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Relatorio
                                     </button>
+                                    <?php
+                                    if($ConfUsu['tipo'] == 1){
+                                    ?>
                                     <button excluir cod="<?=$d['codigo']?>" type="button" class="btn btn-danger btn-sm" title="Excluir">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Excluir
                                     </button>
+                                    <?php
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                         <?php
