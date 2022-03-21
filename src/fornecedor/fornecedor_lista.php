@@ -99,7 +99,7 @@
 
     $('button[editar]').click(function(){
         let codigo_fornecedor = $(this).attr('cod')
-        alert(codigo_fornecedor)
+
         $.ajax({
             url: 'src/fornecedor/editar.php',
             method: 'POST',
