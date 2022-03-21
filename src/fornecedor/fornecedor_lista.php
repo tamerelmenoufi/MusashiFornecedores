@@ -101,7 +101,7 @@
         let codigo_fornecedor = $(this).attr('cod')
         alert(codigo_fornecedor)
         $.ajax({
-            url: 'src/fornecedor/fornecedor_lista.php',
+            url: 'src/fornecedor/editar.php',
             method: 'POST',
             data: {
                 codigo_fornecedor
@@ -121,7 +121,7 @@
             buttons:{
                 'SIM':function(){
                     $.ajax({
-                        url: 'src/fornecedor/editar.php',
+                        url: 'src/fornecedor/fornecedor_lista.php',
                         method: 'POST',
                         data: {
                             codigo_fornecedor,
