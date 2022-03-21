@@ -114,16 +114,29 @@
     $('button[excluir]').click(function(){
         let codigo_fornecedor = $(this).attr('cod')
 
-        $.ajax({
-            url: 'src/fornecedor/editar.php',
-            method: 'POST',
-            data: {
-                codigo_fornecedor,
-                acao:'excluir'
-            },success: function(retorno){
-                $('div#home').html(retorno)
+        $.confirm({
+            content:"Deseja realmente desativar o Fornecedor?",
+            title:false,
+            buttons:{
+                'SIM':function(){
+                    $.ajax({
+                        url: 'src/fornecedor/editar.php',
+                        method: 'POST',
+                        data: {
+                            codigo_fornecedor,
+                            acao:'excluir'
+                        },success: function(retorno){
+                            $('div#home').html(retorno)
+                        }
+                    })
+                },
+                'NÃO':function(){
+
+                }
             }
-        })
+        });
+
+
     })
 
     $('button[relatorio]').click(function(){
