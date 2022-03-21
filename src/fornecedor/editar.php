@@ -101,7 +101,7 @@
                                 <p><?=utf8_encode($d["setor"])?></p>
                             </div>
                             <div class="col-md-2 fw-bolder fs-6">
-                                <button excluir_contato cod="<?=$d["codigo"]?>" class='btn btn-danger btn-lg'>Excluir</button>
+                                <button excluir_contato cod="<?=$d["codigo"]?>" class='btn btn-danger'>Excluir</button>
                             </div>
                         </div>
                     <?php
