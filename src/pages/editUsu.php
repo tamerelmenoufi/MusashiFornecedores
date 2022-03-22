@@ -2,7 +2,7 @@
     require "../../lib/config.php";
 
     global $pdo;
-    
+
     if($_POST['tipo'] == "editar"){
         $sql = $pdo->prepare("SELECT * FROM login  WHERE codigo = :c");
         $sql->bindValue(":c", $_POST["codigo"]);
@@ -19,7 +19,7 @@
                     <label for="nome" class="fs-6 fw-bolder">Nome:</label>
                     <div class="input-group">
                         <div class="input-group-text" style="width: 40px">
-                            <i class="fa fa-user" aria-hidden="true"></i> 
+                            <i class="fa fa-user" aria-hidden="true"></i>
                         </div>
                         <input nome iid="nome" type="text" class="form-control" value="<?=utf8_encode($user["nome"])?>">
                     </div>
@@ -33,6 +33,22 @@
                         <input email id="email" type="text" class="form-control" value="<?=utf8_encode($user["email"])?>">
                     </div>
                 </div>
+
+                <div class="col-md-12 p-0">
+                    <label for="email" class="fs-6 fw-bolder">Perfil:</label>
+                    <div class="input-group">
+                        <div class="input-group-text" style="width: 40px">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </div>
+                        <select name="tipo" id="tipo">
+                            <option value="2" <?=(($user["tipo"] == '2')?'selected':false)?>>Usuário</option>
+                            <option value="1" <?=(($user["tipo"] == '1')?'selected':false)?>>Gestor</option>
+                        </select>
+                        <input email id="email" type="text" class="form-control" value="<?=utf8_encode($user["email"])?>">
+                    </div>
+                </div>
+
+
                 <div class="col-md-8" style="padding: 0 12px 0 0">
                     <label for="usuario" class="fs-6 fw-bolder">Usuário:</label>
                     <div class="input-group">
@@ -78,7 +94,7 @@
             }
         })
     })
-    
+
     $("button[confirm]").click(function(){
         let local = $(this).attr("local")
         let codigo = $(this).attr("codigo_usuario")
