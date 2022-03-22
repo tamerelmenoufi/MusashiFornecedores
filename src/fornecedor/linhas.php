@@ -132,11 +132,9 @@
                 label: 'Q&D DO MÊS',
                 backgroundColor: 'rgb(58,113,195,.5)',
                 borderColor: 'rgb(58,113,195)',
-                borderWidth: 1,
+                borderWidth: 2,
                 data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
+                stack: 'combined'
             },
             {
                 label: 'QUALITY',
