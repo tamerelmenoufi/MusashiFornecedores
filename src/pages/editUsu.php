@@ -40,7 +40,7 @@
                         <div class="input-group-text" style="width: 40px">
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </div>
-                        <select tipo name="tipo" id="tipo">
+                        <select tipo class="form-control" name="tipo" id="tipo">
                             <option value="2" <?=(($user["tipo"] == '2')?'selected':false)?>>Usuário</option>
                             <option value="1" <?=(($user["tipo"] == '1')?'selected':false)?>>Gestor</option>
                         </select>
