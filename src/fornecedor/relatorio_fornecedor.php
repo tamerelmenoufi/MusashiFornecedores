@@ -1,6 +1,6 @@
 <?php
     require_once "../../lib/config.php";
-    
+
     global $pdo;
 
     if(isset($_POST['ano'])){
@@ -13,7 +13,7 @@
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
     $query->execute();
 
-    $fornecedor = $query->fetch(); 
+    $fornecedor = $query->fetch();
 
     function mesExtenso($mes){
         switch ($mes) {
@@ -124,8 +124,8 @@
         </div>
         <div  class="row m-0 p-2 ">
             <!-- GRAFICOS -->
-            <div grafico class="col-12 p-0 mb-3" style="height: 800px"></div> 
-            
+            <div grafico class="col-12 p-0 mb-3" style="height: 800px"></div>
+
             <div class="col-md-12 d-flex justify-content-center p-0 mb-3 ">
                 <div class="col-3 p-3 text-white bg-danger d-flex flex-column align-items-center justify-content-between">
                     0.00 - 84.99
@@ -189,6 +189,10 @@
                 </table>
             </div>
         </div>
+
+        <div grafico class="col-12 p-0 mb-3" style="height: 800px"></div>
+
+
         <div class="row m-0 p-0 justify-content-center ">
             <?php
                 $sql = $pdo->prepare("SELECT * FROM avaliacao_anual WHERE codigo_fornecedor = :cf AND ano = :y AND status = 1");
@@ -299,7 +303,7 @@
                         ano
                     },success: function(chart){
                         $('div[grafico]').html(chart)
-                        
+
                     }
                 })
             }
@@ -347,7 +351,7 @@
                         ano
                     },success: function(chart){
                         $('div[grafico]').html(chart)
-                        
+
                     }
                 })
             }
