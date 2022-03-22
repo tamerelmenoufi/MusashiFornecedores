@@ -113,15 +113,15 @@
     }else{
         $minfinal = 0;
     }
-    
+
 
 ?>
 
 
-<canvas can id="chart_empresas" style="height: 100%; width: 100%"></canvas>  
-    
+<canvas can id="chart_linhas" style="height: 100%; width: 100%"></canvas>
+
 <script>
-    var ctx10 = document.getElementById('chart_empresas');
+    var ctx10 = document.getElementById('chart_linhas');
     var chart_ano = new Chart(ctx10, {
         type: 'line',
         data: {

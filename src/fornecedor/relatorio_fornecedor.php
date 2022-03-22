@@ -124,7 +124,7 @@
         </div>
         <div  class="row m-0 p-2 ">
             <!-- GRAFICOS -->
-            <div grafico class="col-12 p-0 mb-3" style="height: 800px"></div>
+            <div barras class="col-12 p-0 mb-3" style="height: 800px"></div>
 
             <div class="col-md-12 d-flex justify-content-center p-0 mb-3 ">
                 <div class="col-3 p-3 text-white bg-danger d-flex flex-column align-items-center justify-content-between">
@@ -190,7 +190,7 @@
             </div>
         </div>
 
-        <div grafico class="col-12 p-0 mb-3" style="height: 800px"></div>
+        <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
 
         <div class="row m-0 p-0 justify-content-center ">
@@ -296,16 +296,29 @@
                 $('div#home').html(retorno)
 
                 $.ajax({
-                    url: 'src/fornecedor/chart.php',
+                    url: 'src/fornecedor/barras.php',
                     method: 'POST',
                     data: {
                         codigo: codigo_fornecedor,
                         ano
                     },success: function(chart){
-                        $('div[grafico]').html(chart)
+                        $('div[barras]').html(chart)
 
                     }
                 })
+
+                $.ajax({
+                    url: 'src/fornecedor/linhas.php',
+                    method: 'POST',
+                    data: {
+                        codigo: codigo_fornecedor,
+                        ano
+                    },success: function(chart){
+                        $('div[linhas]').html(chart)
+
+                    }
+                })
+
             }
         })
     })
@@ -344,16 +357,31 @@
                 $('div#home').html(retorno)
 
                 $.ajax({
-                    url: 'src/fornecedor/chart.php',
+                    url: 'src/fornecedor/barras.php',
                     method: 'POST',
                     data: {
                         codigo: codigo_fornecedor,
                         ano
                     },success: function(chart){
-                        $('div[grafico]').html(chart)
+                        $('div[barras]').html(chart)
 
                     }
                 })
+
+                $.ajax({
+                    url: 'src/fornecedor/linhas.php',
+                    method: 'POST',
+                    data: {
+                        codigo: codigo_fornecedor,
+                        ano
+                    },success: function(chart){
+                        $('div[linhas]').html(chart)
+
+                    }
+                })
+
+
+
             }
         })
     })
