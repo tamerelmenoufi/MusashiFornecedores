@@ -144,7 +144,7 @@
                 data: [<?=@implode(",", $array_quality)?>],
                 stack: 'combined',
                 borderWidth: 2
-            },
+            }/*,
             {
                 label: 'DELIVERY',
                 backgroundColor: 'rgb(113,195,58)',
@@ -173,7 +173,7 @@
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
-            }]
+            }*/]
         },
         options: {
             plugins: {
