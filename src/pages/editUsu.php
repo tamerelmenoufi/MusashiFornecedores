@@ -40,11 +40,10 @@
                         <div class="input-group-text" style="width: 40px">
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </div>
-                        <select name="tipo" id="tipo">
+                        <select tipo name="tipo" id="tipo">
                             <option value="2" <?=(($user["tipo"] == '2')?'selected':false)?>>Usuário</option>
                             <option value="1" <?=(($user["tipo"] == '1')?'selected':false)?>>Gestor</option>
                         </select>
-                        <input email id="email" type="text" class="form-control" value="<?=utf8_encode($user["email"])?>">
                     </div>
                 </div>
 
@@ -101,6 +100,8 @@
         let nome = $("input[nome]").val()
         let email = $("input[email]").val()
         let usuario = $("input[usuario]").val()
+        let tipo = $("select[tipo]").val()
+
 
         $.ajax({
             url: local,
@@ -110,6 +111,7 @@
                 nome,
                 email,
                 usuario,
+                tipo,
                 acao: "atualizar"
             },success: function(retorno){
                 popup.close();

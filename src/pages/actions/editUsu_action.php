@@ -4,22 +4,23 @@
     global $pdo;
 
     if($_POST["acao"] == "atualizar"){
-        $update = $pdo->prepare("UPDATE login SET nome = :n, email = :e, usuario = :u WHERE codigo = :c"); 
+        $update = $pdo->prepare("UPDATE login SET nome = :n, email = :e, usuario = :u, tipo = :t WHERE codigo = :c");
         $update->bindValue(":n", $_POST["nome"]);
         $update->bindValue(":e", $_POST["email"]);
         $update->bindValue(":u", $_POST["usuario"]);
+        $update->bindValue(":t", $_POST["tipo"]);
         $update->bindValue(":c", $_POST["codigo"]);
-        
+
         $update->execute();
     }
 
     if($_POST["acao"] == "resetar"){
         $y = date("Y");
 
-        $update = $pdo->prepare("UPDATE login SET senha = :s WHERE codigo = :c"); 
+        $update = $pdo->prepare("UPDATE login SET senha = :s WHERE codigo = :c");
         $update->bindValue(":s", md5("musashi@".$y));
         $update->bindValue(":c",  $_POST['codigo_usuario']);
-        
+
         $update->execute();
     }
 
