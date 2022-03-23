@@ -151,16 +151,16 @@
             },success: function(retorno){
                 $('div#home').html(retorno)
 
-                $.ajax({
-                    url: 'src/fornecedor/chart.php',
-                    method: 'POST',
-                    data: {
-                        codigo: codigo_fornecedor
-                    },success: function(chart){
-                        $('div[grafico]').html(chart)
+                // $.ajax({
+                //     url: 'src/fornecedor/chart.php',
+                //     method: 'POST',
+                //     data: {
+                //         codigo: codigo_fornecedor
+                //     },success: function(chart){
+                //         $('div[grafico]').html(chart)
 
-                    }
-                })
+                //     }
+                // })
             }
         })
     })
