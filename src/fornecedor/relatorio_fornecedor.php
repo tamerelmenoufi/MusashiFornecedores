@@ -385,4 +385,33 @@
             }
         })
     })
+
+
+    let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
+    let ano = <?=$Y?>
+
+    $.ajax({
+        url: 'src/fornecedor/barras.php',
+        method: 'POST',
+        data: {
+            codigo: codigo_fornecedor,
+            ano
+        },success: function(chart){
+            $('div[barras]').html(chart)
+
+        }
+    })
+
+    $.ajax({
+        url: 'src/fornecedor/linhas.php',
+        method: 'POST',
+        data: {
+            codigo: codigo_fornecedor,
+            ano
+        },success: function(chart){
+            $('div[linhas]').html(chart)
+
+        }
+    })
+
 </script>
