@@ -138,24 +138,24 @@
                 barThickness: 50,
                 type: 'bar'
             },
-            {
-                label: 'QUALITY',
-                backgroundColor: 'rgb(73,116,165)',
-                borderColor: 'rgb(73,116,165)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_quality)?>],
-                stack: 'combined',
-                borderWidth: 2
-            },
-            {
-                label: 'DELIVERY',
-                backgroundColor: 'rgb(113,195,58)',
-                borderColor: 'rgb(113,195,58)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_delivery)?>],
-                stack: 'combined',
-                borderWidth: 2
-            },
+            // {
+            //     label: 'QUALITY',
+            //     backgroundColor: 'rgb(73,116,165)',
+            //     borderColor: 'rgb(73,116,165)',
+            //     borderWidth: 1,
+            //     data: [<?=@implode(",", $array_quality)?>],
+            //     stack: 'combined',
+            //     borderWidth: 2
+            // },
+            // {
+            //     label: 'DELIVERY',
+            //     backgroundColor: 'rgb(113,195,58)',
+            //     borderColor: 'rgb(113,195,58)',
+            //     borderWidth: 1,
+            //     data: [<?=@implode(",", $array_delivery)?>],
+            //     stack: 'combined',
+            //     borderWidth: 2
+            // },
             {
                 label: 'DEFICIENTE',
                 backgroundColor: '#d11527',
