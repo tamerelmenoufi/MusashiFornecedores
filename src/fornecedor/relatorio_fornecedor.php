@@ -309,7 +309,7 @@ $(function(){
         let ano = $('select[ano]').val();
         let mes = $('select[mes]').val();
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
-
+        alert(mes);
         $.ajax({
             url: 'src/fornecedor/relatorio_fornecedor.php',
             method: 'POST',
