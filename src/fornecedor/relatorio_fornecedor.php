@@ -89,7 +89,7 @@
 
         <div class="col-2 noprint">
             <select ano class="form-select">
-                <option disabled value="<?=$Y?>" selected><?=$Y?></option>
+                <option value="<?=$Y?>" selected><?=$Y?></option>
                 <?php
                     $query = $pdo->prepare("SELECT ano FROM avaliacao_anual WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}");
                     $query->execute();
@@ -104,7 +104,7 @@
         </div>
         <div class="col-2 noprint">
             <select mes class="form-select">
-                <option disabled value="<?=$M?>" selected><?=$M?></option>
+                <option value="<?=$M?>" selected><?=$M?></option>
                 <?php
                     for($i=1;$i<=12;$i++){
                 ?>
