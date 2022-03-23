@@ -101,8 +101,9 @@
                     }
                 ?>
             </select>
-
-            <select ano class="form-select">
+        </div>
+        <div class="col-2 noprint">
+            <select mes class="form-select">
                 <option disabled value="<?=$M?>" selected><?=$M?></option>
                 <?php
                     for($i=1;$i<=12;$i++){
@@ -115,7 +116,7 @@
 
         </div>
 
-        <div class="col-4 noprint">
+        <div class="col-2 noprint">
             <button imprimir type="button" class="btn btn-primary " title="Imprimir"><i class="fa fa-print" aria-hidden="true"></i></button>
         </div>
 
