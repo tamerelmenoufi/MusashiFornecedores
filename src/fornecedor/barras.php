@@ -92,7 +92,7 @@
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
-    and am.ano between ('{$ano_atual}' AND '{$Y}') ORDER BY ano DESC, am.mes ASC LIMIT 12");
+    and am.ano between ('{$ano_atual}' AND '{$Y}') ORDER BY am.ano DESC, am.mes ASC LIMIT 12");
     $query->execute();
 
     $array_valores = [];
