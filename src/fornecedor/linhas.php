@@ -118,10 +118,10 @@
 ?>
 
 
-<canvas can id="chart_linhas" style="height: 100%; width: 100%"></canvas>
+<canvas can id="chart_linhas<?=md5(date("YmdHis"))?>" style="height: 100%; width: 100%"></canvas>
 
 <script>
-    var ctx10 = document.getElementById('chart_linhas');
+    var ctx10 = document.getElementById('chart_linhas<?=md5(date("YmdHis"))?>');
     var chart_ano = new Chart(ctx10, {
         type: 'line',
         data: {
