@@ -8,6 +8,12 @@
         $Y = date("Y");
     }
 
+    if(isset($_POST['mes'])){
+        $M = str_pad($_POST['mes'], 2, "0", STR_PAD_LEFT);
+    }else{
+        $M = date("m");
+    }
+
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
@@ -50,8 +56,10 @@
     }
 
 
-    $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
-    $mes_atual = date("m");
+    $mes_atual = date("m", mktime(0, 0, 0, ($M-12), date('d'), $Y));
+    $ano_atual = date("Y", mktime(0, 0, 0, ($M-12), date('d'), $Y));
+
+    //$mes_atual = date("m");
     $total_dias_mes = date("t");
 
     function diasDoMes(){
@@ -72,7 +80,7 @@
             return 0;
         }
     }
-    $query = $pdo->prepare("SELECT f.nome,
+    echo $query = $pdo->prepare("SELECT f.nome,
     am.mes,
     am.ano,
     am.eficiencia,
@@ -84,7 +92,7 @@
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
-    and am.ano = '".$Y."' ORDER BY mes");
+    and am.ano between ('".$ano_atual."' AND '".$Y."') ORDER BY ano DESC, mes ASC LIMIT 12");
     $query->execute();
 
     $array_valores = [];
