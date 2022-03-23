@@ -306,9 +306,9 @@ $(function(){
     })
 
     $('select[ano]').change(function(){
-        let ano = $('select[ano]').val()
-        let mes = $('select[mes]').val()
-        let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
+        let ano = $('select[ano]').val();
+        let mes = $('select[mes]').val();
+        let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
 
         $.ajax({
             url: 'src/fornecedor/relatorio_fornecedor.php',
@@ -359,9 +359,9 @@ $(function(){
 
     $('button[qav_av]').click(function(){
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
-        let qav = $('input[qav]').val()
-        let ano = <?=$Y?>
-        let mes = <?=$M?>
+        let qav = $('input[qav]').val();
+        let ano = '<?=$Y?>';
+        let mes = '<?=$M?>';
 
 
         $.ajax({
@@ -383,7 +383,7 @@ $(function(){
                 ano,
                 mes
             },success: function(retorno){
-                $('div#home').html(retorno)
+                $('div#home').html(retorno);
 
                 // $.ajax({
                 //     url: 'src/fornecedor/barras.php',
@@ -416,9 +416,9 @@ $(function(){
     })
 
 
-    let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
-    let ano = <?=$Y?>
-    let mes = <?=$M?>
+    let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
+    let ano = '<?=$Y?>';
+    let mes = '<?=$M?>';
 
     $.ajax({
         url: 'src/fornecedor/barras.php',
