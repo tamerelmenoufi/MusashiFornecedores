@@ -9,6 +9,12 @@
         $Y = date("Y");
     }
 
+    if(isset($_POST['mes'])){
+        $M = $_POST['mes'];
+    }else{
+        $M = date("m");
+    }
+
     $query = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
     $query->execute();
@@ -95,6 +101,18 @@
                     }
                 ?>
             </select>
+
+            <select ano class="form-select">
+                <option disabled value="<?=$M?>" selected><?=$M?></option>
+                <?php
+                    for($i=1;$i<=12;$i++){
+                ?>
+                    <option value="<?=$i?>"><?=$i?></option>
+                <?php
+                    }
+                ?>
+            </select>
+
         </div>
 
         <div class="col-4 noprint">
@@ -288,6 +306,7 @@ $(function(){
 
     $('select[ano]').change(function(){
         let ano = $('select[ano]').val()
+        let mes = $('select[mes]').val()
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
 
         $.ajax({
@@ -295,7 +314,8 @@ $(function(){
             method: 'POST',
             data: {
                 codigo_fornecedor,
-                ano
+                ano,
+                mes
             },success: function(retorno){
                 $('div#home').html(retorno)
 
@@ -340,6 +360,8 @@ $(function(){
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
         let qav = $('input[qav]').val()
         let ano = <?=$Y?>
+        let mes = <?=$M?>
+
 
         $.ajax({
             url: 'src/fornecedor/actions/qav_action.php',
@@ -347,7 +369,8 @@ $(function(){
             data: {
                 codigo_fornecedor,
                 qav,
-                ano
+                ano,
+                mes
             }
         })
 
@@ -356,7 +379,8 @@ $(function(){
             method: 'POST',
             data: {
                 codigo_fornecedor,
-                ano
+                ano,
+                mes
             },success: function(retorno){
                 $('div#home').html(retorno)
 
@@ -393,13 +417,15 @@ $(function(){
 
     let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
     let ano = <?=$Y?>
+    let mes = <?=$M?>
 
     $.ajax({
         url: 'src/fornecedor/barras.php',
         method: 'POST',
         data: {
             codigo: codigo_fornecedor,
-            ano
+            ano,
+            mes
         },success: function(chart){
             $('div[barras]').html(chart)
 
@@ -411,7 +437,8 @@ $(function(){
         method: 'POST',
         data: {
             codigo: codigo_fornecedor,
-            ano
+            ano,
+            mes
         },success: function(chart){
             $('div[linhas]').html(chart)
 
