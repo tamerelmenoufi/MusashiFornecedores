@@ -278,6 +278,10 @@
 </div>
 
 <script>
+
+$(function(){
+
+
     $('button[imprimir]').click(function(){
         window.print();
     })
@@ -413,5 +417,5 @@
 
         }
     })
-
+})
 </script>
