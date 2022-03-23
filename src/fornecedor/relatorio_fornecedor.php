@@ -295,29 +295,29 @@
             },success: function(retorno){
                 $('div#home').html(retorno)
 
-                $.ajax({
-                    url: 'src/fornecedor/barras.php',
-                    method: 'POST',
-                    data: {
-                        codigo: codigo_fornecedor,
-                        ano
-                    },success: function(chart){
-                        $('div[barras]').html(chart)
+                // $.ajax({
+                //     url: 'src/fornecedor/barras.php',
+                //     method: 'POST',
+                //     data: {
+                //         codigo: codigo_fornecedor,
+                //         ano
+                //     },success: function(chart){
+                //         $('div[barras]').html(chart)
 
-                    }
-                })
+                //     }
+                // })
 
-                $.ajax({
-                    url: 'src/fornecedor/linhas.php',
-                    method: 'POST',
-                    data: {
-                        codigo: codigo_fornecedor,
-                        ano
-                    },success: function(chart){
-                        $('div[linhas]').html(chart)
+                // $.ajax({
+                //     url: 'src/fornecedor/linhas.php',
+                //     method: 'POST',
+                //     data: {
+                //         codigo: codigo_fornecedor,
+                //         ano
+                //     },success: function(chart){
+                //         $('div[linhas]').html(chart)
 
-                    }
-                })
+                //     }
+                // })
 
             }
         })
@@ -356,29 +356,29 @@
             },success: function(retorno){
                 $('div#home').html(retorno)
 
-                $.ajax({
-                    url: 'src/fornecedor/barras.php',
-                    method: 'POST',
-                    data: {
-                        codigo: codigo_fornecedor,
-                        ano
-                    },success: function(chart){
-                        $('div[barras]').html(chart)
+                // $.ajax({
+                //     url: 'src/fornecedor/barras.php',
+                //     method: 'POST',
+                //     data: {
+                //         codigo: codigo_fornecedor,
+                //         ano
+                //     },success: function(chart){
+                //         $('div[barras]').html(chart)
 
-                    }
-                })
+                //     }
+                // })
 
-                $.ajax({
-                    url: 'src/fornecedor/linhas.php',
-                    method: 'POST',
-                    data: {
-                        codigo: codigo_fornecedor,
-                        ano
-                    },success: function(chart){
-                        $('div[linhas]').html(chart)
+                // $.ajax({
+                //     url: 'src/fornecedor/linhas.php',
+                //     method: 'POST',
+                //     data: {
+                //         codigo: codigo_fornecedor,
+                //         ano
+                //     },success: function(chart){
+                //         $('div[linhas]').html(chart)
 
-                    }
-                })
+                //     }
+                // })
 
 
 
