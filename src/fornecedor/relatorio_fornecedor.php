@@ -193,10 +193,9 @@
                             $query = "SELECT *
                                         FROM avaliacao_mensal
                                         WHERE codigo_fornecedor = :cf
-                                            AND date(concat(ano, '-', mes, '-01')) <= date(LAST_DAY(date(concat(:y2, '-', :m2, '-01'))))
-                                            and date(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
-                                        ORDER BY ano,
-                                            mes";
+                                            AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
+                                            AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
+                                        ORDER BY ano, mes";
                             $sql = $pdo->prepare($query);
                             $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
                             $sql->bindValue(":y2", $Y);

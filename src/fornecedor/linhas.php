@@ -8,6 +8,12 @@
         $Y = date("Y");
     }
 
+    if(isset($_POST['mes'])){
+        $M = $_POST['mes'];
+    }else{
+        $M = date("M");
+    }
+
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
@@ -84,7 +90,9 @@
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
-    and am.ano = '".$Y."' ORDER BY mes");
+    AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat({$Y}, '-', {$M}, '-01'))))
+    AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat({$Y}, '-', {$M}, '-01'), INTERVAL 11 MONTH)
+    ORDER BY ano, mes");
     $query->execute();
 
     $array_valores = [];
