@@ -179,6 +179,7 @@
                 <table class="table table-striped table">
                     <thead tfonts>
                         <tr>
+                            <th scope="col">ANO</th>
                             <th scope="col">MÊS</th>
                             <th scope="col">QUALITY</th>
                             <th scope="col">DELIVERY</th>
@@ -188,17 +189,29 @@
                     </thead>
                     <tbody tfonts>
                         <?php
-                            $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = :cf AND ano = :y ORDER BY mes");
+                            // faz comparação da data selecionada com os 12 meses anteriores
+                            $query = "SELECT *
+                                        FROM avaliacao_mensal
+                                        WHERE codigo_fornecedor = :cf
+                                            AND date(concat(ano, '-', mes, '-01')) <= date(LAST_DAY(date(concat(:y2, '-', :m2, '-01'))))
+                                            and date(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
+                                        ORDER BY ano,
+                                            mes";
+                            $sql = $pdo->prepare($query);
                             $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
-                            $sql->bindValue("y", $Y);
+                            $sql->bindValue(":y2", $Y);
+                            $sql->bindValue(":y3", $Y);
+                            $sql->bindValue(":m2", $M);
+                            $sql->bindValue(":m3", $M);
                             $sql->execute();
                             while($d = $sql->fetch()){
                         ?>
                         <tr>
+                            <td ><?=$d['ano']?></td>
                             <td ><?=mesExtenso($d['mes'])?></td>
                             <td><?=number_format($d['quality'], 2)?></td>
                             <td><?=number_format($d['delivery'], 2)?></td>
-                            <td><?=number_format($d['classificacao'], 2)?></td>
+                            <td><?=number_format($d['classificacao'], 2)?></td> 
                             <td><?=$d['posicao']?></td>
                         </tr>
                         <?php
