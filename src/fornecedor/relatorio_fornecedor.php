@@ -318,7 +318,7 @@ $(function(){
         window.print();
     })
 
-    $('select[ano]').change(function(){
+    $('select[ano],select[mes]').change(function(){
         let ano = $('select[ano]').val();
         let mes = $('select[mes]').val();
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
