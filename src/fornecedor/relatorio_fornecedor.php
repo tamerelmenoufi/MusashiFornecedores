@@ -87,7 +87,7 @@
             <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> Relatório de Desempenho</h3>
         </div>
 
-        <div class="col-2 noprint">
+        <div class="col-1 noprint">
             <select ano class="form-select">
                 <option value="<?=$Y?>" selected><?=$Y?></option>
                 <?php
@@ -102,7 +102,7 @@
                 ?>
             </select>
         </div>
-        <div class="col-2 noprint">
+        <div class="col-1 noprint">
             <select mes class="form-select">
                 <option value="<?=$M?>" selected><?=$M?></option>
                 <?php
@@ -112,6 +112,17 @@
                 <?php
                     }
                 ?>
+            </select>
+
+        </div>
+
+        <div class="col-2 noprint">
+            <select tipo_relatorio class="form-select">
+                <option value="" selected>..Tipo de Relatório..</option>
+                <option value="IPF" >IPF</option>
+                <option value="IQF" >IQF</option>
+                <option value="IAF" >IAF</option>
+                
             </select>
 
         </div>
