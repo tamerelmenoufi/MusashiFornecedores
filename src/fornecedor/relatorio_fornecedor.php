@@ -14,6 +14,11 @@
     }else{
         $M = date("m");
     }
+    if(isset($_POST['tipo_relatorio'])){
+        $tipo_relatorio = $_POST['tipo_relatorio'];
+    }else{
+        $tipo_relatorio = "";
+    }
 
     $query = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
@@ -118,10 +123,10 @@
 
         <div class="col-2 noprint">
             <select tipo_relatorio class="form-select">
-                <option value="" selected>..Tipo de Relatório..</option>
-                <option value="IPF" >IPF</option>
-                <option value="IQF" >IQF</option>
-                <option value="IAF" >IAF</option>
+                <option value="" <?= $tipo_relatorio == ''?  'selected' : ''?> >..Tipo de Relatório..</option>
+                <option value="IPF" <?= $tipo_relatorio == 'IPF'? 'selected':''?>>IPF</option>
+                <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
+                <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
                 
             </select>
 
@@ -328,9 +333,10 @@ $(function(){
         window.print();
     })
 
-    $('select[ano],select[mes]').change(function(){
+    $('select[ano],select[mes], select[tipo_relatorio]').change(function(){
         let ano = $('select[ano]').val();
         let mes = $('select[mes]').val();
+        let tipo_relatorio = $('select[tipo_relatorio]').val();
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
         //alert(mes);
         $.ajax({
@@ -339,7 +345,8 @@ $(function(){
             data: {
                 codigo_fornecedor,
                 ano,
-                mes
+                mes,
+                tipo_relatorio
             },success: function(retorno){
                 $('div#home').html(retorno)
 
@@ -442,6 +449,7 @@ $(function(){
     let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
     let ano = '<?=$Y?>';
     let mes = '<?=$M?>';
+    let tipo_relatorio = '<?=$tipo_relatorio?>';
 
     $.ajax({
         url: 'src/fornecedor/barras.php',
@@ -449,7 +457,8 @@ $(function(){
         data: {
             codigo: codigo_fornecedor,
             ano,
-            mes
+            mes,
+            tipo_relatorio
         },success: function(chart){
             $('div[barras]').html(chart)
 
@@ -462,7 +471,8 @@ $(function(){
         data: {
             codigo: codigo_fornecedor,
             ano,
-            mes
+            mes,
+            tipo_relatorio
         },success: function(chart){
             $('div[linhas]').html(chart)
 

@@ -2,6 +2,11 @@
     require_once "../../lib/config.php";
     global $pdo;
 
+    if(isset($_POST['tipo_relatorio'])){
+        $tipo_relatorio = $_POST['tipo_relatorio'];
+    }else{
+        $tipo_relatorio = "";
+    }
     if(isset($_POST['ano'])){
         $Y = $_POST['ano'];
     }else{
@@ -93,7 +98,9 @@
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
-    and am.ano between '{$ano_atual}' AND '{$Y}' ORDER BY am.ano ASC, am.mes ASC LIMIT 12");
+    AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat({$Y}, '-', {$M}, '-01'))))
+    AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat({$Y}, '-', {$M}, '-01'), INTERVAL 11 MONTH)
+    ORDER BY ano, mes");
     $query->execute();
 
     $array_valores = [];
@@ -136,7 +143,11 @@
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
-            datasets: [{
+            datasets: [
+            <?php
+            switch ($tipo_relatorio) {
+                case 'IPF':?>
+                {
                 label: 'Q&D DO MÊS',
                 backgroundColor: 'rgb(58,113,195,.5)',
                 borderColor: 'rgb(58,113,195)',
@@ -146,6 +157,49 @@
                 barThickness: 50,
                 type: 'bar'
             },
+            <?php
+                break;
+                case 'IQF':?>
+            {
+                label: 'QUALITY',
+                backgroundColor: 'rgb(73,116,165)',
+                borderColor: 'rgb(73,116,165)',
+                borderWidth: 1,
+                data: [<?=@implode(",", $array_quality)?>],
+                stack: 'combined',
+                borderWidth: 2
+            },
+            <?php
+                break;
+                case 'IAF':?>
+            {
+                label: 'DELIVERY',
+                backgroundColor: 'rgb(113,195,58)',
+                borderColor: 'rgb(113,195,58)',
+                borderWidth: 1,
+                data: [<?=@implode(",", $array_delivery)?>],
+                stack: 'combined',
+                borderWidth: 2
+            },
+            <?php
+                break;
+                default:?>
+            
+            {
+                label: 'Q&D DO MÊS',
+                backgroundColor: 'rgb(58,113,195,.5)',
+                borderColor: 'rgb(58,113,195)',
+                borderWidth: 1,
+                data: [<?=@implode(",", $array_valores)?>],
+                stack: 'combined',
+                barThickness: 50,
+                type: 'bar'
+            },
+            <?php
+                break;
+            }
+            ?>
+            
             // {
             //     label: 'QUALITY',
             //     backgroundColor: 'rgb(73,116,165)',
