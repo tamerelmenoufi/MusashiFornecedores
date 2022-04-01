@@ -123,8 +123,7 @@
 
         <div class="col-2 noprint">
             <select tipo_relatorio class="form-select">
-                <option value="" <?= $tipo_relatorio == ''?  'selected' : ''?> >..Tipo de Relatório..</option>
-                <option value="IPF" <?= $tipo_relatorio == 'IPF'? 'selected':''?>>IPF</option>
+                <option value="IPF" <?= $tipo_relatorio == 'IPF' || $tipo_relatorio == '' ? 'selected':''?>>IPF</option>
                 <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
                 <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
                 
