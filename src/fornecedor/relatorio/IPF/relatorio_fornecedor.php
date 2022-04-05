@@ -242,7 +242,7 @@
                             <td><?=number_format($d['delivery'], 2)?></td>
                             <td><?=number_format(($d['qd']), 2)?></td>
                             <td><?=number_format($d['IPF'], 2)?></td>
-                            <td><?=$d['posicao_ipf']?></td>
+                            <td><?=$d['posicao']?></td>
                         </tr>
                         <?php
                             }

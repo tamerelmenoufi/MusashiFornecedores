@@ -227,7 +227,7 @@
                             <td ><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td> 
                             <td><?=number_format($d['quality'], 2)?></td>
                             <td><?=number_format($d['IQF'], 2)?></td> 
-                            <td><?=$d['posicao_iqf']?></td>
+                            <td><?=$d['posicao']?></td>
                         </tr>
                         <?php
                             }
