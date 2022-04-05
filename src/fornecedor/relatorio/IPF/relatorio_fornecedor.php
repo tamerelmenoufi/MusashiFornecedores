@@ -1,6 +1,6 @@
 <?php
     // require_once "../../../../lib/config.php";
-    error_reporting(E_ALL);
+    // error_reporting(E_ALL);
     global $pdo;
 
     if(isset($_POST['ano'])){
