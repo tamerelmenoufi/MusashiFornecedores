@@ -6,6 +6,17 @@
     }else{
         $tipo_relatorio = "IPF";
     }
+    if(isset($_POST['ano'])){
+        $Y = $_POST['ano'];
+    }else{
+        $Y = date("Y");
+    }
+
+    if(isset($_POST['mes'])){
+        $M = str_pad($_POST['mes'], 2, "0", STR_PAD_LEFT);
+    }else{
+        $M = date("m");
+    }
     require("relatorio/".$tipo_relatorio."/relatorio_fornecedor.php");
     exit();
 ?>
