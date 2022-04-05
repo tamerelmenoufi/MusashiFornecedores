@@ -1,13 +1,7 @@
-<!-- <?php
-/*
+<?php
     require_once "../../../../lib/config.php";
     global $pdo;
 
-    if(isset($_POST['tipo_relatorio'])){
-        $tipo_relatorio = $_POST['tipo_relatorio'];
-    }else{
-        $tipo_relatorio = "";
-    }
     if(isset($_POST['ano'])){
         $Y = $_POST['ano'];
     }else{
@@ -15,9 +9,9 @@
     }
 
     if(isset($_POST['mes'])){
-        $M = str_pad($_POST['mes'], 2, "0", STR_PAD_LEFT);
+        $M = $_POST['mes'];
     }else{
-        $M = date("m");
+        $M = date("M");
     }
 
     function mesExtenso($mes){
@@ -62,10 +56,8 @@
     }
 
 
-    $mes_atual = date("m", mktime(0, 0, 0, ($M-12), date('d'), $Y));
-    $ano_atual = date("Y", mktime(0, 0, 0, ($M-12), date('d'), $Y));
-
-    //$mes_atual = date("m");
+    $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
+    $mes_atual = date("m");
     $total_dias_mes = date("t");
 
     function diasDoMes(){
@@ -86,7 +78,6 @@
             return 0;
         }
     }
-
     $query = $pdo->prepare("SELECT f.nome,
     am.mes,
     am.ano,
@@ -115,7 +106,13 @@
         $array_quality[] = $d['quality'];
         $array_delivery[] = $d['delivery'];
     }
-
+    // se os 12 meses não estiverem preenchidos, preenche os meses com dados vazios
+    if (count($array_meses) != 12) {
+        $count = 12 - count($array_meses);
+        for ($i=$count; $i < 12; $i++) { 
+            # code...
+        }
+    }
     if($query->rowCount() > 0){
         $min = min($array_valores);
         $min2 =min($array_quality);
@@ -130,39 +127,29 @@
     }else{
         $minfinal = 0;
     }
-    $obj = (object)[];
-    
-*/
+
+
 ?>
 
 
-<canvas can id="chart_barras<?=md5(date("YmdHis"))?>" style="height: 100%; width: 100%"></canvas>
+<canvas can id="chart_linhas<?=md5(date("YmdHis"))?>" style="height: 100%; width: 100%"></canvas>
 
 <script>
-    var ctx10 = document.getElementById('chart_barras<?=md5(date("YmdHis"))?>');
+    var ctx10 = document.getElementById('chart_linhas<?=md5(date("YmdHis"))?>');
     var chart_ano = new Chart(ctx10, {
         type: 'line',
         data: {
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
-            datasets: [
-            <?php
-            switch ($tipo_relatorio) {
-                case 'IPF':?>
-                {
+            datasets: [{
                 label: 'Q&D DO MÊS',
                 backgroundColor: 'rgb(58,113,195,.5)',
                 borderColor: 'rgb(58,113,195)',
-                borderWidth: 1,
+                borderWidth: 2,
                 data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
+                stack: 'combined'
             },
-            <?php
-                break;
-                case 'IQF':?>
             {
                 label: 'QUALITY',
                 backgroundColor: 'rgb(73,116,165)',
@@ -171,10 +158,7 @@
                 data: [<?=@implode(",", $array_quality)?>],
                 stack: 'combined',
                 borderWidth: 2
-            },
-            <?php
-                break;
-                case 'IAF':?>
+            }/*,
             {
                 label: 'DELIVERY',
                 backgroundColor: 'rgb(113,195,58)',
@@ -184,43 +168,6 @@
                 stack: 'combined',
                 borderWidth: 2
             },
-            <?php
-                break;
-                default:?>
-            
-            {
-                label: 'Q&D DO MÊS',
-                backgroundColor: 'rgb(58,113,195,.5)',
-                borderColor: 'rgb(58,113,195)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
-            },
-            <?php
-                break;
-            }
-            ?>
-            
-            // {
-            //     label: 'QUALITY',
-            //     backgroundColor: 'rgb(73,116,165)',
-            //     borderColor: 'rgb(73,116,165)',
-            //     borderWidth: 1,
-            //     data: [<?=@implode(",", $array_quality)?>],
-            //     stack: 'combined',
-            //     borderWidth: 2
-            // },
-            // {
-            //     label: 'DELIVERY',
-            //     backgroundColor: 'rgb(113,195,58)',
-            //     borderColor: 'rgb(113,195,58)',
-            //     borderWidth: 1,
-            //     data: [<?=@implode(",", $array_delivery)?>],
-            //     stack: 'combined',
-            //     borderWidth: 2
-            // },
             {
                 label: 'DEFICIENTE',
                 backgroundColor: '#d11527',
@@ -240,7 +187,7 @@
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
-            }]
+            }*/]
         },
         options: {
             plugins: {
@@ -260,4 +207,4 @@
             }
         }
     });
-</script> -->
+</script>

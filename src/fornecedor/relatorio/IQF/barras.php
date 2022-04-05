@@ -1,5 +1,4 @@
-<!-- <?php
-/*
+<?php
     require_once "../../../../lib/config.php";
     global $pdo;
 
@@ -132,7 +131,7 @@
     }
     $obj = (object)[];
     
-*/
+
 ?>
 
 
@@ -147,23 +146,7 @@
                 <?=@implode(",", $array_meses)?>
             ],
             datasets: [
-            <?php
-            switch ($tipo_relatorio) {
-                case 'IPF':?>
                 {
-                label: 'Q&D DO MÊS',
-                backgroundColor: 'rgb(58,113,195,.5)',
-                borderColor: 'rgb(58,113,195)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
-            },
-            <?php
-                break;
-                case 'IQF':?>
-            {
                 label: 'QUALITY',
                 backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(73,116,165)',
@@ -172,36 +155,6 @@
                 stack: 'combined',
                 borderWidth: 2
             },
-            <?php
-                break;
-                case 'IAF':?>
-            {
-                label: 'DELIVERY',
-                backgroundColor: 'rgb(113,195,58)',
-                borderColor: 'rgb(113,195,58)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_delivery)?>],
-                stack: 'combined',
-                borderWidth: 2
-            },
-            <?php
-                break;
-                default:?>
-            
-            {
-                label: 'Q&D DO MÊS',
-                backgroundColor: 'rgb(58,113,195,.5)',
-                borderColor: 'rgb(58,113,195)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
-            },
-            <?php
-                break;
-            }
-            ?>
             
             // {
             //     label: 'QUALITY',
@@ -260,4 +213,4 @@
             }
         }
     });
-</script> -->
+</script>
