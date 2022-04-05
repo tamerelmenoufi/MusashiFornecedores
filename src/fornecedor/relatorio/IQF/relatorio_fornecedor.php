@@ -203,7 +203,7 @@
                     <tbody tfonts>
                         <?php
                             // faz comparação da data selecionada com os 12 meses anteriores
-                            $query = "SELECT *,
+                            echo $query = "SELECT *,
                                         avg(quality) OVER (
                                             PARTITION by codigo_fornecedor
                                             ORDER BY unix_timestamp(anoMes) RANGE BETWEEN 28512000 PRECEDING AND current ROW
