@@ -87,7 +87,7 @@
     am.classificacao,
     am.posicao,
     am.*,
-    (quality+delivery)/2 as qd,
+    (am.quality+am.delivery)/2 as qd,
     
         (
         SELECT AVG((t2.quality+t2.delivery)/2)
@@ -116,9 +116,9 @@
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
-    AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat({$Y}, '-', {$M}, '-01'))))
-    AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat({$Y}, '-', {$M}, '-01'), INTERVAL 11 MONTH)
-    ORDER BY ano, mes");
+    AND DATE(concat(am.ano, '-', am.mes, '-01')) <= DATE(LAST_DAY(DATE(concat({$Y}, '-', {$M}, '-01'))))
+    AND DATE(concat(am.ano, '-', am.mes, '-01')) >= DATE_SUB(concat({$Y}, '-', {$M}, '-01'), INTERVAL 11 MONTH)
+    ORDER BY am.ano, am.mes");
     $query->execute();
 
     $array_valores = [];
