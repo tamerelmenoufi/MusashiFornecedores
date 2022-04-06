@@ -7,7 +7,7 @@
         if($_SERVER['HTTP_HOST'] === 'localhost'){
             $pdo= new PDO("mysql:dbname=musashi_painel;host=localhost", "root", "");
         }else{
-            $pdo= new PDO("mysql:dbname=musashi;host=34.239.130.95", "musashi", "wu5@sh!");
+            $pdo= new PDO("mysql:dbname=musashi;host=34.239.130.95", "root", "S3nh@b@nc0");
         }
 
     }catch(PDOException $e) {
