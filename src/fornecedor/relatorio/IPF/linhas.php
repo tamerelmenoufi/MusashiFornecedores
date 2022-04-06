@@ -86,7 +86,41 @@
     am.delivery,
     am.classificacao,
     am.posicao,
-    am.*
+    am.*,
+    (quality+delivery)/2 as qd,
+    
+        (
+        SELECT AVG((t2.quality+t2.delivery)/2)
+        FROM avaliacao_mensal t2
+        WHERE t2.codigo_fornecedor = am.codigo_fornecedor
+            AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
+            AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
+        ) AS IPF,
+
+        (
+        SELECT AVG((t2.quality+t2.delivery)/2)
+        FROM avaliacao_mensal t2
+        WHERE t2.codigo_fornecedor = am.codigo_fornecedor
+            AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
+            AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
+        ) AS IPF,
+
+        (
+        SELECT AVG(t2.quality)
+        FROM avaliacao_mensal t2
+        WHERE t2.codigo_fornecedor = am.codigo_fornecedor
+            AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
+            AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
+        ) AS IAF
+       
+        avg((am.quality)) OVER (
+            PARTITION by am.codigo_fornecedor
+            ORDER BY unix_timestamp(am.anoMes) RANGE BETWEEN 28512000 PRECEDING AND current ROW
+        ) AS IQF,
+        avg((am.delivery)) OVER (
+            PARTITION by am.codigo_fornecedor
+            ORDER BY unix_timestamp(am.anoMes) RANGE BETWEEN 28512000 PRECEDING AND current ROW
+        ) AS IAF
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
@@ -99,12 +133,20 @@
     $array_quality = [];
     $array_delivery = [];
     $array_meses = [];
+    $array_IPF = [];
+    $array_IQF = [];
+    $array_IAF = [];
+                                        
 
     while ($d = $query->fetch()) {
         $array_meses[] =  '"'.mesExtenso($d['mes']).'"';
         $array_valores[] = $d['classificacao'];
         $array_quality[] = $d['quality'];
         $array_delivery[] = $d['delivery'];
+        $array_IPF[] = $d['IPF'];
+        $array_IQF[] = $d['IQF'];
+        $array_IAF[] = $d['IAF'];
+        
     }
     // se os 12 meses não estiverem preenchidos, preenche os meses com dados vazios
     if (count($array_meses) != 12) {
@@ -142,32 +184,36 @@
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
-            datasets: [{
-                label: 'Q&D DO MÊS',
-                backgroundColor: 'rgb(58,113,195,.5)',
-                borderColor: 'rgb(58,113,195)',
-                borderWidth: 2,
-                data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined'
+            datasets: [
+                {
+                label: 'IAF',
+                backgroundColor: 'rgb(51,204,51)',
+                borderColor: 'rgb(88,204,88)',
+                borderWidth: 1,
+                data: [<?=@implode(",", $array_IAF)?>],
+                stack: 'combined',
+                borderWidth: 2
             },
             {
-                label: 'QUALITY',
+                label: 'IQF',
                 backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(73,116,165)',
                 borderWidth: 1,
-                data: [<?=@implode(",", $array_quality)?>],
-                stack: 'combined',
-                borderWidth: 2
-            }/*,
-            {
-                label: 'DELIVERY',
-                backgroundColor: 'rgb(113,195,58)',
-                borderColor: 'rgb(113,195,58)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $array_delivery)?>],
+                data: [<?=@implode(",", $array_IQF)?>],
                 stack: 'combined',
                 borderWidth: 2
             },
+            {
+                label: 'IPF',
+                backgroundColor: 'rgb(204,51,51)',
+                borderColor: 'rgb(204,88,88)',
+                borderWidth: 2,
+                data: [<?=@implode(",", $array_IPF)?>],
+                stack: 'combined'
+            }
+            
+            /*,
+            ,
             {
                 label: 'DEFICIENTE',
                 backgroundColor: '#d11527',
@@ -187,7 +233,8 @@
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
-            }*/]
+            }*/
+        ]
         },
         options: {
             plugins: {

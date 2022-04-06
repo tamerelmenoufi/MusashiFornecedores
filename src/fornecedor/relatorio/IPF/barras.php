@@ -148,8 +148,8 @@
             datasets: [
                 {
                 label: 'Q&D DO MÊS',
-                backgroundColor: 'rgb(58,113,195,.5)',
-                borderColor: 'rgb(58,113,195)',
+                backgroundColor: 'rgb(51,153,102,.5)',
+                borderColor: 'rgb(58,195,113)',
                 borderWidth: 1,
                 data: [<?=@implode(",", $array_valores)?>],
                 stack: 'combined',

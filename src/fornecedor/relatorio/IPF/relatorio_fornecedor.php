@@ -216,17 +216,20 @@
                         <?php
                             // faz comparação da data selecionada com os 12 meses anteriores
                             $query = "SELECT *,
-                                        (quality+delivery)/2 as qd,
-                                        avg((delivery+quality)/2) OVER (
-                                            PARTITION by codigo_fornecedor
-                                            ORDER BY unix_timestamp(anoMes) RANGE BETWEEN 28512000 PRECEDING AND current ROW
+                                        (am.quality+am.delivery)/2 as qd,
+                                       
+                                        (
+                                            SELECT AVG((t2.quality+t2.delivery)/2)
+                                            FROM avaliacao_mensal t2
+                                            WHERE t2.codigo_fornecedor = am.codigo_fornecedor
+                                                AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
+                                                AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
                                         ) AS IPF
-                                        
-                                        FROM avaliacao_mensal
+                                        FROM avaliacao_mensal am
                                         WHERE codigo_fornecedor = :cf
-                                            AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
-                                            AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
-                                        ORDER BY ano, mes";
+                                            AND DATE(concat(am.ano, '-', am.mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
+                                            AND DATE(concat(am.ano, '-', am.mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
+                                        ORDER BY am.ano, am.mes";
                             $sql = $pdo->prepare($query);
                             $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
                             $sql->bindValue(":y2", $Y);
