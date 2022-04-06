@@ -98,29 +98,21 @@
         ) AS IPF,
 
         (
-        SELECT AVG((t2.quality+t2.delivery)/2)
+        SELECT AVG(t2.quality)
         FROM avaliacao_mensal t2
         WHERE t2.codigo_fornecedor = am.codigo_fornecedor
             AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
             AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
-        ) AS IPF,
+        ) AS IQF,
 
         (
-        SELECT AVG(t2.quality)
+        SELECT AVG(t2.delivery)
         FROM avaliacao_mensal t2
         WHERE t2.codigo_fornecedor = am.codigo_fornecedor
             AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
             AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
         ) AS IAF
        
-        avg((am.quality)) OVER (
-            PARTITION by am.codigo_fornecedor
-            ORDER BY unix_timestamp(am.anoMes) RANGE BETWEEN 28512000 PRECEDING AND current ROW
-        ) AS IQF,
-        avg((am.delivery)) OVER (
-            PARTITION by am.codigo_fornecedor
-            ORDER BY unix_timestamp(am.anoMes) RANGE BETWEEN 28512000 PRECEDING AND current ROW
-        ) AS IAF
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
