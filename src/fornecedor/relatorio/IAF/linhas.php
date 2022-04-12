@@ -165,9 +165,9 @@ for($i=11; $i>=0; $i--){
 
     $ind = ($Mes*1);
     $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
-    $array_valores[$ind] = (($d['classificacao'])?:0);
-    $array_quality[$ind] = (($d['quality'])?:0);
-    $array_delivery[$ind] = (($d['delivery'])?:0);
+    $array_valores[$ind] = (($d['classificacao'])?:'');
+    $array_quality[$ind] = (($d['quality'])?:'');
+    $array_delivery[$ind] = (($d['delivery'])?:'');
 
 }
 
