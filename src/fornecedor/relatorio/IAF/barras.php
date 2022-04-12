@@ -158,18 +158,18 @@
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
+
             datasets: [
                 {
                 label: 'DELIVERY',
-                backgroundColor: 'rgb(73,116,165)',
-                borderColor: 'rgb(113,195,58)',
-                borderWidth: 0,
+                backgroundColor: 'rgb(51,153,102,.5)',
+                borderColor: 'rgb(58,195,113)',
+                borderWidth: 1,
                 data: [<?=@implode(",", $array_delivery)?>],
                 stack: 'combined',
-                borderWidth: 0,
+                barThickness: 50,
                 type: 'bar'
             },
-
 
             // {
             //     label: 'QUALITY',
