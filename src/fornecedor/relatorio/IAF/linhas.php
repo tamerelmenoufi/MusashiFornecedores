@@ -241,7 +241,7 @@ for($i=11; $i>=0; $i--){
             },
             scales: {
                 y: {
-                    min: <?=$minfinal?>,
+                    min: 0,
                     max: 100,
                 },
                 x: {
