@@ -22,40 +22,40 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                return 'Janeiro';
+                return 'Jan';
                 break;
             case '2':
-                return 'Fevereiro';
+                return 'Fev';
                 break;
             case '3':
-                return 'Março';
+                return 'Mar';
                 break;
             case '4':
-                return 'Abril';
+                return 'Abr';
                 break;
             case '5':
-                return 'Maio';
+                return 'Mai';
                 break;
             case '6':
-                return 'Junho';
+                return 'Jun';
                 break;
             case '7':
-                return 'Julho';
+                return 'Jul';
                 break;
             case '8':
-                return 'Agosto';
+                return 'Ago';
                 break;
             case '9':
-                return 'Setembro';
+                return 'Set';
                 break;
             case '10':
-                return 'Outubro';
+                return 'Out';
                 break;
             case '11':
-                return 'Novembro';
+                return 'Nov';
                 break;
             case '12':
-                return 'Dezembro';
+                return 'Dez';
                 break;
         }
     }
@@ -113,7 +113,7 @@
         $d = $query->fetch();
 
         $ind = ($Mes*1);
-        $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.$Ano.'"';
+        $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
         $array_valores[$ind] = (($d['classificacao'])?:0);
         $array_quality[$ind] = (($d['quality'])?:0);
         $array_delivery[$ind] = (($d['delivery'])?:0);
