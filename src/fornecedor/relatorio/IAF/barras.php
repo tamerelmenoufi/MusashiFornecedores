@@ -101,12 +101,12 @@
         am.*
         FROM `avaliacao_mensal` am
         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.cod_fornecedor = '{$_POST['cod_fornecedor']}'";
+        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'";
         $query = $pdo->prepare("SELECT f.nome,
         am.*
         FROM `avaliacao_mensal` am
         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.cod_fornecedor = '{$_POST['cod_fornecedor']}'");
+        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'");
         $query->execute();
         $d = $query->fetch();
 
