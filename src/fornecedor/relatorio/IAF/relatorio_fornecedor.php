@@ -50,6 +50,70 @@
     }
 
 
+
+
+    function dias_atrasos_tabela($m, $a, $f){
+        global $pdo;
+
+        $delivery_idm_emitidos = 0;
+        $delivery_idm_reincidente = 0;
+        $delivery_atraso_resposta = 0;
+        $delivery_comunicacao = 0;
+        $delivery_parada_linha = 0;
+
+        $p =  0;
+
+        for($i=11; $i>=0; $i--){
+
+            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+
+            $query = $pdo->prepare("SELECT
+                                        sum(delivery_idm_emitidos) as delivery_idm_emitidos,
+                                        sum(delivery_idm_reincidente) as delivery_idm_reincidente,
+                                        sum(delivery_atraso_resposta) as delivery_atraso_resposta,
+                                        sum(delivery_comunicacao) as delivery_comunicacao,
+                                        sum(delivery_parada_linha) as delivery_parada_linha
+
+                                    FROM registros_diarios WHERE
+
+                                        codigo_fornecedor = '{$f}' AND
+                                        month(data_registro) = '{$Mes}' AND
+                                        year(data_registro) = '{$Ano}'
+                                ");
+            $query->execute();
+            $d = $query->fetch();
+            $n = $query->rowCount();
+            if($n){
+                $p++;
+                $dias_atrasos = $dias_atrasos + $d['atrasos'];
+                $entregas = $entregas + $d['entregas'];
+
+
+                $delivery_idm_emitidos = $delivery_idm_emitidos + $d['delivery_idm_emitidos'];
+                $delivery_idm_reincidente = $delivery_idm_reincidente + $d['delivery_idm_reincidente'];
+                $delivery_atraso_resposta = $delivery_atraso_resposta + $d['delivery_atraso_resposta'];
+                $delivery_comunicacao = $delivery_comunicacao + $d['delivery_comunicacao'];
+                $delivery_parada_linha = $delivery_parada_linha + $d['delivery_parada_linha'];
+
+
+            }
+        }
+
+        return [
+                'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : 0),
+                'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : 0),
+                'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : 0),
+                'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : 0),
+                'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : 0),
+               ];
+
+    }
+
+
+
+
+
     $query = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
     $query->execute();
@@ -278,6 +342,43 @@
         </div>
         <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
+
+        <div tabela class="col-md-12 mb-3 p-0 ">
+            <table class="table table-striped table">
+                <thead tfonts>
+                    <tr>
+                    <?php
+                        for($i=11; $i>=0; $i--){
+
+                            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                    ?>
+                        <th scope="col"><?=mesExtenso($Mes)?>-<?=$Ano?></th>
+                    <?php
+                        }
+                    ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        for($i=11; $i>=0; $i--){
+
+                            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+                            $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
+                    ?>
+                        <td scope="col"><?=$retorno['delivery_idm_emitidos']?></td>
+                        <td scope="col"><?=$retorno['delivery_idm_reincidente']?></td>
+                        <td scope="col"><?=$retorno['delivery_atraso_resposta']?></td>
+                        <td scope="col"><?=$retorno['delivery_comunicacao']?></td>
+                        <td scope="col"><?=$retorno['delivery_parada_linha']?></td>
+                    <?php
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
 
         <div class="row m-0 p-0 justify-content-center ">
             <?php

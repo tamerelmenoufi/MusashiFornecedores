@@ -92,45 +92,6 @@
 
 
 
-    function dias_atrasos_tabela($m, $a, $f){
-        global $pdo;
-
-        $dias_atrasos = 0;
-        $entregas = 0;
-        $p =  0;
-        for($i=11; $i>=0; $i--){
-
-            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
-
-            $query = $pdo->prepare("SELECT
-                                        sum(delivery_idm_emitidos) as delivery_idm_emitidos,
-                                        sum(delivery_idm_reincidente) as delivery_idm_reincidente,
-                                        sum(delivery_atraso_resposta) as delivery_atraso_resposta,
-                                        sum(delivery_comunicacao) as delivery_comunicacao,
-                                        sum(delivery_parada_linha) as delivery_parada_linha
-
-                                    FROM registros_diarios WHERE
-
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
-                                ");
-            $query->execute();
-            $d = $query->fetch();
-            $n = $query->rowCount();
-            if($n){
-                $p++;
-                $dias_atrasos = $dias_atrasos + $d['atrasos'];
-                $entregas = $entregas + $d['entregas'];
-            }
-        }
-
-        return (($n) ? ($dias_atrasos) : 0);
-
-    }
-
-
     // $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
     // $mes_atual = date("m");
     // $total_dias_mes = date("t");
@@ -320,7 +281,7 @@ for($i=11; $i>=0; $i--){
             scales: {
                 y: {
                     min: 0,
-                    max: 120,
+                    max: 110,
                 },
                 x: {
                     display: true,
