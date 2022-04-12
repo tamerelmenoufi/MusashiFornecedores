@@ -84,7 +84,7 @@
             $query->execute();
             $d = $query->fetch();
             $n = $query->rowCount();
-            if($n){
+            //if($n){
                 $p++;
                 $dias_atrasos = $dias_atrasos + $d['atrasos'];
                 $entregas = $entregas + $d['entregas'];
@@ -97,7 +97,7 @@
                 $delivery_parada_linha = $delivery_parada_linha + $d['delivery_parada_linha'];
 
 
-            }
+            //}
         }
 
         return [
