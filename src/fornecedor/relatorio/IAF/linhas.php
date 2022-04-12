@@ -262,7 +262,7 @@ for($i=11; $i>=0; $i--){
             ],
             datasets: [{
                 label: 'Dias de Atraso',
-                backgroundColor: 'red',
+                backgroundColor: '#fff',
                 borderColor: 'red',
                 borderWidth: 2,
                 data: [<?=@implode(",", $atraso)?>],
