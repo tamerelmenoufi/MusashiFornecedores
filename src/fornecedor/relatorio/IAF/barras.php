@@ -113,7 +113,7 @@
         $d = $query->fetch();
 
         $ind = ($Mes*1);
-        $array_meses[$ind] =  '"'.mesExtenso($ind).'"';
+        $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.$Ano.'"';
         $array_valores[$ind] = (($d['classificacao'])?:0);
         $array_quality[$ind] = (($d['quality'])?:0);
         $array_delivery[$ind] = (($d['delivery'])?:0);
