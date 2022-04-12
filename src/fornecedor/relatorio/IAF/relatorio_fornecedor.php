@@ -209,6 +209,23 @@
                                 $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
                             // faz comparação da data selecionada com os 12 meses anteriores
+
+                            $query = $pdo->prepare("SELECT f.nome,
+                            am.mes,
+                            am.ano,
+                            am.eficiencia,
+                            am.quality,
+                            am.delivery,
+                            am.classificacao,
+                            am.posicao,
+                            am.*
+                            FROM `avaliacao_mensal` am
+                            LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
+                            where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
+                            $query->execute();
+                            $d = $query->fetch();
+
+
                             $query = "SELECT *,
 
                                         (
