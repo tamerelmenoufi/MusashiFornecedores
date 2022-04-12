@@ -22,6 +22,7 @@
 
 
     function deliver_iaf($m, $a, $f){
+        global $pdo;
 
         $deliver_iaf = 0;;
         $p =  0;
