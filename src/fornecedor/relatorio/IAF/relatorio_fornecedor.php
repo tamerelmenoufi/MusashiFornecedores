@@ -28,13 +28,13 @@
         $p =  0;
         for($i=11; $i>=0; $i--){
 
-            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
-            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
             $query = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE
                                     codigo_fornecedor = '{$f}' AND
-                                    mes = '{$m}' AND
-                                    ano = '{$a}'
+                                    mes = '{$Mes}' AND
+                                    ano = '{$Ano}'
                                 ");
             $query->execute();
             $d = $query->fetch();
