@@ -31,6 +31,12 @@
             $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
             $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
+            echo "SELECT * FROM avaliacao_mensal WHERE
+                                    codigo_fornecedor = '{$f}' AND
+                                    mes = '{$Mes}' AND
+                                    ano = '{$Ano}'
+                                <br>";
+
             $query = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE
                                     codigo_fornecedor = '{$f}' AND
                                     mes = '{$Mes}' AND
