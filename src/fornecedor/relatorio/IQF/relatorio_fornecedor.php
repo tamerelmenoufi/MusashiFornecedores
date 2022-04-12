@@ -66,6 +66,47 @@
                 break;
         }
     }
+
+    function mesAbreviado($mes){
+        switch ($mes) {
+            case '1':
+                return 'Jan';
+            break;
+            case '2':
+                return 'Fev';
+            break;
+            case '3':
+                return 'Mar';
+            break;
+            case '4':
+                return 'Abr';
+            break;
+            case '5':
+                return 'Mai';
+            break;
+            case '6':
+                return 'Jun';
+            break;
+            case '7':
+                return 'Jul';
+            break;
+            case '8':
+                return 'Ago';
+            break;
+            case '9':
+                return 'Set';
+            break;
+            case '10':
+                return 'Out';
+            break;
+            case '11':
+                return 'Nov';
+            break;
+            case '12':
+                return 'Dez';
+            break;
+        }
+    }
 ?>
 <style>
     @media print {
@@ -225,7 +266,9 @@
                             $sql->bindValue(":m2", $M);
                             $sql->bindValue(":m3", $M);
                             $sql->execute();
+                            $listaMeses = [];
                             while($d = $sql->fetch()){
+                            $listaMeses[] = mesAbreviado($d['mes'])."-".$d['ano'];
                         ?>
                         <tr>
                             <td ><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td> 
@@ -235,6 +278,7 @@
                         </tr>
                         <?php
                             }
+                          
                         ?>
                     </tbody>
                 </table>
@@ -248,9 +292,87 @@
                 </div>
             </div>
         </div>
-
+                            <!-- LINHAS -->
         <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
+                            <!-- TABELA DAS LINHAS -->
+        <div tabela class="col-md-12 mb-3 p-0 ">
+                <table class="table table-striped table">
+                    <thead tfonts>
+                        <tr>
+                            <th >Mês</th>
+                            <th>IP Oficial</th>
+                            <th scope="col">IP Grau "A"</th>
+                            <th scope="col">IP Oficial "R"</th>
+                            <th scope="col">Atraso Resp.</th>
+                            <th scope="col">PPM</th>
+                            <th scope="col">QUALITY</th>
+                            <th scope="col">IQF</th>
+                            <th scope="col">Demérito</th>
+                            <?php
+                            // foreach ($listaMeses as $value) { echo '<td scope="col">'.$value.'</td>';}
+                            
+                            ?>
+                            
+                        </tr>
+                    </thead>
+                    <tbody tfonts>
+                        <?php
+                            // faz comparação da data selecionada com os 12 meses anteriores
+                           $query = "SELECT     rd.*,
+                                                MONTH(rd.data_registro) as mes,
+                                                YEAR(rd.data_registro) as ano,
+                                                ip_oe.ip_emissao,
+                                                ip_r.ip_reincidente,
+                                                ppm.limite_ppm,
+                                                a_resp.atraso,
+                                                am.quality,
+                                                (
+                                                    SELECT AVG(t2.quality)
+                                                    FROM avaliacao_mensal t2
+                                                    WHERE t2.codigo_fornecedor = rd.codigo_fornecedor
+                                                        AND TIMESTAMPDIFF(MONTH, rd.data_registro, t2.anoMes) >= -11
+                                                        AND TIMESTAMPDIFF(MONTH, rd.data_registro, t2.anoMes) <= 0
+                                                ) AS IQF
+                                            FROM registros_diarios rd
+                                                LEFT JOIN aux_ip_oficial_emissao ip_oe ON ip_oe.codigo = rd.quality_ip_emitido
+                                                LEFT JOIN aux_ip_reincidente ip_r ON ip_r.codigo = rd.quality_ip_reincidente
+                                                LEFT JOIN aux_ip_atraso_resposta a_resp ON a_resp.codigo = rd.quality_atraso_resposta
+                                                LEFT JOIN aux_ppm ppm ON ppm.codigo = rd.quality_ppm
+                                                LEFT JOIN avaliacao_mensal am ON year(am.anoMes) = year(rd.data_registro) AND MONTH(am.anoMes) = MONTH(rd.data_registro)
+                                            WHERE rd.codigo_fornecedor = :cf
+                                                AND DATE(data_registro) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
+                                                AND DATE(data_registro) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
+                                                and rd.status = 1
+                                                GROUP BY year(rd.data_registro), MONTH(rd.data_registro)
+                                                ORDER BY data_registro";
+                            $sql = $pdo->prepare($query);
+                            $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
+                            $sql->bindValue(":y2", $Y);
+                            $sql->bindValue(":y3", $Y);
+                            $sql->bindValue(":m2", $M);
+                            $sql->bindValue(":m3", $M);
+                            $sql->execute();
+                            // echo json_encode($pdo->errorInfo());
+                            while($d = $sql->fetch()){
+                        ?>
+                        <tr>
+                            <td><?=mesAbreviado($d['mes'])."-".$d['ano']?></td> 
+                            <td><?=($d['ip_emissao'])?></td>
+                            <td><?php #($d['ip_emissao'])?></td>
+                            <td><?=($d['ip_reincidente'])?></td>
+                            <td><?=($d['atraso'])?></td>
+                            <td><?=($d['limite_ppm'])?></td>
+                            <td><?=($d['quality'])?></td>
+                            <td><?=number_format($d['IQF'], 2)?></td> 
+                            <td><?=number_format($d['total_demerito_quality'],0)?></td>
+                        </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
         <div class="row m-0 p-0 justify-content-center ">
             <?php
