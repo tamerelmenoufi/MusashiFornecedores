@@ -56,6 +56,41 @@
     }
 
 
+
+    function dias_atrasos($m, $a, $f){
+        global $pdo;
+
+        $dias_atrasos = 0;
+        $entregas = 0;
+        $p =  0;
+        for($i=11; $i>=0; $i--){
+
+            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+
+            $query = $pdo->prepare("SELECT sum(delivery_atraso_resposta) as atrasos
+
+                                    FROM registros_diarios WHERE
+
+                                        codigo_fornecedor = '{$f}' AND
+                                        month(data_registro) = '{$Mes}' AND
+                                        year(data_registro) = '{$Ano}'
+                                ");
+            $query->execute();
+            $d = $query->fetch();
+            $n = $query->rowCount();
+            if($n){
+                $p++;
+                $dias_atrasos = $dias_atrasos + $d['atrasos'];
+                $entregas = $entregas + $d['entregas'];
+            }
+        }
+
+        return (($n) ? ($dias_atrasos/$p) : 0);
+
+    }
+
+
     // $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
     // $mes_atual = date("m");
     // $total_dias_mes = date("t");
@@ -165,9 +200,8 @@ for($i=11; $i>=0; $i--){
 
     $ind = ($Mes*1);
     $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
-    $array_valores[$ind] = (($d['classificacao'])?:'');
-    $array_quality[$ind] = (($d['quality'])?:'');
-    $array_delivery[$ind] = (($d['delivery'])?:'');
+    $entrega[$ind] = (($d['eficiencia'])?:'');
+    $atraso[$ind] = ((dias_atrasos($Mes, $Ano, $_POST['codigo']))?:'');
 
 }
 
@@ -187,22 +221,26 @@ for($i=11; $i>=0; $i--){
                 <?=@implode(",", $array_meses)?>
             ],
             datasets: [{
-                label: 'Q&D DO MÊS',
-                backgroundColor: 'rgb(58,113,195,.5)',
+                label: 'Dias de Atraso',
+                backgroundColor: 'treansparent',
                 borderColor: 'rgb(58,113,195)',
                 borderWidth: 2,
-                data: [<?=@implode(",", $array_valores)?>],
-                stack: 'combined'
+                data: [<?=@implode(",", $atraso)?>],
+                stack: 'combined',
+                barThickness: 50,
+                type: 'bar'
             },
             {
-                label: 'QUALITY',
+                label: '% Atendimento',
                 backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(73,116,165)',
                 borderWidth: 1,
-                data: [<?=@implode(",", $array_quality)?>],
+                data: [<?=@implode(",", $entrega)?>],
                 stack: 'combined',
                 borderWidth: 2
-            }/*,
+            }
+
+            /*,
             {
                 label: 'DELIVERY',
                 backgroundColor: 'rgb(113,195,58)',
