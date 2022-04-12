@@ -252,17 +252,15 @@
 
         <div class="row m-0 p-0 justify-content-center ">
             <?php
-                echo "SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1";
                 $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
                 $sql->execute();
 
                 if($sql->rowCount()){
                     $pontuacao = $sql->fetch();
-
                     $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
                     $query->execute();
-
                     $qnt = $query->fetch();
+                }
                 ?>
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
@@ -325,9 +323,6 @@
                             ?>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
         </div>
     </div>
 </div>
