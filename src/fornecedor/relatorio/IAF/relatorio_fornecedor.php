@@ -368,11 +368,13 @@
 
                             $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
                     ?>
+                    <tr>
                         <td scope="col"><?=$retorno['delivery_idm_emitidos']?></td>
                         <td scope="col"><?=$retorno['delivery_idm_reincidente']?></td>
                         <td scope="col"><?=$retorno['delivery_atraso_resposta']?></td>
                         <td scope="col"><?=$retorno['delivery_comunicacao']?></td>
                         <td scope="col"><?=$retorno['delivery_parada_linha']?></td>
+                    </tr>
                     <?php
                         }
                     ?>
