@@ -29,40 +29,40 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                echo 'Janeiro';
+                echo 'Jan';
                 break;
             case '2':
-                echo 'Fevereiro';
+                echo 'Fev';
                 break;
             case '3':
-                echo 'Março';
+                echo 'Mar';
                 break;
             case '4':
-                echo 'Abril';
+                echo 'Abr';
                 break;
             case '5':
-                echo 'Maio';
+                echo 'Mai';
                 break;
             case '6':
-                echo 'Junho';
+                echo 'Jun';
                 break;
             case '7':
-                echo 'Julho';
+                echo 'Jul';
                 break;
             case '8':
-                echo 'Agosto';
+                echo 'Ago';
                 break;
             case '9':
-                echo 'Setembro';
+                echo 'Set';
                 break;
             case '10':
-                echo 'Outubro';
+                echo 'Out';
                 break;
             case '11':
-                echo 'Novembro';
+                echo 'Nov';
                 break;
             case '12':
-                echo 'Dezembro';
+                echo 'Dez';
                 break;
         }
     }
@@ -126,7 +126,7 @@
                 <option value="IPF" <?= $tipo_relatorio == 'IPF' || $tipo_relatorio == '' ? 'selected':''?>>IPF</option>
                 <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
                 <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
-                
+
             </select>
 
         </div>
@@ -202,35 +202,35 @@
                     </thead>
                     <tbody tfonts>
                         <?php
+
+                            for($i=11; $i>=0; $i--){
+
+                                $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                                $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
                             // faz comparação da data selecionada com os 12 meses anteriores
-                            $query = "SELECT *,                                     
-                                        
+                            $query = "SELECT *,
+
                                         (
                                             SELECT AVG((t2.delivery))
                                             FROM avaliacao_mensal t2
                                             WHERE t2.codigo_fornecedor = am.codigo_fornecedor
-                                                AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
-                                                AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
+                                                AND ano = '{$Ano}'
+                                                AND mes = '".($Mes*1)."'
                                         ) AS IAF
-                                        
+
                                         FROM avaliacao_mensal am
-                                        WHERE codigo_fornecedor = :cf
-                                            AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
-                                            AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
-                                        ORDER BY ano, mes";
+                                        WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}'
+                                            AND ano = '{$Ano}'
+                                            AND mes = '".($Mes*1)."'";
                             $sql = $pdo->prepare($query);
-                            $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
-                            $sql->bindValue(":y2", $Y);
-                            $sql->bindValue(":y3", $Y);
-                            $sql->bindValue(":m2", $M);
-                            $sql->bindValue(":m3", $M);
                             $sql->execute();
-                            while($d = $sql->fetch()){
+                            $d = $sql->fetch();
                         ?>
                         <tr>
                             <td><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td>
                             <td><?=number_format($d['delivery'], 2)?></td>
-                            <td><?=number_format($d['IAF'], 2)?></td> 
+                            <td><?=number_format($d['IAF'], 2)?></td>
                             <td><?=$d['posicao']?></td>
                         </tr>
                         <?php
