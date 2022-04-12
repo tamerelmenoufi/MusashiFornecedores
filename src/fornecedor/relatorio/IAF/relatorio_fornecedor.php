@@ -221,28 +221,10 @@
                             am.*
                             FROM `avaliacao_mensal` am
                             LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-                            where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
+                            where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'");
                             $query->execute();
                             $d = $query->fetch();
 
-
-                            $query = "SELECT *,
-
-                                        (
-                                            SELECT AVG((t2.delivery))
-                                            FROM avaliacao_mensal t2
-                                            WHERE t2.codigo_fornecedor = am.codigo_fornecedor
-                                                AND ano = '{$Ano}'
-                                                AND mes = '".($Mes*1)."'
-                                        ) AS IAF
-
-                                        FROM avaliacao_mensal am
-                                        WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}'
-                                            AND ano = '{$Ano}'
-                                            AND mes = '".($Mes*1)."'";
-                            $sql = $pdo->prepare($query);
-                            $sql->execute();
-                            $d = $sql->fetch();
                         ?>
                         <tr>
                             <td><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td>
