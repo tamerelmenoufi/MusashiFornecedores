@@ -97,7 +97,12 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        echo $query = $pdo->prepare("SELECT f.nome,
+        echo "SELECT f.nome,
+        am.*
+        FROM `avaliacao_mensal` am
+        LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
+        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.cod_fornecedor = '{$_POST['cod_fornecedor']}'";
+        $query = $pdo->prepare("SELECT f.nome,
         am.*
         FROM `avaliacao_mensal` am
         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
