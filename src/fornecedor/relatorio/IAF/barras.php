@@ -97,7 +97,7 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        $query = $pdo->prepare("SELECT f.nome,
+        echo $query = $pdo->prepare("SELECT f.nome,
         am.mes,
         am.ano,
         am.eficiencia,
