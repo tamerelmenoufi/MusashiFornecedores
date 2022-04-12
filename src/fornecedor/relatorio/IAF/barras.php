@@ -92,6 +92,9 @@
     $array_delivery = [];
     $array_meses = [];
 
+        print_r($_POST);
+
+
     for($i=11; $i>=0; $i--){
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));

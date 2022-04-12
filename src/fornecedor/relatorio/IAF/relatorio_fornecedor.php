@@ -358,7 +358,7 @@ $(function(){
         let mes = $('select[mes]').val();
         let tipo_relatorio = $('select[tipo_relatorio]').val();
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
-        alert('OPC: ' + codigo_fornecedor);
+        //alert('OPC: ' + codigo_fornecedor);
         $.ajax({
             url: 'src/fornecedor/relatorio_fornecedor.php',
             method: 'POST',
