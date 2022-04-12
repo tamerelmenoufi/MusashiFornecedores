@@ -97,26 +97,19 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        $query = $pdo->prepare("SELECT f.nome,
-        am.mes,
-        am.ano,
-        am.eficiencia,
-        am.quality,
-        am.delivery,
-        am.classificacao,
-        am.posicao,
+        echo $query = $pdo->prepare("SELECT f.nome,
         am.*
         FROM `avaliacao_mensal` am
         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
+        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.cod_fornecedor = '{$_POST['cod_fornecedor']}'");
         $query->execute();
         $d = $query->fetch();
 
         $ind = ($Mes*1);
         $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
-        $array_valores[$ind] = (($d['classificacao'])?:0);
-        $array_quality[$ind] = (($d['quality'])?:0);
-        $array_delivery[$ind] = (($d['delivery'])?:0);
+        $array_valores[$ind] = (($d['classificacao'])?:'');
+        $array_quality[$ind] = (($d['quality'])?:'');
+        $array_delivery[$ind] = (($d['delivery'])?:'');
 
     }
 
