@@ -51,7 +51,7 @@
             }
         }
 
-        return (($deliver_iaf > 0) ? ($deliver_iaf/(($p>0)?:1)) : false);
+        return (($deliver_iaf > 0) ? ($deliver_iaf/$p) : false);
 
     }
 
