@@ -20,6 +20,35 @@
         $tipo_relatorio = "IPF";
     }
 
+
+    function deliver_iaf($m, $a, $f){
+
+        $deliver_iaf = 0;;
+        $p =  0;
+        for($i=11; $i>=0; $i--){
+
+            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+            $query = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE
+                                    codigo_fornecedor = '{$f}' AND
+                                    mes = '{$m}' AND
+                                    ano = '{$a}'
+                                ");
+            $query->execute();
+            $d = $query->fetch();
+
+            if($query->rowCount()){
+                $p++;
+                $deliver_iaf = $deliver_iaf + $d['delivery'];
+            }
+        }
+
+        return (($deliver_iaf > 0) ? ($deliver_iaf/(($p>0)?:1)) : false);
+
+    }
+
+
     $query = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
     $query->execute();
@@ -229,8 +258,8 @@
                         <tr>
                             <td><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td>
                             <td><?=number_format($d['delivery'], 2)?></td>
-                            <td><?=number_format($d['IAF'], 2)?></td>
-                            <td><?=$d['posicao']?></td>
+                            <td><?=number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)?></td>
+                            <td><?=$d['posicao_quality']?></td>
                         </tr>
                         <?php
                             }
