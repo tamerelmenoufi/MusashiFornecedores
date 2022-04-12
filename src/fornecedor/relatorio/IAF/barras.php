@@ -92,8 +92,6 @@
     $array_delivery = [];
     $array_meses = [];
 
-        print_r($_POST);
-
 
     for($i=11; $i>=0; $i--){
 
@@ -104,12 +102,12 @@
         am.*
         FROM `avaliacao_mensal` am
         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'";
+        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo']}'";
         $query = $pdo->prepare("SELECT f.nome,
         am.*
         FROM `avaliacao_mensal` am
         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'");
+        where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo']}'");
         $query->execute();
         $d = $query->fetch();
 
