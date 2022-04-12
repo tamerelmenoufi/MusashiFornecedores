@@ -283,7 +283,7 @@
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
                             <h6>POSIÇÃO NO RANKING</h6>
-                            <p><?=$pontuacao['posicao']?>º</p>
+                            <p><?=(($pontuacao['posicao'])?"{$pontuacao['posicao']}º":false)?></p>
                         </div>
                     </div>
                     <div class="col-md-2 col-4">
@@ -292,7 +292,7 @@
                             <?php
                                 if($pontuacao['qav_data'] == NULL){
                             ?>
-                                <p>0000-00-00</p>
+                                <p></p>
                             <?php
                                 }else{
                             ?>
