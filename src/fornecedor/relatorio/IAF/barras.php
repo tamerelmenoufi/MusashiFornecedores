@@ -166,7 +166,8 @@
                 borderWidth: 1,
                 data: [<?=@implode(",", $array_delivery)?>],
                 stack: 'combined',
-                borderWidth: 2
+                borderWidth: 2,
+                type: 'bar'
             },
 
 
