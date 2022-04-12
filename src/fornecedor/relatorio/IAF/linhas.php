@@ -126,7 +126,7 @@
             }
         }
 
-        return (($n) ? ($dias_atrasos/$p) : 0);
+        return (($n) ? ($dias_atrasos) : 0);
 
     }
 
