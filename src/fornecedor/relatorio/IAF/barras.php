@@ -161,12 +161,12 @@
             datasets: [
                 {
                 label: 'DELIVERY',
-                backgroundColor: 'rgb(113,195,58)',
+                backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(113,195,58)',
-                borderWidth: 1,
+                borderWidth: 0,
                 data: [<?=@implode(",", $array_delivery)?>],
                 stack: 'combined',
-                borderWidth: 2,
+                borderWidth: 0,
                 type: 'bar'
             },
 
