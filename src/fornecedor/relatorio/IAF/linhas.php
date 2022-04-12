@@ -320,7 +320,7 @@ for($i=11; $i>=0; $i--){
             scales: {
                 y: {
                     min: 0,
-                    max: 100,
+                    max: 120,
                 },
                 x: {
                     display: true,
