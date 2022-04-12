@@ -252,18 +252,14 @@
 
         <div class="row m-0 p-0 justify-content-center ">
             <?php
-                $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = :cf AND ano = :y  AND mes = :m AND status = 1");
-                $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
-                $sql->bindValue(":y", $Y);
-                $sql->bindValue(":m", $M);
+                echo "SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1";
+                $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
                 $sql->execute();
 
                 if($sql->rowCount()){
                     $pontuacao = $sql->fetch();
 
-                    $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = :y  AND mes = :m AND status = 1");
-                    $query->bindValue(":y", $Y);
-                    $query->bindValue(":m", $M);
+                    $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
                     $query->execute();
 
                     $qnt = $query->fetch();
