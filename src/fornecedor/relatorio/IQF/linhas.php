@@ -261,8 +261,10 @@ for($i=11; $i>=0; $i--){
                 borderWidth: 1,
                 data: [<?=@implode(",", $emitido)?>],
                 stack: 'combined',
+                borderDash: [5,5],
                 borderWidth: 2
             },
+
             {
                 label: 'IPOficial"R"',
                 backgroundColor: 'rgb(73,116,165)',
@@ -270,6 +272,7 @@ for($i=11; $i>=0; $i--){
                 borderWidth: 1,
                 data: [<?=@implode(",", $reincidente)?>],
                 stack: 'combined',
+                borderDash: [5,5],
                 borderWidth: 2
             },
             {
@@ -279,6 +282,7 @@ for($i=11; $i>=0; $i--){
                 borderWidth: 1,
                 data: [<?=@implode(",", $atraso)?>],
                 stack: 'combined',
+                borderDash: [5,5],
                 borderWidth: 2
             }
 
