@@ -85,9 +85,9 @@
             $d = $query->fetch();
             $n = $query->rowCount();
             if($n){
-                $p++;
-                $dias_atrasos = $dias_atrasos + $d['atrasos'];
-                $entregas = $entregas + $d['entregas'];
+                // $p++;
+                // $dias_atrasos = $dias_atrasos + $d['atrasos'];
+                // $entregas = $entregas + $d['entregas'];
 
 
                 $delivery_idm_emitidos = $delivery_idm_emitidos + $d['delivery_idm_emitidos'];
