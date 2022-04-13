@@ -200,7 +200,7 @@
             font-size: 14px;
         }
     }
-    .interna tr{
+    .interna tr td{
         min-height:30px;
     }
 </style>
