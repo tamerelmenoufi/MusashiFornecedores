@@ -347,6 +347,7 @@
             <table class="table table-striped table">
                 <thead tfonts>
                     <tr>
+                        <th scope="col">#</th>
                     <?php
                         for($i=11; $i>=0; $i--){
 
@@ -361,6 +362,27 @@
                 </thead>
                 <tbody>
                     <tr>
+
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td scope="col">delivery_idm_emitidos</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">delivery_idm_reincidente</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">delivery_atraso_resposta</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">delivery_comunicacao</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">delivery_parada_linha</td>
+                            </tr>
+                        </table>
+                    </td>
+
                     <?php
                         for($i=11; $i>=0; $i--){
 
@@ -372,19 +394,19 @@
                     <td>
                         <table class="table">
                             <tr>
-                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_idm_emitidos']?></td>
+                                <td scope="col"><?=$retorno['delivery_idm_emitidos']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_idm_reincidente']?></td>
+                                <td scope="col"><?=$retorno['delivery_idm_reincidente']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_atraso_resposta']?></td>
+                                <td scope="col"><?=$retorno['delivery_atraso_resposta']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_comunicacao']?></td>
+                                <td scope="col"><?=$retorno['delivery_comunicacao']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_parada_linha']?></td>
+                                <td scope="col"><?=$retorno['delivery_parada_linha']?></td>
                             </tr>
                         </table>
                     </td>
