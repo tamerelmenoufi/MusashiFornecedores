@@ -154,6 +154,16 @@
             ],
             datasets: [
             {
+                label: 'QUALITY',
+                backgroundColor: 'rgb(51,153,102,.5)',
+                borderColor: 'rgb(58,195,113)',
+                borderWidth: 2,
+                data: [<?=@implode(",", $array_quality)?>],
+                stack: 'combined',
+                barThickness: 50,
+                type: 'bar'
+            },
+            {
                 label: 'DEFICIENTE',
                 backgroundColor: '#d11527',
                 borderColor: '#d11527',
@@ -172,16 +182,6 @@
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
-            },
-            {
-                label: 'QUALITY',
-                backgroundColor: 'rgb(51,153,102,.5)',
-                borderColor: 'rgb(58,195,113)',
-                borderWidth: 2,
-                data: [<?=@implode(",", $array_quality)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
             }
         ]
         },
