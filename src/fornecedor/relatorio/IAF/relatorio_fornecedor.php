@@ -200,6 +200,9 @@
             font-size: 14px;
         }
     }
+    .interna tr{
+        min-height:30px;
+    }
 </style>
 
 <div class="container-fluid">
@@ -386,7 +389,7 @@
                     <tr>
 
                     <td>
-                        <table class="table">
+                        <table class="table interna">
                             <tr>
                                 <td scope="col">IDMemitido</td>
                             </tr>
