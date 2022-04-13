@@ -347,7 +347,7 @@
                             <td><?=mesExtenso($Mes)?>-<?=$Ano?></td>
                             <td><?=number_format($d['delivery'], 2)?></td>
                             <td><?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
-                            <td><?=$d['posicao_quality']?></td>
+                            <td><?=$d['posicao_delivery']?></td>
                         </tr>
                         <?php
                             }
