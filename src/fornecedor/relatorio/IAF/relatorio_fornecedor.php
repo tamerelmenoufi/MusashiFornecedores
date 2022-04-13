@@ -390,6 +390,8 @@
                             $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
                             $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
+
+                            print_r($retorno);
                     ?>
                     <td>
                         <table class="table">
