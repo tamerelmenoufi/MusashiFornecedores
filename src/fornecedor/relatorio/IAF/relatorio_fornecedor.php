@@ -100,12 +100,34 @@
             }
         }
 
+
+        $query = $pdo->prepare("SELECT f.nome,
+        am.mes,
+        am.ano,
+        am.eficiencia,
+        am.quality,
+        am.delivery,
+        am.classificacao,
+        am.posicao,
+        am.*
+        FROM `avaliacao_mensal` am
+        LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
+        where f.codigo = {$f} AND am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
+
+        $query->execute();
+        $n = $query->rowCount();
+        $d = $query->fetch();
+
+
         return [
                 'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : 0),
                 'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : 0),
                 'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : 0),
                 'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : 0),
                 'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : 0),
+                'pct_atendimento' => (($n) ? ($d['eficiencia']) : 0),
+                'delivery' => (($n) ? ($d['delivery']) : 0),
+                'delivery_entrega' => (($n) ? ($d['delivery_entrega']) : 0),
                ];
 
     }
@@ -378,7 +400,7 @@
                                 <td scope="col">%Atendimento</td>
                             </tr>
                             <tr>
-                                <td scope="col">Dias de Atraso</td>
+                                <td scope="col">Delivery Entrega</td>
                             </tr>
                             <tr>
                                 <td scope="col">Comunicação</td>
@@ -417,10 +439,10 @@
                                 <td scope="col"><?=$retorno['delivery_atraso_resposta']?></td>
                             </tr>
                             <tr>
-                                <td scope="col">%Atendimento</td>
+                                <td scope="col"><?=$retorno['pct_atendimento']?></td>
                             </tr>
                             <tr>
-                                <td scope="col">Dias de Atraso</td>
+                                <td scope="col"><?=$retorno['delivery_entrega']?></td>
                             </tr>
                             <tr>
                                 <td scope="col"><?=$retorno['delivery_comunicacao']?></td>
@@ -429,10 +451,10 @@
                                 <td scope="col"><?=$retorno['delivery_parada_linha']?></td>
                             </tr>
                             <tr>
-                                <td scope="col">DELIVERY</td>
+                                <td scope="col"><?=$retorno['delivery']?></td>
                             </tr>
                             <tr>
-                                <td scope="col">IAF</td>
+                                <td scope="col"><?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
                             </tr>
                         </table>
                     </td>
