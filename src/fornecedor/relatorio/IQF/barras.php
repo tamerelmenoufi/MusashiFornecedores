@@ -175,7 +175,7 @@
             },
             {
                 label: 'QUALITY',
-                backgroundColor: 'rgb(51,153,102,.0)',
+                backgroundColor: 'rgb(51,153,102,.5)',
                 borderColor: 'rgb(58,195,113)',
                 borderWidth: 2,
                 data: [<?=@implode(",", $array_quality)?>],
