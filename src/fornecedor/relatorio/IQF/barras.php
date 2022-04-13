@@ -152,7 +152,6 @@
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
-
             datasets: [
                 {
                 label: 'QUALITY',
