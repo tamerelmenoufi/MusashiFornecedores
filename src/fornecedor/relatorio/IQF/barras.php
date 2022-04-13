@@ -157,31 +157,12 @@
                 label: 'QUALITY',
                 backgroundColor: 'rgb(51,153,102,.5)',
                 borderColor: 'rgb(58,195,113)',
-                borderWidth: 1,
+                borderWidth: 2,
                 data: [<?=@implode(",", $array_quality)?>],
                 stack: 'combined',
                 barThickness: 50,
                 type: 'bar'
             },
-
-            // {
-            //     label: 'QUALITY',
-            //     backgroundColor: 'rgb(73,116,165)',
-            //     borderColor: 'rgb(73,116,165)',
-            //     borderWidth: 1,
-            //     data: [<?=@implode(",", $array_quality)?>],
-            //     stack: 'combined',
-            //     borderWidth: 2
-            // },
-            // {
-            //     label: 'DELIVERY',
-            //     backgroundColor: 'rgb(113,195,58)',
-            //     borderColor: 'rgb(113,195,58)',
-            //     borderWidth: 1,
-            //     data: [<?=@implode(",", $array_delivery)?>],
-            //     stack: 'combined',
-            //     borderWidth: 2
-            // },
             {
                 label: 'DEFICIENTE',
                 backgroundColor: '#d11527',
