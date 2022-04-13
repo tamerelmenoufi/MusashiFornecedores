@@ -246,16 +246,6 @@ for($i=11; $i>=0; $i--){
             ],
             datasets: [
             {
-                label: 'Dias de Atraso',
-                backgroundColor: 'rgb(255,255,255,.5)',
-                borderColor: 'red',
-                borderWidth: 2,
-                data: [<?=@implode(",", $atraso)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
-            },
-            {
                 label: 'IPEmitido',
                 backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(73,116,165)',
@@ -264,7 +254,6 @@ for($i=11; $i>=0; $i--){
                 stack: 'combined',
                 borderWidth: 2
             },
-
             {
                 label: 'IPOficial"R"',
                 backgroundColor: 'rgb(73,116,165)',
@@ -282,6 +271,16 @@ for($i=11; $i>=0; $i--){
                 data: [<?=@implode(",", $atraso)?>],
                 stack: 'combined',
                 borderWidth: 2
+            },
+            {
+                label: 'Dias de Atraso',
+                backgroundColor: 'rgb(255,255,255,.5)',
+                borderColor: 'red',
+                borderWidth: 2,
+                data: [<?=@implode(",", $atraso)?>],
+                stack: 'combined',
+                barThickness: 50,
+                type: 'bar'
             }
             /*,
             {
