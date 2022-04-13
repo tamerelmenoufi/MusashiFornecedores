@@ -347,7 +347,7 @@
             <table class="table table-striped table">
                 <thead tfonts>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">CRITÉRIOS D</th>
                     <?php
                         for($i=11; $i>=0; $i--){
 
@@ -366,20 +366,33 @@
                     <td>
                         <table class="table">
                             <tr>
-                                <td scope="col">delivery_idm_emitidos</td>
+                                <td scope="col">IDMemitido</td>
                             </tr>
                             <tr>
-                                <td scope="col">delivery_idm_reincidente</td>
+                                <td scope="col">IDM"R"</td>
                             </tr>
                             <tr>
-                                <td scope="col">delivery_atraso_resposta</td>
+                                <td scope="col">Atraso Resp.</td>
                             </tr>
                             <tr>
-                                <td scope="col">delivery_comunicacao</td>
+                                <td scope="col">%Atendimento</td>
                             </tr>
                             <tr>
-                                <td scope="col">delivery_parada_linha</td>
+                                <td scope="col">Dias de Atraso</td>
                             </tr>
+                            <tr>
+                                <td scope="col">Comunicação</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Parada de Linha</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">DELIVERY</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">IAF</td>
+                            </tr>
+
                         </table>
                     </td>
 
@@ -391,7 +404,6 @@
 
                             $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
 
-                            print_r($retorno);
                     ?>
                     <td>
                         <table class="table">
@@ -405,10 +417,22 @@
                                 <td scope="col"><?=$retorno['delivery_atraso_resposta']?></td>
                             </tr>
                             <tr>
+                                <td scope="col">%Atendimento</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Dias de Atraso</td>
+                            </tr>
+                            <tr>
                                 <td scope="col"><?=$retorno['delivery_comunicacao']?></td>
                             </tr>
                             <tr>
                                 <td scope="col"><?=$retorno['delivery_parada_linha']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col">DELIVERY</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">IAF</td>
                             </tr>
                         </table>
                     </td>
