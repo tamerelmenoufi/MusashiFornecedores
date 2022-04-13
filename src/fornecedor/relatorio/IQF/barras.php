@@ -153,7 +153,7 @@
                 <?=@implode(",", $array_meses)?>
             ],
             datasets: [
-                {
+            {
                 label: 'QUALITY',
                 backgroundColor: 'rgb(51,153,102,.5)',
                 borderColor: 'rgb(58,195,113)',

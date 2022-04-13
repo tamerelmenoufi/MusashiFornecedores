@@ -275,7 +275,7 @@ for($i=11; $i>=0; $i--){
             },
             {
                 label: 'Dias de Atraso',
-                backgroundColor: '#fff',
+                backgroundColor: 'rgb(255,255,255,.5)',
                 borderColor: 'red',
                 borderWidth: 2,
                 data: [<?=@implode(",", $atraso)?>],
