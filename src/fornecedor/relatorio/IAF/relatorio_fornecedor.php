@@ -200,9 +200,7 @@
             font-size: 14px;
         }
     }
-    .interna tr td{
-        min-height:30px;
-    }
+
 </style>
 
 <div class="container-fluid">
@@ -431,33 +429,33 @@
 
                     ?>
                     <td>
-                        <table class="table interna">
+                        <table class="table">
                             <tr>
-                                <td scope="col"><?=$retorno['delivery_idm_emitidos']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery_idm_emitidos']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['delivery_idm_reincidente']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery_idm_reincidente']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['delivery_atraso_resposta']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery_atraso_resposta']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['pct_atendimento']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['pct_atendimento']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['delivery_entrega']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery_entrega']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['delivery_comunicacao']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery_comunicacao']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['delivery_parada_linha']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery_parada_linha']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=$retorno['delivery']?></td>
+                                <td scope="col">&nbsp;<?=$retorno['delivery']?></td>
                             </tr>
                             <tr>
-                                <td scope="col"><?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
+                                <td scope="col">&nbsp;<?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
                             </tr>
                         </table>
                     </td>
