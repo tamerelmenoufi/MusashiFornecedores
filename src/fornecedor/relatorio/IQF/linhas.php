@@ -98,6 +98,13 @@
             }
         }
 
+        return [
+            'quality_ip_emitido' => $quality_ip_emitido,
+            'quality_ip_reincidente' => $quality_ip_reincidente,
+            'quality_atraso_resposta' => $quality_atraso_resposta,
+            'quality_ppm' => $quality_ppm,
+        ];
+
     }
 
     // $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
