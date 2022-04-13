@@ -455,7 +455,7 @@
                                 <td scope="col">&nbsp;<?=$retorno['delivery']?></td>
                             </tr>
                             <tr>
-                                <td scope="col">&nbsp;<?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
+                                <td scope="col">&nbsp;<?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 0))?:false)?></td>
                             </tr>
                         </table>
                     </td>
