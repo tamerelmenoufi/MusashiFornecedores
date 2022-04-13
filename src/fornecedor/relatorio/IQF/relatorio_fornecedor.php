@@ -117,15 +117,13 @@
 
 
         return [
-                'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : '-'),
-                'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : '-'),
-                'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : '-'),
-                'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : '-'),
-                'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : '-'),
-                'pct_atendimento' => (($n) ? ($d['eficiencia']) : '-'),
-                'delivery' => (($n) ? ($d['delivery']) : '-'),
-                'delivery_entrega' => (($n) ? ($d['delivery_entrega']) : '-'),
-               ];
+            'quality_ip_emitido' => $quality_ip_emitido,
+            'quality_ip_reincidente' => $quality_ip_reincidente,
+            'quality_atraso_resposta' => $quality_atraso_resposta,
+            'quality_ppm' => $quality_ppm,
+            'quality' => $d['quality'],
+
+        ];
 
     }
 
