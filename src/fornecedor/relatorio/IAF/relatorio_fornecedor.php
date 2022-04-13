@@ -360,6 +360,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
                     <?php
                         for($i=11; $i>=0; $i--){
 
@@ -368,16 +369,29 @@
 
                             $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
                     ?>
-                    <tr>
-                        <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_idm_emitidos']?></td>
-                        <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_idm_reincidente']?></td>
-                        <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_atraso_resposta']?></td>
-                        <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_comunicacao']?></td>
-                        <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_parada_linha']?></td>
-                    </tr>
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_idm_emitidos']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_idm_reincidente']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_atraso_resposta']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_comunicacao']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col"><?=$Mes.'/'.$ano.'- '.$retorno['delivery_parada_linha']?></td>
+                            </tr>
+                        </table>
+                    </td>
                     <?php
                         }
                     ?>
+                    </tr>
                 </tbody>
             </table>
         </div>
