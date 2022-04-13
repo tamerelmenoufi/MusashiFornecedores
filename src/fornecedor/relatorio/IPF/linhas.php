@@ -239,7 +239,7 @@
             scales: {
                 y: {
                     min: <?=$minfinal?>,
-                    max: 100,
+                    max: 110,
                 },
                 x: {
                     display: true,
