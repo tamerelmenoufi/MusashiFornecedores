@@ -29,40 +29,40 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                echo 'Janeiro';
+                echo 'Jan';
                 break;
             case '2':
-                echo 'Fevereiro';
+                echo 'Fev';
                 break;
             case '3':
-                echo 'Março';
+                echo 'Mar';
                 break;
             case '4':
-                echo 'Abril';
+                echo 'Abr';
                 break;
             case '5':
-                echo 'Maio';
+                echo 'Mai';
                 break;
             case '6':
-                echo 'Junho';
+                echo 'Jun';
                 break;
             case '7':
-                echo 'Julho';
+                echo 'Jul';
                 break;
             case '8':
-                echo 'Agosto';
+                echo 'Ago';
                 break;
             case '9':
-                echo 'Setembro';
+                echo 'Set';
                 break;
             case '10':
-                echo 'Outubro';
+                echo 'Out';
                 break;
             case '11':
-                echo 'Novembro';
+                echo 'Nov';
                 break;
             case '12':
-                echo 'Dezembro';
+                echo 'Dez';
                 break;
         }
     }
@@ -126,7 +126,7 @@
                 <option value="IPF" <?= $tipo_relatorio == 'IPF' || $tipo_relatorio == '' ? 'selected':''?>>IPF</option>
                 <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
                 <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
-                
+
             </select>
 
         </div>
@@ -217,7 +217,7 @@
                             // faz comparação da data selecionada com os 12 meses anteriores
                             $query = "SELECT *,
                                         (am.quality+am.delivery)/2 as qd,
-                                       
+
                                         (
                                             SELECT AVG((t2.quality+t2.delivery)/2)
                                             FROM avaliacao_mensal t2
@@ -263,7 +263,7 @@
         </div>
         <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
-        
+
         <div class="row m-0 p-0 justify-content-center ">
             <?php
                 $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = :cf AND ano = :y  AND mes = :m AND status = 1");

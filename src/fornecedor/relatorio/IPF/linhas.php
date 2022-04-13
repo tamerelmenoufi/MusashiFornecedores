@@ -17,40 +17,40 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                return 'Janeiro';
+                return 'Jan';
                 break;
             case '2':
-                return 'Fevereiro';
+                return 'Fev';
                 break;
             case '3':
-                return 'Março';
+                return 'Mar';
                 break;
             case '4':
-                return 'Abril';
+                return 'Abr';
                 break;
             case '5':
-                return 'Maio';
+                return 'Mai';
                 break;
             case '6':
-                return 'Junho';
+                return 'Jun';
                 break;
             case '7':
-                return 'Julho';
+                return 'Jul';
                 break;
             case '8':
-                return 'Agosto';
+                return 'Ago';
                 break;
             case '9':
-                return 'Setembro';
+                return 'Set';
                 break;
             case '10':
-                return 'Outubro';
+                return 'Out';
                 break;
             case '11':
-                return 'Novembro';
+                return 'Nov';
                 break;
             case '12':
-                return 'Dezembro';
+                return 'Dez';
                 break;
         }
     }
@@ -78,6 +78,8 @@
             return 0;
         }
     }
+
+
     $query = $pdo->prepare("SELECT f.nome,
     am.mes,
     am.ano,
@@ -88,7 +90,7 @@
     am.posicao,
     am.*,
     (am.quality+am.delivery)/2 as qd,
-    
+
         (
         SELECT AVG((t2.quality+t2.delivery)/2)
         FROM avaliacao_mensal t2
@@ -112,7 +114,7 @@
             AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
             AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
         ) AS IAF
-       
+
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
     where f.codigo = {$_POST['codigo']}
@@ -128,7 +130,7 @@
     $array_IPF = [];
     $array_IQF = [];
     $array_IAF = [];
-                                        
+
 
     while ($d = $query->fetch()) {
         $array_meses[] =  '"'.mesExtenso($d['mes']).'"';
@@ -138,12 +140,12 @@
         $array_IPF[] = $d['IPF'];
         $array_IQF[] = $d['IQF'];
         $array_IAF[] = $d['IAF'];
-        
+
     }
     // se os 12 meses não estiverem preenchidos, preenche os meses com dados vazios
     if (count($array_meses) != 12) {
         $count = 12 - count($array_meses);
-        for ($i=$count; $i < 12; $i++) { 
+        for ($i=$count; $i < 12; $i++) {
             # code...
         }
     }
@@ -203,7 +205,7 @@
                 data: [<?=@implode(",", $array_IPF)?>],
                 stack: 'combined'
             }
-            
+
             /*,
             ,
             {
