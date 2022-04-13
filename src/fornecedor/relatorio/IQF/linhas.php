@@ -244,16 +244,7 @@ for($i=11; $i>=0; $i--){
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
-            datasets: [{
-                label: 'Dias de Atraso',
-                backgroundColor: '#fff',
-                borderColor: 'red',
-                borderWidth: 2,
-                data: [<?=@implode(",", $atraso)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
-            },
+            datasets: [
             {
                 label: 'IPEmitido',
                 backgroundColor: 'rgb(73,116,165)',
@@ -284,8 +275,17 @@ for($i=11; $i>=0; $i--){
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
+            },
+            {
+                label: 'Dias de Atraso',
+                backgroundColor: '#fff',
+                borderColor: 'red',
+                borderWidth: 2,
+                data: [<?=@implode(",", $atraso)?>],
+                stack: 'combined',
+                barThickness: 50,
+                type: 'bar'
             }
-
             /*,
             {
                 label: 'DELIVERY',
