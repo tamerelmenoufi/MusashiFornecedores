@@ -389,7 +389,7 @@
                     <tr>
 
                     <td>
-                        <table class="table interna">
+                        <table class="table">
                             <tr>
                                 <td scope="col">IDMemitido</td>
                             </tr>
@@ -431,7 +431,7 @@
 
                     ?>
                     <td>
-                        <table class="table">
+                        <table class="table interna">
                             <tr>
                                 <td scope="col"><?=$retorno['delivery_idm_emitidos']?></td>
                             </tr>
