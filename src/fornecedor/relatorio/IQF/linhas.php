@@ -17,185 +17,67 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                return 'Jano';
+                return 'Janeiro';
                 break;
             case '2':
-                return 'Fev';
+                return 'Fevereiro';
                 break;
             case '3':
-                return 'Mar';
+                return 'Março';
                 break;
             case '4':
-                return 'Abr';
+                return 'Abril';
                 break;
             case '5':
-                return 'Mai';
+                return 'Maio';
                 break;
             case '6':
-                return 'Jun';
+                return 'Junho';
                 break;
             case '7':
-                return 'Jul';
+                return 'Julho';
                 break;
             case '8':
-                return 'Ago';
+                return 'Agosto';
                 break;
             case '9':
-                return 'Set';
+                return 'Setembro';
                 break;
             case '10':
-                return 'Out';
+                return 'Outubro';
                 break;
             case '11':
-                return 'Nov';
+                return 'Novembro';
                 break;
             case '12':
-                return 'Dez';
+                return 'Dezembro';
                 break;
         }
     }
 
 
+    $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
+    $mes_atual = date("m");
+    $total_dias_mes = date("t");
 
-    function dias_atrasos_tabela($m, $a, $f){
-
-        global $pdo;
-
-        $quality_ip_emitido = 0;
-        $quality_ip_reincidente = 0;
-        $quality_atraso_resposta = 0;
-        $quality_ppm = 0;
-
-        $p =  0;
-
-        for($i=11; $i>=0; $i--){
-
-            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
-
-            $query = $pdo->prepare("SELECT
-                                        sum(quality_ip_emitido) as quality_ip_emitido,
-                                        sum(quality_ip_reincidente) as quality_ip_reincidente,
-                                        sum(quality_atraso_resposta) as quality_atraso_resposta,
-                                        sum(quality_ppm) as quality_ppm
-
-                                    FROM registros_diarios WHERE
-
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
-                                ");
-            $query->execute();
-            $d = $query->fetch();
-            $n = $query->rowCount();
-            if($n){
-
-                $quality_ip_emitido = $quality_ip_emitido + $d['quality_ip_emitido'];
-                $quality_ip_reincidente = $quality_ip_reincidente + $d['quality_ip_reincidente'];
-                $quality_atraso_resposta = $quality_atraso_resposta + $d['quality_atraso_resposta'];
-                $quality_ppm = $quality_ppm + $d['quality_ppm'];
-
-            }
+    function diasDoMes(){
+        $data_inicio = mktime(0, 0, 0, date('m'), 1, date('Y'));
+        $data_fim = mktime(23, 59, 59, date('m'), date("t"), date('Y'));
+        $dias = [];
+        while ($data_inicio <= $data_fim) {
+            $dias[] = date('d', $data_inicio);
+            $data_inicio = strtotime("+1 day", $data_inicio);
         }
-
-        return [
-            'quality_ip_emitido' => $quality_ip_emitido,
-            'quality_ip_reincidente' => $quality_ip_reincidente,
-            'quality_atraso_resposta' => $quality_atraso_resposta,
-            'quality_ppm' => $quality_ppm,
-        ];
-
+        return $dias;
     }
 
-    // $mes_atual = date("m", mktime(1, 0, 0, date('m'), date('d'), $Y));
-    // $mes_atual = date("m");
-    // $total_dias_mes = date("t");
-
-    // function diasDoMes(){
-    //     $data_inicio = mktime(0, 0, 0, date('m'), 1, date('Y'));
-    //     $data_fim = mktime(23, 59, 59, date('m'), date("t"), date('Y'));
-    //     $dias = [];
-    //     while ($data_inicio <= $data_fim) {
-    //         $dias[] = date('d', $data_inicio);
-    //         $data_inicio = strtotime("+1 day", $data_inicio);
-    //     }
-    //     return $dias;
-    // }
-
-    // function getPercentual($valor, $total){
-    //     if ($total > 0) {
-    //         return round(((int)$valor / (int)$total) * 100, 1) ?: 0;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
-    // $query = $pdo->prepare("SELECT f.nome,
-    // am.mes,
-    // am.ano,
-    // am.eficiencia,
-    // am.quality,
-    // am.delivery,
-    // am.classificacao,
-    // am.posicao,
-    // am.*
-    // FROM `avaliacao_mensal` am
-    // LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-    // where f.codigo = {$_POST['codigo']}
-    // AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat({$Y}, '-', {$M}, '-01'))))
-    // AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat({$Y}, '-', {$M}, '-01'), INTERVAL 11 MONTH)
-    // ORDER BY ano, mes");
-    // $query->execute();
-
-    // $array_valores = [];
-    // $array_quality = [];
-    // $array_delivery = [];
-    // $array_meses = [];
-
-    // while ($d = $query->fetch()) {
-    //     $array_meses[] =  '"'.mesExtenso($d['mes']).'"';
-    //     $array_valores[] = $d['classificacao'];
-    //     $array_quality[] = $d['quality'];
-    //     $array_delivery[] = $d['delivery'];
-    // }
-    // // se os 12 meses não estiverem preenchidos, preenche os meses com dados vazios
-    // if (count($array_meses) != 12) {
-    //     $count = 12 - count($array_meses);
-    //     for ($i=$count; $i < 12; $i++) {
-    //         # code...
-    //     }
-    // }
-    // if($query->rowCount() > 0){
-    //     $min = min($array_valores);
-    //     $min2 =min($array_quality);
-    //     $min3 = min($array_delivery);
-    //     $minfinal = min($min, $min2, $min3);
-
-    //     if($minfinal != 100){
-    //         $minfinal = $minfinal-10;
-    //     }else{
-    //         $minfinal = 0;
-    //     }
-    // }else{
-    //     $minfinal = 0;
-    // }
-
-
-
-
-//Nova Versão
-
-
-$array_valores = [];
-$array_quality = [];
-$array_delivery = [];
-$array_meses = [];
-
-for($i=11; $i>=0; $i--){
-
-    $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
-    $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
-
-
+    function getPercentual($valor, $total){
+        if ($total > 0) {
+            return round(((int)$valor / (int)$total) * 100, 1) ?: 0;
+        } else {
+            return 0;
+        }
+    }
     $query = $pdo->prepare("SELECT f.nome,
     am.mes,
     am.ano,
@@ -207,28 +89,44 @@ for($i=11; $i>=0; $i--){
     am.*
     FROM `avaliacao_mensal` am
     LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-    where f.codigo = {$_POST['codigo']} AND am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
-
-
-
+    where f.codigo = {$_POST['codigo']}
+    AND DATE(concat(ano, '-', mes, '-01')) <= DATE(LAST_DAY(DATE(concat({$Y}, '-', {$M}, '-01'))))
+    AND DATE(concat(ano, '-', mes, '-01')) >= DATE_SUB(concat({$Y}, '-', {$M}, '-01'), INTERVAL 11 MONTH)
+    ORDER BY ano, mes");
     $query->execute();
-    $d = $query->fetch();
 
-    $ind = ($Mes*1);
-    $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
-    $entrega[$ind] = (($d['eficiencia'])?:'');
-    $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo']);
+    $array_valores = [];
+    $array_quality = [];
+    $array_delivery = [];
+    $array_meses = [];
 
-    // $quality_ip_emitido = 0;
-    // $quality_ip_reincidente = 0;
-    // $quality_atraso_resposta = 0;
+    while ($d = $query->fetch()) {
+        $array_meses[] =  '"'.mesExtenso($d['mes']).'"';
+        $array_valores[] = $d['classificacao'];
+        $array_quality[] = $d['quality'];
+        $array_delivery[] = $d['delivery'];
+    }
+    // se os 12 meses não estiverem preenchidos, preenche os meses com dados vazios
+    if (count($array_meses) != 12) {
+        $count = 12 - count($array_meses);
+        for ($i=$count; $i < 12; $i++) { 
+            # code...
+        }
+    }
+    if($query->rowCount() > 0){
+        $min = min($array_valores);
+        $min2 =min($array_quality);
+        $min3 = min($array_delivery);
+        $minfinal = min($min, $min2, $min3);
 
-    $emitido[$ind] = (($retorno['quality_ip_emitido'])?:'');
-    $reincidente[$ind] = (($retorno['quality_ip_reincidente'])?:'');
-    $atraso[$ind] = (($retorno['quality_atraso_resposta'])?:'');
-
-}
-
+        if($minfinal != 100){
+            $minfinal = $minfinal-10;
+        }else{
+            $minfinal = 0;
+        }
+    }else{
+        $minfinal = 0;
+    }
 
 
 ?>
@@ -244,45 +142,23 @@ for($i=11; $i>=0; $i--){
             labels: [
                 <?=@implode(",", $array_meses)?>
             ],
-            datasets: [
-            {
-                label: 'Dias de Atraso',
-                backgroundColor: 'rgb(255,255,255,.5)',
-                borderColor: 'red',
+            datasets: [{
+                label: 'Q&D DO MÊS',
+                backgroundColor: 'rgb(58,113,195,.5)',
+                borderColor: 'rgb(58,113,195)',
                 borderWidth: 2,
-                data: [<?=@implode(",", $atraso)?>],
-                stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
+                data: [<?=@implode(",", $array_valores)?>],
+                stack: 'combined'
             },
             {
-                label: 'IPEmitido',
+                label: 'QUALITY',
                 backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(73,116,165)',
                 borderWidth: 1,
-                data: [<?=@implode(",", $emitido)?>],
+                data: [<?=@implode(",", $array_quality)?>],
                 stack: 'combined',
                 borderWidth: 2
-            },
-            {
-                label: 'IPOficial"R"',
-                backgroundColor: 'rgb(73,116,165)',
-                borderColor: 'rgb(73,116,165)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $reincidente)?>],
-                stack: 'combined',
-                borderWidth: 2
-            },
-            {
-                label: 'Atraso Resp.',
-                backgroundColor: 'rgb(73,116,165)',
-                borderColor: 'rgb(73,116,165)',
-                borderWidth: 1,
-                data: [<?=@implode(",", $atraso)?>],
-                stack: 'combined',
-                borderWidth: 2
-            }
-            /*,
+            }/*,
             {
                 label: 'DELIVERY',
                 backgroundColor: 'rgb(113,195,58)',
@@ -321,8 +197,8 @@ for($i=11; $i>=0; $i--){
             },
             scales: {
                 y: {
-                    min: 0,
-                    max: 110,
+                    min: <?=$minfinal?>,
+                    max: 100,
                 },
                 x: {
                     display: true,

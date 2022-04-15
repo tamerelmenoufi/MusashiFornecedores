@@ -20,122 +20,6 @@
         $tipo_relatorio = "IPF";
     }
 
-
-    function deliver_iaf($m, $a, $f){
-        global $pdo;
-
-        $deliver_iaf = 0;;
-        $p =  0;
-        for($i=11; $i>=0; $i--){
-
-            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
-
-            $query = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE
-                                    codigo_fornecedor = '{$f}' AND
-                                    mes = '{$Mes}' AND
-                                    ano = '{$Ano}'
-                                ");
-            $query->execute();
-            $d = $query->fetch();
-            $n = $query->rowCount();
-            if($n){
-                $p++;
-                $deliver_iaf = $deliver_iaf + $d['delivery'];
-            }
-        }
-
-        return (($n) ? ($deliver_iaf/$p) : 0);
-
-    }
-
-
-
-
-    function dias_atrasos_tabela($m, $a, $f){
-        global $pdo;
-
-        $delivery_idm_emitidos = 0;
-        $delivery_idm_reincidente = 0;
-        $delivery_atraso_resposta = 0;
-        $delivery_comunicacao = 0;
-        $delivery_parada_linha = 0;
-
-        $p =  0;
-
-        for($i=11; $i>=0; $i--){
-
-            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
-
-            $query = $pdo->prepare("SELECT
-                                        sum(delivery_idm_emitidos) as delivery_idm_emitidos,
-                                        sum(delivery_idm_reincidente) as delivery_idm_reincidente,
-                                        sum(delivery_atraso_resposta) as delivery_atraso_resposta,
-                                        sum(delivery_comunicacao) as delivery_comunicacao,
-                                        sum(delivery_parada_linha) as delivery_parada_linha
-
-                                    FROM registros_diarios WHERE
-
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
-                                ");
-            $query->execute();
-            $d = $query->fetch();
-            $n = $query->rowCount();
-            if($n){
-                // $p++;
-                // $dias_atrasos = $dias_atrasos + $d['atrasos'];
-                // $entregas = $entregas + $d['entregas'];
-
-
-                $delivery_idm_emitidos = $delivery_idm_emitidos + $d['delivery_idm_emitidos'];
-                $delivery_idm_reincidente = $delivery_idm_reincidente + $d['delivery_idm_reincidente'];
-                $delivery_atraso_resposta = $delivery_atraso_resposta + $d['delivery_atraso_resposta'];
-                $delivery_comunicacao = $delivery_comunicacao + $d['delivery_comunicacao'];
-                $delivery_parada_linha = $delivery_parada_linha + $d['delivery_parada_linha'];
-
-
-            }
-        }
-
-
-        $query = $pdo->prepare("SELECT f.nome,
-        am.mes,
-        am.ano,
-        am.eficiencia,
-        am.quality,
-        am.delivery,
-        am.classificacao,
-        am.posicao,
-        am.*
-        FROM `avaliacao_mensal` am
-        LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-        where f.codigo = {$f} AND am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
-
-        $query->execute();
-        $n = $query->rowCount();
-        $d = $query->fetch();
-
-
-        return [
-                'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : '-'),
-                'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : '-'),
-                'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : '-'),
-                'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : '-'),
-                'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : '-'),
-                'pct_atendimento' => (($n) ? ($d['eficiencia']) : '-'),
-                'delivery' => (($n) ? ($d['delivery']) : '-'),
-                'delivery_entrega' => (($n) ? ($d['delivery_entrega']) : '-'),
-               ];
-
-    }
-
-
-
-
-
     $query = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
     $query->execute();
@@ -200,7 +84,6 @@
             font-size: 14px;
         }
     }
-
 </style>
 
 <div class="container-fluid">
@@ -326,28 +209,29 @@
                                 $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
                             // faz comparação da data selecionada com os 12 meses anteriores
+                            $query = "SELECT *,
 
-                            $query = $pdo->prepare("SELECT f.nome,
-                            am.mes,
-                            am.ano,
-                            am.eficiencia,
-                            am.quality,
-                            am.delivery,
-                            am.classificacao,
-                            am.posicao,
-                            am.*
-                            FROM `avaliacao_mensal` am
-                            LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-                            where am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'");
-                            $query->execute();
-                            $d = $query->fetch();
+                                        (
+                                            SELECT AVG((t2.delivery))
+                                            FROM avaliacao_mensal t2
+                                            WHERE t2.codigo_fornecedor = am.codigo_fornecedor
+                                                AND ano = '{$Ano}'
+                                                AND mes = '".($Mes*1)."'
+                                        ) AS IAF
 
+                                        FROM avaliacao_mensal am
+                                        WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}'
+                                            AND ano = '{$Ano}'
+                                            AND mes = '".($Mes*1)."'";
+                            $sql = $pdo->prepare($query);
+                            $sql->execute();
+                            $d = $sql->fetch();
                         ?>
                         <tr>
-                            <td><?=mesExtenso($Mes)?>-<?=$Ano?></td>
+                            <td><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td>
                             <td><?=number_format($d['delivery'], 2)?></td>
-                            <td><?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
-                            <td><?=$d['posicao_delivery']?></td>
+                            <td><?=number_format($d['IAF'], 2)?></td>
+                            <td><?=$d['posicao']?></td>
                         </tr>
                         <?php
                             }
@@ -366,118 +250,23 @@
         <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
 
-        <div tabela class="col-md-12 mb-3 p-0 ">
-            <table class="table table-striped table">
-                <thead tfonts>
-                    <tr>
-                        <th scope="col">CRITÉRIOS D</th>
-                    <?php
-                        for($i=11; $i>=0; $i--){
-
-                            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
-                            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
-                    ?>
-                        <th scope="col"><?=mesExtenso($Mes)?>-<?=$Ano?></th>
-                    <?php
-                        }
-                    ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-
-                    <td>
-                        <table class="table">
-                            <tr>
-                                <td scope="col">IDMemitido</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">IDM"R"</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Atraso Resp.</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">%Atendimento</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Delivery Entrega</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Comunicação</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">Parada de Linha</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">DELIVERY</td>
-                            </tr>
-                            <tr>
-                                <td scope="col">IAF</td>
-                            </tr>
-
-                        </table>
-                    </td>
-
-                    <?php
-                        for($i=11; $i>=0; $i--){
-
-                            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
-                            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
-
-                            $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
-
-                    ?>
-                    <td>
-                        <table class="table">
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery_idm_emitidos']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery_idm_reincidente']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery_atraso_resposta']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['pct_atendimento']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery_entrega']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery_comunicacao']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery_parada_linha']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=$retorno['delivery']?></td>
-                            </tr>
-                            <tr>
-                                <td scope="col">&nbsp;<?=((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 0))?:false)?></td>
-                            </tr>
-                        </table>
-                    </td>
-                    <?php
-                        }
-                    ?>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
         <div class="row m-0 p-0 justify-content-center ">
             <?php
-                $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
+                $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = :cf AND ano = :y  AND mes = :m AND status = 1");
+                $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
+                $sql->bindValue(":y", $Y);
+                $sql->bindValue(":m", $M);
                 $sql->execute();
 
                 if($sql->rowCount()){
                     $pontuacao = $sql->fetch();
-                    $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
+
+                    $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = :y  AND mes = :m AND status = 1");
+                    $query->bindValue(":y", $Y);
+                    $query->bindValue(":m", $M);
                     $query->execute();
+
                     $qnt = $query->fetch();
-                }
                 ?>
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
@@ -500,7 +289,7 @@
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
                             <h6>POSIÇÃO NO RANKING</h6>
-                            <p><?=(($pontuacao['posicao'])?"{$pontuacao['posicao']}º":false)?></p>
+                            <p><?=$pontuacao['posicao']?>º</p>
                         </div>
                     </div>
                     <div class="col-md-2 col-4">
@@ -509,7 +298,7 @@
                             <?php
                                 if($pontuacao['qav_data'] == NULL){
                             ?>
-                                <p></p>
+                                <p>0000-00-00</p>
                             <?php
                                 }else{
                             ?>
@@ -540,6 +329,9 @@
                             ?>
                         </div>
                     </div>
+                <?php
+                }
+                ?>
         </div>
     </div>
 </div>
@@ -558,7 +350,7 @@ $(function(){
         let mes = $('select[mes]').val();
         let tipo_relatorio = $('select[tipo_relatorio]').val();
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
-        //alert('OPC: ' + codigo_fornecedor);
+        //alert(mes);
         $.ajax({
             url: 'src/fornecedor/relatorio_fornecedor.php',
             method: 'POST',

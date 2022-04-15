@@ -147,14 +147,15 @@
             ],
             datasets: [
                 {
-                label: 'QUALITY',
-                backgroundColor: 'rgb(73,116,165)',
-                borderColor: 'rgb(73,116,165)',
+                label: 'DELIVERY',
+                backgroundColor: 'rgb(113,195,58)',
+                borderColor: 'rgb(113,195,58)',
                 borderWidth: 1,
-                data: [<?=@implode(",", $array_quality)?>],
+                data: [<?=@implode(",", $array_delivery)?>],
                 stack: 'combined',
                 borderWidth: 2
             },
+           
             
             // {
             //     label: 'QUALITY',
