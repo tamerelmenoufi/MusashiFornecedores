@@ -1,6 +1,6 @@
 <?php
     // require_once "../../../../lib/config.php";
-    // error_reporting(E_ALL);
+
     global $pdo;
 
     if(isset($_POST['ano'])){
@@ -29,40 +29,40 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                echo 'Jan';
+                echo 'Janeiro';
                 break;
             case '2':
-                echo 'Fev';
+                echo 'Fevereiro';
                 break;
             case '3':
-                echo 'Mar';
+                echo 'Março';
                 break;
             case '4':
-                echo 'Abr';
+                echo 'Abril';
                 break;
             case '5':
-                echo 'Mai';
+                echo 'Maio';
                 break;
             case '6':
-                echo 'Jun';
+                echo 'Junho';
                 break;
             case '7':
-                echo 'Jul';
+                echo 'Julho';
                 break;
             case '8':
-                echo 'Ago';
+                echo 'Agosto';
                 break;
             case '9':
-                echo 'Set';
+                echo 'Setembro';
                 break;
             case '10':
-                echo 'Out';
+                echo 'Outubro';
                 break;
             case '11':
-                echo 'Nov';
+                echo 'Novembro';
                 break;
             case '12':
-                echo 'Dez';
+                echo 'Dezembro';
                 break;
         }
     }
@@ -126,7 +126,7 @@
                 <option value="IPF" <?= $tipo_relatorio == 'IPF' || $tipo_relatorio == '' ? 'selected':''?>>IPF</option>
                 <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
                 <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
-
+                
             </select>
 
         </div>
@@ -190,46 +190,34 @@
                     </footer>
                 </div>
             </div>
-
-            <div class="container-fluid">
-                <div class="row justify-content-center align-items-center g-3 m-3">
-                    <div rs="" class="col-12 text-center">
-                        <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> HISTÓRICO DO PERÍODO AVALIADO:</h3>
-                    </div>
-                </div>
-            </div>
-
             <div tabela class="col-md-12 mb-3 p-0 ">
                 <table class="table table-striped table">
                     <thead tfonts>
                         <tr>
                             <th scope="col">MÊS</th>
                             <th scope="col">QUALITY</th>
-                            <th scope="col">DELIVERY</th>
-                            <th scope="col">GERAL(Q&D)</th>
-                            <th scope="col">GERAL(IPF)</th>
-
+                            <th scope="col">IQF</th>
                             <th scope="col">POSIÇÃO</th>
                         </tr>
                     </thead>
                     <tbody tfonts>
                         <?php
                             // faz comparação da data selecionada com os 12 meses anteriores
-                            $query = "SELECT *,
-                                        (am.quality+am.delivery)/2 as qd,
-
+                            $query = "SELECT am.*,
+                                       
                                         (
-                                            SELECT AVG((t2.quality+t2.delivery)/2)
+                                            SELECT AVG(t2.quality)
                                             FROM avaliacao_mensal t2
                                             WHERE t2.codigo_fornecedor = am.codigo_fornecedor
                                                 AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
                                                 AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
-                                        ) AS IPF
+                                        ) AS IQF
+                                        
                                         FROM avaliacao_mensal am
-                                        WHERE codigo_fornecedor = :cf
+                                        WHERE am.codigo_fornecedor = :cf
                                             AND DATE(concat(am.ano, '-', am.mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
                                             AND DATE(concat(am.ano, '-', am.mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
-                                        ORDER BY am.ano, am.mes";
+                                        ORDER BY ano, mes";
                             $sql = $pdo->prepare($query);
                             $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
                             $sql->bindValue(":y2", $Y);
@@ -240,11 +228,9 @@
                             while($d = $sql->fetch()){
                         ?>
                         <tr>
-                            <td ><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td>
+                            <td ><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td> 
                             <td><?=number_format($d['quality'], 2)?></td>
-                            <td><?=number_format($d['delivery'], 2)?></td>
-                            <td><?=number_format(($d['qd']), 2)?></td>
-                            <td><?=number_format($d['IPF'], 2)?></td>
+                            <td><?=number_format($d['IQF'], 2)?></td> 
                             <td><?=$d['posicao']?></td>
                         </tr>
                         <?php
@@ -254,13 +240,15 @@
                 </table>
             </div>
         </div>
+
         <div class="container-fluid">
             <div class="row justify-content-center align-items-center g-3 m-3">
                 <div rs="" class="col-12 text-center">
-                    <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> DESEMPENHO QUALITY E DELIVERY</h3>
+                    <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> ACOMPANHAMENTO DE EMISSÃO DE IP - QUALITY</h3>
                 </div>
             </div>
         </div>
+
         <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
 

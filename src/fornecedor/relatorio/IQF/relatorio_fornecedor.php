@@ -20,6 +20,117 @@
         $tipo_relatorio = "IPF";
     }
 
+
+    function quality_iqf($m, $a, $f){
+        global $pdo;
+
+        $quality_iqf = 0;;
+        $p =  0;
+        for($i=11; $i>=0; $i--){
+
+            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+
+            $query = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE
+                                    codigo_fornecedor = '{$f}' AND
+                                    mes = '{$Mes}' AND
+                                    ano = '{$Ano}'
+                                ");
+            $query->execute();
+            $d = $query->fetch();
+            $n = $query->rowCount();
+            if($n){
+                $p++;
+                $quality_iqf = $quality_iqf + $d['quality'];
+            }
+        }
+
+        return (($n) ? ($quality_iqf/$p) : 0);
+
+    }
+
+
+
+
+    function dias_atrasos_tabela($m, $a, $f){
+        global $pdo;
+
+        $quality_ip_emitido = 0;
+        $quality_ip_reincidente = 0;
+        $quality_atraso_resposta = 0;
+        $quality_ppm = 0;
+
+        $p =  0;
+
+        for($i=11; $i>=0; $i--){
+
+            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+
+            $query = $pdo->prepare("SELECT
+                                        sum(quality_ip_emitido) as quality_ip_emitido,
+                                        sum(quality_ip_reincidente) as quality_ip_reincidente,
+                                        sum(quality_atraso_resposta) as quality_atraso_resposta,
+                                        sum(quality_ppm) as quality_ppm
+
+                                    FROM registros_diarios WHERE
+
+                                        codigo_fornecedor = '{$f}' AND
+                                        month(data_registro) = '{$Mes}' AND
+                                        year(data_registro) = '{$Ano}'
+                                ");
+            $query->execute();
+            $d = $query->fetch();
+            $n = $query->rowCount();
+            if($n){
+                // $p++;
+                // $dias_atrasos = $dias_atrasos + $d['atrasos'];
+                // $entregas = $entregas + $d['entregas'];
+
+
+                $quality_ip_emitido = $quality_ip_emitido + $d['quality_ip_emitido'];
+                $quality_ip_reincidente = $quality_ip_reincidente + $d['quality_ip_reincidente'];
+                $quality_atraso_resposta = $quality_atraso_resposta + $d['quality_atraso_resposta'];
+                $quality_ppm = $quality_ppm + $d['quality_ppm'];
+
+
+            }
+        }
+
+
+        $query = $pdo->prepare("SELECT f.nome,
+        am.mes,
+        am.ano,
+        am.eficiencia,
+        am.quality,
+        am.delivery,
+        am.classificacao,
+        am.posicao,
+        am.*
+        FROM `avaliacao_mensal` am
+        LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
+        where f.codigo = {$f} AND am.mes = '".($Mes*1)."' AND am.ano = '{$Ano}'");
+
+        $query->execute();
+        $n = $query->rowCount();
+        $d = $query->fetch();
+
+
+        return [
+            'quality_ip_emitido' => $quality_ip_emitido,
+            'quality_ip_reincidente' => $quality_ip_reincidente,
+            'quality_atraso_resposta' => $quality_atraso_resposta,
+            'quality_ppm' => $quality_ppm,
+            'quality' => $d['quality'],
+
+        ];
+
+    }
+
+
+
+
+
     $query = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
     $query->bindValue(':c',  $_POST['codigo_fornecedor']);
     $query->execute();
@@ -29,40 +140,40 @@
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                echo 'Janeiro';
+                echo 'Jan';
                 break;
             case '2':
-                echo 'Fevereiro';
+                echo 'Fev';
                 break;
             case '3':
-                echo 'Março';
+                echo 'Mar';
                 break;
             case '4':
-                echo 'Abril';
+                echo 'Abr';
                 break;
             case '5':
-                echo 'Maio';
+                echo 'Mai';
                 break;
             case '6':
-                echo 'Junho';
+                echo 'Jun';
                 break;
             case '7':
-                echo 'Julho';
+                echo 'Jul';
                 break;
             case '8':
-                echo 'Agosto';
+                echo 'Ago';
                 break;
             case '9':
-                echo 'Setembro';
+                echo 'Set';
                 break;
             case '10':
-                echo 'Outubro';
+                echo 'Out';
                 break;
             case '11':
-                echo 'Novembro';
+                echo 'Nov';
                 break;
             case '12':
-                echo 'Dezembro';
+                echo 'Dez';
                 break;
         }
     }
@@ -125,6 +236,7 @@
             font-size: 14px;
         }
     }
+
 </style>
 
 <div class="container-fluid">
@@ -167,7 +279,7 @@
                 <option value="IPF" <?= $tipo_relatorio == 'IPF' || $tipo_relatorio == '' ? 'selected':''?>>IPF</option>
                 <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
                 <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
-                
+
             </select>
 
         </div>
@@ -243,9 +355,15 @@
                     </thead>
                     <tbody tfonts>
                         <?php
+
+                            for($i=11; $i>=0; $i--){
+
+                                $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                                $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
                             // faz comparação da data selecionada com os 12 meses anteriores
                             $query = "SELECT am.*,
-                                       
+
                                         (
                                             SELECT AVG(t2.quality)
                                             FROM avaliacao_mensal t2
@@ -253,7 +371,7 @@
                                                 AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) >= -11
                                                 AND TIMESTAMPDIFF(MONTH, am.anoMes, t2.anoMes) <= 0
                                         ) AS IQF
-                                        
+
                                         FROM avaliacao_mensal am
                                         WHERE am.codigo_fornecedor = :cf
                                             AND DATE(concat(am.ano, '-', am.mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
@@ -271,24 +389,23 @@
                             $listaMeses[] = mesAbreviado($d['mes'])."-".$d['ano'];
                         ?>
                         <tr>
-                            <td ><?=mesExtenso($d['mes'])?>-<?=$d['ano']?></td> 
+                            <td><?=mesExtenso($Mes)?>-<?=$Ano?></td>
                             <td><?=number_format($d['quality'], 2)?></td>
-                            <td><?=number_format($d['IQF'], 2)?></td> 
-                            <td><?=$d['posicao']?></td>
+                            <td><?=((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2))?:false)?></td>
+                            <td><?=$d['posicao_quality']?></td>
                         </tr>
                         <?php
                             }
-                          
+
                         ?>
                     </tbody>
                 </table>
             </div>
         </div>
-
         <div class="container-fluid">
             <div class="row justify-content-center align-items-center g-3 m-3">
                 <div rs="" class="col-12 text-center">
-                    <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> ACOMPANHAMENTO DE EMISSÃO DE IP - QUALITY</h3>
+                    <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> ACOMPANHAMENTO DE EMISSÃO DE IP</h3>
                 </div>
             </div>
         </div>
@@ -311,9 +428,9 @@
                             <th scope="col">Demérito</th>
                             <?php
                             // foreach ($listaMeses as $value) { echo '<td scope="col">'.$value.'</td>';}
-                            
+
                             ?>
-                            
+
                         </tr>
                     </thead>
                     <tbody tfonts>
@@ -357,14 +474,14 @@
                             while($d = $sql->fetch()){
                         ?>
                         <tr>
-                            <td><?=mesAbreviado($d['mes'])."-".$d['ano']?></td> 
+                            <td><?=mesAbreviado($d['mes'])."-".$d['ano']?></td>
                             <td><?=($d['ip_emissao'])?></td>
                             <td><?php #($d['ip_emissao'])?></td>
                             <td><?=($d['ip_reincidente'])?></td>
                             <td><?=($d['atraso'])?></td>
                             <td><?=($d['limite_ppm'])?></td>
                             <td><?=($d['quality'])?></td>
-                            <td><?=number_format($d['IQF'], 2)?></td> 
+                            <td><?=number_format($d['IQF'], 2)?></td>
                             <td><?=number_format($d['total_demerito_quality'],0)?></td>
                         </tr>
                         <?php
@@ -374,23 +491,100 @@
                 </table>
             </div>
 
+        <div tabela class="col-md-12 mb-3 p-0 ">
+            <table class="table table-striped table">
+                <thead tfonts>
+                    <tr>
+                        <th scope="col">CRITÉRIOS Q</th>
+                    <?php
+                        for($i=11; $i>=0; $i--){
+
+                            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                    ?>
+                        <th scope="col"><?=mesExtenso($Mes)?>-<?=$Ano?></th>
+                    <?php
+                        }
+                    ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td scope="col">IPEmitido</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">IPOficial"R"</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">Atraso Resp.</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">PPM</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">QUALITY</td>
+                            </tr>
+                            <tr>
+                                <td scope="col">IQF</td>
+                            </tr>
+
+                        </table>
+                    </td>
+
+                    <?php
+                        for($i=11; $i>=0; $i--){
+
+                            $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                            $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+                            $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
+
+                    ?>
+                    <td>
+                        <table class="table">
+                            <tr>
+                                <td scope="col">&nbsp;<?=$retorno['quality_ip_emitido']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col">&nbsp;<?=$retorno['quality_ip_reincidente']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col">&nbsp;<?=$retorno['quality_atraso_resposta']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col">&nbsp;<?=$retorno['quality_ppm']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col">&nbsp;<?=$retorno['quality']?></td>
+                            </tr>
+                            <tr>
+                                <td scope="col">&nbsp;<?=((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 0))?:false)?></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <?php
+                        }
+                    ?>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="row m-0 p-0 justify-content-center ">
             <?php
-                $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = :cf AND ano = :y  AND mes = :m AND status = 1");
-                $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
-                $sql->bindValue(":y", $Y);
-                $sql->bindValue(":m", $M);
+                $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
                 $sql->execute();
 
                 if($sql->rowCount()){
                     $pontuacao = $sql->fetch();
-
-                    $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = :y  AND mes = :m AND status = 1");
-                    $query->bindValue(":y", $Y);
-                    $query->bindValue(":m", $M);
+                    $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
                     $query->execute();
-
                     $qnt = $query->fetch();
+                }
                 ?>
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
@@ -413,7 +607,7 @@
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
                             <h6>POSIÇÃO NO RANKING</h6>
-                            <p><?=$pontuacao['posicao']?>º</p>
+                            <p><?=(($pontuacao['posicao'])?"{$pontuacao['posicao']}º":false)?></p>
                         </div>
                     </div>
                     <div class="col-md-2 col-4">
@@ -422,7 +616,7 @@
                             <?php
                                 if($pontuacao['qav_data'] == NULL){
                             ?>
-                                <p>0000-00-00</p>
+                                <p></p>
                             <?php
                                 }else{
                             ?>
@@ -453,9 +647,6 @@
                             ?>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
         </div>
     </div>
 </div>
@@ -474,7 +665,7 @@ $(function(){
         let mes = $('select[mes]').val();
         let tipo_relatorio = $('select[tipo_relatorio]').val();
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
-        //alert(mes);
+        //alert('OPC: ' + codigo_fornecedor);
         $.ajax({
             url: 'src/fornecedor/relatorio_fornecedor.php',
             method: 'POST',

@@ -40,7 +40,11 @@
                                         AVG(100 - total_demerito_quality) as quality,
                                         (AVG(eficiencia) + AVG(100 - total_demerito_delivery) + AVG(100 - total_demerito_quality))/3 as classificacao
                                 FROM registros_diarios
-        WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND year(data_registro) = {$Y} AND status = 1");
+        WHERE
+                codigo_fornecedor = {$_POST['codigo_fornecedor']} AND
+                year(data_registro) = {$Y} AND
+                month(data_registro) = {$m} AND
+                status = 1");
 
         $medias->execute();
 
