@@ -65,7 +65,7 @@
                     <?php
                         for($i=1;$i<=12;$i++){
                     ?>
-                        <option value="<?=$i?>"><?=$i?></option>
+                        <option value="<?=str_pad($i , 2 , '0' , STR_PAD_LEFT)?>"><?=str_pad($i , 2 , '0' , STR_PAD_LEFT)?></option>
                     <?php
                         }
                     ?>
