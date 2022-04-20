@@ -103,7 +103,9 @@
             </div>
 
             <!-- GRAFICOS -->
-            <div grafico class="col-12 p-0 mb-3"></div>
+            <div grafico_geral class="col-12 p-0 mb-3"></div>
+            <div grafico_quality class="col-12 p-0 mb-3"></div>
+            <div grafico_delivery class="col-12 p-0 mb-3"></div>
             <div tabela class="col-md-12 mb-3 p-0 ">
 
             </div>
@@ -117,7 +119,27 @@
             method: "POST",
             data: { ano: <?=$Y?> },
             success: function(chart){
-                $('div[grafico]').html(chart)
+                $('div[grafico_geral]').html(chart)
+
+            }
+        })
+
+        $.ajax({
+            url: 'src/pages/chart_quality.php',
+            method: "POST",
+            data: { ano: <?=$Y?> },
+            success: function(chart){
+                $('div[grafico_quality]').html(chart)
+
+            }
+        })
+
+        $.ajax({
+            url: 'src/pages/chart_delivery.php',
+            method: "POST",
+            data: { ano: <?=$Y?> },
+            success: function(chart){
+                $('div[grafico_delivery]').html(chart)
 
             }
         })

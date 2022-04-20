@@ -101,10 +101,10 @@
 ?>
 
 
-<canvas can id="chart_empresas" ></canvas>
+<canvas can id="chart_empresas_geral" ></canvas>
 
 <script>
-    var ctx10 = document.getElementById('chart_empresas');
+    var ctx10 = document.getElementById('chart_empresas_geral');
     var chart_ano = new Chart(ctx10, {
         type: 'line',
         data: {
