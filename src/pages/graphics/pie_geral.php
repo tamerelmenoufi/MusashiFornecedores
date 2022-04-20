@@ -8,29 +8,46 @@
         $Y = $_POST['ano'];
     }
 
-    $query = $pdo->prepare("SELECT 
-    count(CASE WHEN ava.qualificacao_ipf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,  
-    count(CASE WHEN ava.qualificacao_ipf = 'BOM' THEN 1 ELSE NULL END) as bom, 
-    count(CASE WHEN ava.qualificacao_ipf = 'REGULAR' THEN 1 ELSE NULL END) as regular, 
-    count(CASE WHEN ava.qualificacao_ipf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
-    FROM avaliacao_anual ava
-    WHERE ava.ano = '{$Y}' ORDER BY ava.classificacao DESC");
-    $query->execute();
-    
-    $array_valores = [];
-    if($query->rowCount() > 0){
-        $d = $query->fetch();
+    if(!isset($_POST['mes'])){
+        $M = date("m");
+    }else{
+        $M = $_POST['mes'];
+    }
 
-        $array_valores[0] = $d['otimo'];
-        $array_valores[1] = $d['bom'];
-        $array_valores[2] = $d['regular'];
-        $array_valores[3] = $d['deficiente'];
+    $array_valores = [];
+    $array_codigo = [];
+    $array_cor = [];
+    $array_border = [];
+
+    for($i=11; $i>=0; $i--){
+
+        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+        $query = $pdo->prepare("SELECT
+        count(CASE WHEN ava.qualificacao_ipf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,
+        count(CASE WHEN ava.qualificacao_ipf = 'BOM' THEN 1 ELSE NULL END) as bom,
+        count(CASE WHEN ava.qualificacao_ipf = 'REGULAR' THEN 1 ELSE NULL END) as regular,
+        count(CASE WHEN ava.qualificacao_ipf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
+        FROM avaliacao_anual ava
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
+        $query->execute();
+
+        $array_valores = [];
+        if($query->rowCount() > 0){
+            $d = $query->fetch();
+
+            $array_valores[0] = $d['otimo'];
+            $array_valores[1] = $d['bom'];
+            $array_valores[2] = $d['regular'];
+            $array_valores[3] = $d['deficiente'];
+        }
     }
 ?>
 
 
-<canvas can style="" id="pie_geral"></canvas>  
-    
+<canvas can style="" id="pie_geral"></canvas>
+
 <script>
     var ctx10 = document.getElementById('pie_geral');
     var chart_ano = new Chart(ctx10, {
