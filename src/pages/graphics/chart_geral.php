@@ -19,7 +19,9 @@
     $array_cor = [];
     $array_border = [];
 
-    for($i=11; $i>=0; $i--){
+    $i=0;
+
+    //for($i=11; $i>=0; $i--){
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
@@ -57,7 +59,7 @@
                 }
             }
         }
-    }
+    //}
 ?>
 
 
