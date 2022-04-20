@@ -10,7 +10,7 @@
     }
 
     if(isset($_POST['mes'])){
-        $M = $_POST['mes'];
+        $M = str_pad($_POST['mes'] , 2 , '0' , STR_PAD_LEFT);
     }else{
         $M = date("m");
     }
