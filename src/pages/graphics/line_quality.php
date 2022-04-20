@@ -2,6 +2,48 @@
     require_once "../../../lib/config.php";
     global $pdo;
 
+
+    function mesExtenso($mes){
+        switch ($mes) {
+            case '1':
+                return 'Jan';
+                break;
+            case '2':
+                return 'Fev';
+                break;
+            case '3':
+                return 'Mar';
+                break;
+            case '4':
+                return 'Abr';
+                break;
+            case '5':
+                return 'Mai';
+                break;
+            case '6':
+                return 'Jun';
+                break;
+            case '7':
+                return 'Jul';
+                break;
+            case '8':
+                return 'Ago';
+                break;
+            case '9':
+                return 'Set';
+                break;
+            case '10':
+                return 'Out';
+                break;
+            case '11':
+                return 'Nov';
+                break;
+            case '12':
+                return 'Dez';
+                break;
+        }
+    }
+
     function Rand_color() {
         return '#' . str_pad(dechex(mt_Rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
@@ -25,15 +67,15 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
+        $ListaMeses[] = mesExtenso($Mes*1);
+
         $query_quality = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, quality, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
         AND mes = '{$Mes}' ORDER BY nome, mes");
         $query_quality->execute();
 
         if($query_quality->rowCount() > 0){
             while ($fornecedor = $query_quality->fetch()) {
-                for($i=0;$i<count($meses);$i++){
-                    $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$meses[$i]] =  false;
-                }
+                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  false;
             }
 
             $query_quality->execute();
@@ -57,7 +99,7 @@
         type: 'line',
         data: {
             labels: [
-                'jan','fev','mar','abr','mai','jun','jul','ago','out','nov','dez'
+                '<?=implode("','", $ListaMeses)?>'
             ],
             datasets: [
             <?php

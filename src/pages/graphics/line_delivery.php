@@ -2,47 +2,98 @@
     require_once "../../../lib/config.php";
     global $pdo;
 
-    if(!isset($_POST['ano'])){
-        $Y = date("Y");
-    }else{
-        $Y = $_POST['ano'];
+    function mesExtenso($mes){
+        switch ($mes) {
+            case '1':
+                return 'Jan';
+                break;
+            case '2':
+                return 'Fev';
+                break;
+            case '3':
+                return 'Mar';
+                break;
+            case '4':
+                return 'Abr';
+                break;
+            case '5':
+                return 'Mai';
+                break;
+            case '6':
+                return 'Jun';
+                break;
+            case '7':
+                return 'Jul';
+                break;
+            case '8':
+                return 'Ago';
+                break;
+            case '9':
+                return 'Set';
+                break;
+            case '10':
+                return 'Out';
+                break;
+            case '11':
+                return 'Nov';
+                break;
+            case '12':
+                return 'Dez';
+                break;
+        }
     }
 
     function Rand_color() {
         return '#' . str_pad(dechex(mt_Rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
 
-    $meses = [];
-    $fornecedores = [];
-    for($i = 1; $i <= 12; $i++){
-        $meses[] =  $i;
+
+    if(!isset($_POST['ano'])){
+        $Y = date("Y");
+    }else{
+        $Y = $_POST['ano'];
     }
 
-    $query_delivery = $pdo->prepare("SELECT f.nome, codigo_fornecedor, delivery, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Y}'
-    AND mes in ('".implode("','", $meses)."') ORDER BY nome, mes");
-    $query_delivery->execute();
+    if(!isset($_POST['mes'])){
+        $M = date("m");
+    }else{
+        $M = $_POST['mes'];
+    }
 
-    if($query_delivery->rowCount() > 0){
-        while ($fornecedor = $query_delivery->fetch()) {
-            for($i=0;$i<count($meses);$i++){
-                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$meses[$i]] =  false;
-            }       
-        }
+    $fornecedores = [];
 
+    for($i=11; $i>=0; $i--){
+
+        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+        $ListaMeses[] = mesExtenso($Mes*1);
+
+
+        $query_delivery = $pdo->prepare("SELECT f.nome, codigo_fornecedor, delivery, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
+        AND mes ='{$Mes}' ORDER BY nome, mes");
         $query_delivery->execute();
-        
-        while ($fornecedor = $query_delivery->fetch()) {
-            $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['delivery'].'"';
-                
-            $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
-            $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();            
+
+        if($query_delivery->rowCount() > 0){
+            while ($fornecedor = $query_delivery->fetch()) {
+                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  false;
+            }
+
+            $query_delivery->execute();
+
+            while ($fornecedor = $query_delivery->fetch()) {
+                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['delivery'].'"';
+
+                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
+                $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();
+            }
         }
     }
 ?>
 
 
-<canvas can id="line_delivery" ></canvas>  
-    
+<canvas can id="line_delivery" ></canvas>
+
 <script>
     var ctx10 = document.getElementById('line_delivery');
     var chart_ano = new Chart(ctx10, {
