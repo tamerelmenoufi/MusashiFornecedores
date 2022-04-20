@@ -4,7 +4,6 @@
         $retorno = "src/pages/login.php";
     }else{
         $retorno = "src/pages/home.php";
-        //$retorno = "src/fornecedor/fornecedor_lista.php";
     }
 
     $Y = date("Y");

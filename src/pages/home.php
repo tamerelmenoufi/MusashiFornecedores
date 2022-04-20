@@ -88,7 +88,7 @@
                         <?php
                             $query = $pdo->prepare("SELECT ano FROM avaliacao_anual GROUP BY ano");
                             $query->execute();
-    
+
                             while($options = $query->fetch()){
                         ?>
                             <option value="<?=$options['ano']?>"><?=$options['ano']?></option>
@@ -103,22 +103,22 @@
             </div>
 
             <!-- GRAFICOS -->
-            <div grafico class="col-12 p-0 mb-3"></div> 
+            <div grafico class="col-12 p-0 mb-3"></div>
             <div tabela class="col-md-12 mb-3 p-0 ">
-                
+
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 <script>
     $(function(){
         $.ajax({
-            url: 'src/pages/chart.php',
+            url: 'src/pages/chart_geral.php',
             method: "POST",
             data: { ano: <?=$Y?> },
             success: function(chart){
                 $('div[grafico]').html(chart)
-                
+
             }
         })
 
@@ -128,11 +128,11 @@
             data: { ano: <?=$Y?> },
             success: function(tabela){
                 $('div[tabela]').html(tabela)
-                
+
             }
         })
     })
-    
+
     $('button[imprimir]').click(function(){
         window.print();
     })
