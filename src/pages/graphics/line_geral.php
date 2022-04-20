@@ -65,8 +65,9 @@
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+        $a = date("y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        $ListaMeses[] = mesExtenso($Mes*1);
+        $ListaMeses[] = mesExtenso($Mes*1)."/{$a}";
 
         $query_classificacao = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, classificacao, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
         AND mes ='{$Mes}' ORDER BY nome, mes");

@@ -67,7 +67,9 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        $ListaMeses[] = mesExtenso($Mes*1);
+        $a = date("y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+        $ListaMeses[] = mesExtenso($Mes*1)."/{$a}";
 
 
         $query_delivery = $pdo->prepare("SELECT f.nome, codigo_fornecedor, delivery, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
