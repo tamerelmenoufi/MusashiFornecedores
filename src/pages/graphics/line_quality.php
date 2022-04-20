@@ -2,47 +2,55 @@
     require_once "../../../lib/config.php";
     global $pdo;
 
+    function Rand_color() {
+        return '#' . str_pad(dechex(mt_Rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+    }
+
     if(!isset($_POST['ano'])){
         $Y = date("Y");
     }else{
         $Y = $_POST['ano'];
     }
 
-    function Rand_color() {
-        return '#' . str_pad(dechex(mt_Rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+    if(!isset($_POST['mes'])){
+        $M = date("m");
+    }else{
+        $M = $_POST['mes'];
     }
 
-    $meses = [];
     $fornecedores = [];
-    for($i = 1; $i <= 12; $i++){
-        $meses[] =  $i;
-    }
 
-    $query_quality = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, quality, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Y}'
-    AND mes in ('".implode("','", $meses)."') ORDER BY nome, mes");
-    $query_quality->execute();
+    for($i=11; $i>=0; $i--){
 
-    if($query_quality->rowCount() > 0){
-        while ($fornecedor = $query_quality->fetch()) {
-            for($i=0;$i<count($meses);$i++){
-                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$meses[$i]] =  false;
-            }       
-        }
+        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
+        $query_quality = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, quality, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
+        AND mes = '{$Mes}' ORDER BY nome, mes");
         $query_quality->execute();
-        
-        while ($fornecedor = $query_quality->fetch()) {
-            $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['quality'].'"';
-                
-            $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
-            $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();            
+
+        if($query_quality->rowCount() > 0){
+            while ($fornecedor = $query_quality->fetch()) {
+                for($i=0;$i<count($meses);$i++){
+                    $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$meses[$i]] =  false;
+                }
+            }
+
+            $query_quality->execute();
+
+            while ($fornecedor = $query_quality->fetch()) {
+                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['quality'].'"';
+
+                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
+                $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();
+            }
         }
     }
 ?>
 
 
-<canvas can id="line_quality" ></canvas>  
-    
+<canvas can id="line_quality" ></canvas>
+
 <script>
     var ctx10 = document.getElementById('line_quality');
     var chart_ano = new Chart(ctx10, {
