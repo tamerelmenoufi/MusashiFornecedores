@@ -43,7 +43,7 @@
                 if($d['quality'] < 77.99){
                     $array_cor[] = '"#dc3545"'; /// DEFICIENTE
                     $array_border[] = '"#dc3545"';
-                }elseif($d['quality'] > 78.00 && $d['quality'] < 91.99){///// REGULAR
+                }elseif($d['quality'] > 78.00 && $d['quality'] < 91.99){ ///// REGULAR
                     $array_cor[] = '"#ffc107"';
                     $array_border[] = '"#ffc107"';
                 }elseif($d['quality'] > 92.00 && $d['quality'] < 98.99){ //// BOM
