@@ -29,7 +29,7 @@
         count(CASE WHEN ava.qualificacao_iaf = 'BOM' THEN 1 ELSE NULL END) as bom,
         count(CASE WHEN ava.qualificacao_iaf = 'REGULAR' THEN 1 ELSE NULL END) as regular,
         count(CASE WHEN ava.qualificacao_iaf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
-        FROM avaliacao_anual ava
+        FROM avaliacao_mensal ava
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
         $query->execute();
 
