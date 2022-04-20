@@ -43,7 +43,7 @@
         <div class="col-md-3 noprint d-flex p-0 mb-3">
             <div class="input-group">
                 <select ano class="form-select">
-                    <option disabled value="<?=$Y?>" selected><?=$Y?></option>
+                    <option value="<?=$Y?>" selected><?=$Y?></option>
                     <?php
                         $query = $pdo->prepare("SELECT ano FROM avaliacao_anual GROUP BY ano");
                         $query->execute();
@@ -61,7 +61,7 @@
         <div class="col-md-3 noprint d-flex p-0 mb-3">
             <div class="input-group">
                 <select mes class="form-select">
-                    <option disabled value="<?=$M?>" selected><?=$M?></option>
+                    <option value="<?=$M?>" selected><?=$M?></option>
                     <?php
                         for($i=1;$i<=12;$i++){
                     ?>
