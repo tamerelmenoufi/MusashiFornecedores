@@ -227,7 +227,7 @@
         $.ajax({
             url: 'src/pages/graphics/chart_geral.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(chart_geral){
                 $('div[grafico_geral]').html(chart_geral)
 
@@ -237,7 +237,7 @@
         $.ajax({
             url: 'src/pages/graphics/pie_geral.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(pie_geral){
                 $('div[pie_geral]').html(pie_geral)
             }
@@ -246,7 +246,7 @@
         $.ajax({
             url: 'src/pages/graphics/line_geral.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(line_geral){
                 $('div[line_geral]').html(line_geral)
             }
@@ -257,7 +257,7 @@
         $.ajax({
             url: 'src/pages/graphics/chart_delivery.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(chart_delivery){
                 $('div[grafico_delivery]').html(chart_delivery)
 
@@ -267,7 +267,7 @@
         $.ajax({
             url: 'src/pages/graphics/pie_delivery.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(pie_delivery){
                 $('div[pie_delivery]').html(pie_delivery)
             }
@@ -276,7 +276,7 @@
         $.ajax({
             url: 'src/pages/graphics/line_delivery.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(line_delivery){
                 $('div[line_delivery]').html(line_delivery)
             }
@@ -287,7 +287,7 @@
         $.ajax({
             url: 'src/pages/graphics/chart_quality.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(chart_quality){
                 $('div[grafico_quality]').html(chart_quality)
 
@@ -297,7 +297,7 @@
         $.ajax({
             url: 'src/pages/graphics/pie_quality.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(pie_quality){
                 $('div[pie_quality]').html(pie_quality)
             }
@@ -306,7 +306,7 @@
         $.ajax({
             url: 'src/pages/graphics/line_quality.php',
             method: "POST",
-            data: { ano: <?=$Y?> },
+            data: { ano: <?=$Y?>, mes: <?=$M?> },
             success: function(line_quality){
                 $('div[line_quality]').html(line_quality)
             }
@@ -314,8 +314,8 @@
     })
 
     $('select[ano], select[mes]').change(function(){
-        let ano = $("select[ano]").val()
-        let mes = $("select[mes]").val()
+        let ano = $("select[ano]").val();
+        let mes = $("select[mes]").val();
 
         $.ajax({
             url: "src/pages/resumo.php",
@@ -323,7 +323,8 @@
             data:{
                 ano,
                 mes
-            },success: function(grafico){
+            },
+            success: function(grafico){
                 $('div#home').html(grafico)
             }
         })
