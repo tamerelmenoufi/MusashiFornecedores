@@ -12,7 +12,7 @@
     if(isset($_POST['mes'])){
         $M = $_POST['mes'];
     }else{
-        $M = date("Y");
+        $M = date("m");
     }
 
 ?>
@@ -40,7 +40,7 @@
 <div class="container p-2">
     <div class="row justify-content-center align-items-center mt-3 p-2">
         <button legenda class="btn btn-warning position-fixed" style="left: 30px; top: 90px; width: 40px; color: #fff; z-index: 999; font-size: 20px; font-weight: 800">?</button>
-        <div class="col-md-5 noprint d-flex p-0 mb-3">
+        <div class="col-md-3 noprint d-flex p-0 mb-3">
             <div class="input-group">
                 <select ano class="form-select">
                     <option disabled value="<?=$Y?>" selected><?=$Y?></option>
@@ -57,8 +57,8 @@
                 </select>
             </div>
         </div>
-
-        <div class="col-md-5 noprint d-flex p-0 mb-3">
+        <div class="col-md-4 noprint d-flex p-0 mb-3"></div>
+        <div class="col-md-3 noprint d-flex p-0 mb-3">
             <div class="input-group">
                 <select mes class="form-select">
                     <option disabled value="<?=$M?>" selected><?=$M?></option>
