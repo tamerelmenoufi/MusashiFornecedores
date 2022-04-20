@@ -2,49 +2,43 @@
     require_once "../../../lib/config.php";
     global $pdo;
 
-    if(!isset($_POST['ano'])){
-        $Y = date("Y");
-    }else{
-        $Y = $_POST['ano'];
-    }
-
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
-                return 'Janeiro';
+                return 'Jan';
                 break;
             case '2':
-                return 'Fevereiro';
+                return 'Fev';
                 break;
             case '3':
-                return 'Março';
+                return 'Mar';
                 break;
             case '4':
-                return 'Abril';
+                return 'Abr';
                 break;
             case '5':
-                return 'Maio';
+                return 'Mai';
                 break;
             case '6':
-                return 'Junho';
+                return 'Jun';
                 break;
             case '7':
-                return 'Julho';
+                return 'Jul';
                 break;
             case '8':
-                return 'Agosto';
+                return 'Ago';
                 break;
             case '9':
-                return 'Setembro';
+                return 'Set';
                 break;
             case '10':
-                return 'Outubro';
+                return 'Out';
                 break;
             case '11':
-                return 'Novembro';
+                return 'Nov';
                 break;
             case '12':
-                return 'Dezembro';
+                return 'Dez';
                 break;
         }
     }
@@ -53,46 +47,60 @@
         return '#' . str_pad(dechex(mt_Rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
 
-
-    $meses = [];
-    $fornecedores = [];
-    for($i = 1; $i <= 12; $i++){
-        $meses[] =  $i;
+    if(!isset($_POST['ano'])){
+        $Y = date("Y");
+    }else{
+        $Y = $_POST['ano'];
     }
 
-    $query_classificacao = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, classificacao, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Y}'
-    AND mes in ('".implode("','", $meses)."') ORDER BY nome, mes");
-    $query_classificacao->execute();
+    if(!isset($_POST['mes'])){
+        $M = date("m");
+    }else{
+        $M = $_POST['mes'];
+    }
 
-    if($query_classificacao->rowCount() > 0){
-        while ($fornecedor = $query_classificacao->fetch()) {
-            for($i=0;$i<count($meses);$i++){
-                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$meses[$i]] =  false;
-            }       
-        }
+    $fornecedores = [];
 
+    for($i=11; $i>=0; $i--){
+
+        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+        $ListaMeses[] = mesExtenso($Mes*1);
+
+        $query_classificacao = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, classificacao, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
+        AND mes ='{$Mes}' ORDER BY nome, mes");
         $query_classificacao->execute();
-        
-        while ($fornecedor = $query_classificacao->fetch()) {
-            $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['classificacao'].'"';
-                
-            $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
-            
-            $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();            
+
+        if($query_classificacao->rowCount() > 0){
+
+            while ($fornecedor = $query_classificacao->fetch()) {
+                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  false;
+            }
+
+            $query_classificacao->execute();
+
+            while ($fornecedor = $query_classificacao->fetch()) {
+                $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['classificacao'].'"';
+
+                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
+
+                $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();
+            }
         }
     }
 ?>
 
 
-<canvas can id="line_geral" ></canvas>  
-    
+<canvas can id="line_geral" ></canvas>
+
 <script>
     var ctx10 = document.getElementById('line_geral');
     var chart_ano = new Chart(ctx10, {
         type: 'line',
         data: {
             labels: [
-                'jan','fev','mar','abr','mai','jun','jul','ago','out','nov','dez'
+                '<?=implode("','", $ListaMeses)?>'
             ],
             datasets: [
             <?php
