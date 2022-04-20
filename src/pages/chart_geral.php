@@ -8,6 +8,14 @@
         $Y = $_POST['ano'];
     }
 
+    function Limites($vetor, $val){
+        $r = [];
+        for($i=0;$i<count($vetor);$i++){
+            $r[] = $val;
+        }
+        return implode(', ', $r);
+    }
+
     function mesExtenso($mes){
         switch ($mes) {
             case '1':
@@ -118,7 +126,7 @@
                 backgroundColor: '#d11527',
                 borderColor: '#d11527',
                 borderWidth: 1,
-                data: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
+                data: [<?=Limites($array_valores, 85)?>],
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
@@ -128,7 +136,7 @@
                 backgroundColor: 'rgb(33,214,33)',
                 borderColor: 'rgb(33,214,33)',
                 borderWidth: 1,
-                data: [94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94],
+                data: <?=Limites($array_valores, 94)?>],
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
