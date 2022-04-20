@@ -3,8 +3,8 @@
     if(!isset($_SESSION['musashi_cod_usu'])){
         $retorno = "src/pages/login.php";
     }else{
-        //$retorno = "src/pages/home.php";
-        $retorno = "src/fornecedor/fornecedor_lista.php";
+        $retorno = "src/pages/home.php";
+        //$retorno = "src/fornecedor/fornecedor_lista.php";
     }
 
     $Y = date("Y");
