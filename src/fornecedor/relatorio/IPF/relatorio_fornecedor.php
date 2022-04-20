@@ -272,7 +272,7 @@
                 $sql->bindValue(":m", $M);
                 $sql->execute();
 
-                if($sql->rowCount()){
+                //if($sql->rowCount()){
                     $pontuacao = $sql->fetch();
 
                     $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = :y  AND mes = :m AND status = 1");
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                 <?php
-                }
+                //}
                 ?>
         </div>
     </div>
