@@ -37,10 +37,10 @@
         if($query->rowCount() > 0){
             $d = $query->fetch();
 
-            $array_valores[0] = $d['otimo'];
-            $array_valores[1] = $d['bom'];
-            $array_valores[2] = $d['regular'];
-            $array_valores[3] = $d['deficiente'];
+            $array_valores[0] += $d['otimo'];
+            $array_valores[1] += $d['bom'];
+            $array_valores[2] += $d['regular'];
+            $array_valores[3] += $d['deficiente'];
         }
     }
 ?>
