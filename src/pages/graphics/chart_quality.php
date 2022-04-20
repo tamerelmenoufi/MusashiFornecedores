@@ -21,6 +21,9 @@
 
     for($i=11; $i>=0; $i--){
 
+        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
@@ -33,9 +36,9 @@
 
         if($query->rowCount() > 0){
             while($d = $query->fetch()) {
+
                 $array_codigo[] =  "'".str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)."'";
                 $array_valores[] = "'".$d['quality']."'";
-
 
                 if($d['quality'] < 77.99){
                     $array_cor[] = '"#dc3545"'; /// DEFICIENTE
