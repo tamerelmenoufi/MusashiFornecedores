@@ -102,7 +102,7 @@
         type: 'line',
         data: {
             labels: [
-                'jan','fev','mar','abr','mai','jun','jul','ago','out','nov','dez'
+                '<?=implode("','", $ListaMeses)?>'
             ],
             datasets: [
             <?php
