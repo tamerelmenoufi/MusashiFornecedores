@@ -84,7 +84,7 @@
             while ($fornecedor = $query_classificacao->fetch()) {
                 $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['classificacao'].'"';
 
-                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
+                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = $fornecedor['nome']; //'00'.$fornecedor['codigo_fornecedor'].'';
 
                 $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();
             }

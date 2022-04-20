@@ -85,7 +85,7 @@
             while ($fornecedor = $query_quality->fetch()) {
                 $fornecedores[$fornecedor['codigo_fornecedor']]['dados'][$fornecedor['mes']] =  '"'.$fornecedor['quality'].'"';
 
-                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = '00'.$fornecedor['codigo_fornecedor'].'';
+                $fornecedores[$fornecedor['codigo_fornecedor']]['codigo'] = $fornecedor['nome']; //'00'.$fornecedor['codigo_fornecedor'].'';
                 $fornecedores[$fornecedor['codigo_fornecedor']]['cor'] = Rand_color();
             }
         }
