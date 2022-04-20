@@ -24,18 +24,6 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-echo "SELECT f.nome,
-f.codigo as fornecedor_codigo,
-ava.ano,
-ava.classificacao,
-ava.quality,
-ava.delivery,
-ava.posicao
-FROM avaliacao_anual ava
-LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC";
-
-
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
@@ -43,7 +31,7 @@ WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC"
         ava.quality,
         ava.delivery,
         ava.posicao
-        FROM avaliacao_anual ava
+        FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
         $query->execute();
