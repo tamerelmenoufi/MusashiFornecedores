@@ -19,9 +19,7 @@
     $array_cor = [];
     $array_border = [];
 
-    $i=0;
-
-    //for($i=11; $i>=0; $i--){
+    for($i=11; $i>=0; $i--){
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
@@ -55,9 +53,10 @@
                     $array_cor[] = '"#28a745"';
                     $array_border[] = '"#198754"';
                 }
+                break;
             }
         }
-    // }
+    }
 ?>
 
 
