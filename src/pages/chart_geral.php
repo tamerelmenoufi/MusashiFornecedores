@@ -136,7 +136,7 @@
                 backgroundColor: 'rgb(33,214,33)',
                 borderColor: 'rgb(33,214,33)',
                 borderWidth: 1,
-                data: <?=Limites($array_valores, 94)?>],
+                data: [<?=Limites($array_valores, 94)?>],
                 stack: 'combined',
                 borderDash: [5,5],
                 borderWidth: 2
