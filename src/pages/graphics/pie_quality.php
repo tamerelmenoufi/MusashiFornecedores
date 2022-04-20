@@ -24,13 +24,13 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        echo "SELECT
-        count(CASE WHEN ava.qualificacao_iqf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,
-        count(CASE WHEN ava.qualificacao_iqf = 'BOM' THEN 1 ELSE NULL END) as bom,
-        count(CASE WHEN ava.qualificacao_iqf = 'REGULAR' THEN 1 ELSE NULL END) as regular,
-        count(CASE WHEN ava.qualificacao_iqf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
-        FROM avaliacao_mensal ava
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC<br>";
+        // echo "SELECT
+        // count(CASE WHEN ava.qualificacao_iqf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,
+        // count(CASE WHEN ava.qualificacao_iqf = 'BOM' THEN 1 ELSE NULL END) as bom,
+        // count(CASE WHEN ava.qualificacao_iqf = 'REGULAR' THEN 1 ELSE NULL END) as regular,
+        // count(CASE WHEN ava.qualificacao_iqf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
+        // FROM avaliacao_mensal ava
+        // WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC<br>";
 
         $query = $pdo->prepare("SELECT
         count(CASE WHEN ava.qualificacao_iqf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,
