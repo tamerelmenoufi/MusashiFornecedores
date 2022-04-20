@@ -8,7 +8,13 @@
     }else{
         $Y = date("Y");
     }
-    
+
+    if(isset($_POST['mes'])){
+        $M = $_POST['mes'];
+    }else{
+        $M = date("Y");
+    }
+
 ?>
 <style>
     @media print {
@@ -32,9 +38,9 @@
     }
 </style>
 <div class="container p-2">
-    <div class="row justify-content-center align-items-center mt-3 p-2">  
+    <div class="row justify-content-center align-items-center mt-3 p-2">
         <button legenda class="btn btn-warning position-fixed" style="left: 30px; top: 90px; width: 40px; color: #fff; z-index: 999; font-size: 20px; font-weight: 800">?</button>
-        <div class="col-md-10 noprint d-flex p-0 mb-3">
+        <div class="col-md-5 noprint d-flex p-0 mb-3">
             <div class="input-group">
                 <select ano class="form-select">
                     <option disabled value="<?=$Y?>" selected><?=$Y?></option>
@@ -51,6 +57,22 @@
                 </select>
             </div>
         </div>
+
+        <div class="col-md-5 noprint d-flex p-0 mb-3">
+            <div class="input-group">
+                <select mes class="form-select">
+                    <option disabled value="<?=$M?>" selected><?=$M?></option>
+                    <?php
+                        for($i=1;$i<=12;$i++){
+                    ?>
+                        <option value="<?=$i?>"><?=$i?></option>
+                    <?php
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+
         <!-- GRAFICOS -->
         <div class="card p-0 col-md-10" style="border-radius: 15px !important; overflow: hidden">
             <div class="card-header p-3 ">
@@ -59,9 +81,9 @@
 
             <div class="row card-body justify-content-center">
                 <div grafico_geral class="col-md-8 grafico"></div>
-                
+
                 <div pie_geral class="col-md-4 grafico"></div>
-                
+
                 <div line_geral class="col-md-12 grafico"></div>
             </div>
             <div class="card-footer p-0">
@@ -98,8 +120,8 @@
             </div>
         </div>
     </div>
-    
-    <div class="row justify-content-center align-items-center mt-3">  
+
+    <div class="row justify-content-center align-items-center mt-3">
         <!-- GRAFICOS -->
         <div class="card p-0 col-md-10" style="border-radius: 15px !important; overflow: hidden">
             <div class="card-header p-3 ">
@@ -108,9 +130,9 @@
 
             <div class="row card-body justify-content-center">
                 <div grafico_delivery class="col-md-8 grafico"></div>
-                
+
                 <div pie_delivery class="col-md-4 grafico"></div>
-                
+
                 <div line_delivery class="col-md-12 grafico"></div>
             </div>
             <div class="card-footer p-0">
@@ -148,7 +170,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center align-items-center mt-3">  
+    <div class="row justify-content-center align-items-center mt-3">
         <!-- GRAFICOS -->
         <div class="card p-0 col-md-10" style="border-radius: 15px !important; overflow: hidden">
             <div class="card-header p-3 ">
@@ -157,9 +179,9 @@
 
             <div class="row card-body justify-content-center">
                 <div grafico_quality class="col-md-8 grafico"></div>
-                
+
                 <div pie_quality class="col-md-4 grafico"></div>
-                
+
                 <div line_quality class="col-md-12 grafico"></div>
             </div>
             <div class="card-footer p-0">
@@ -196,7 +218,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 <script>
     $(function(){
 
@@ -208,7 +230,7 @@
             data: { ano: <?=$Y?> },
             success: function(chart_geral){
                 $('div[grafico_geral]').html(chart_geral)
-                
+
             }
         })
 
@@ -238,7 +260,7 @@
             data: { ano: <?=$Y?> },
             success: function(chart_delivery){
                 $('div[grafico_delivery]').html(chart_delivery)
-                
+
             }
         })
 
@@ -268,7 +290,7 @@
             data: { ano: <?=$Y?> },
             success: function(chart_quality){
                 $('div[grafico_quality]').html(chart_quality)
-                
+
             }
         })
 
@@ -291,14 +313,16 @@
         })
     })
 
-    $('select[ano]').change(function(){
+    $('select[ano], select[mes]').change(function(){
         let ano = $("select[ano]").val()
+        let mes = $("select[mes]").val()
 
         $.ajax({
             url: "src/pages/resumo.php",
             method: "POST",
             data:{
-                ano
+                ano,
+                mes
             },success: function(grafico){
                 $('div#home').html(grafico)
             }
