@@ -141,24 +141,16 @@
         let ano = $("select[ano]").val()
 
         $.ajax({
-            url: "src/pages/chart.php",
+            url: "src/pages/home.php",
             method: "POST",
             data:{
                 ano
-            },success: function(grafico){
-                $("div[grafico]").html(grafico)
-
-                $.ajax({
-                    url: "src/pages/table.php",
-                    method: "POST",
-                    data:{
-                        ano,
-                    },success: function(tabela){
-                        $("div[tabela]").html(tabela)
-                    }
-                })
+            },
+            success: function(retorno){
+                $('div#body').html(retorno);
             }
         })
+
     })
 
     $('button[legenda]').click(function(){
