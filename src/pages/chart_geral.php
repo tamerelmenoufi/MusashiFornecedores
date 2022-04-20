@@ -143,8 +143,8 @@
             },
             scales: {
                 y: {
-                    min: <?=$minfinal?>,
-                    max: 100,
+                    min: 0,
+                    max: 110,
                 },
                 x: {
                     display: true,
