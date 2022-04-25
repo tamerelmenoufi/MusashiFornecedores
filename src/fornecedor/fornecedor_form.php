@@ -4,7 +4,7 @@
     }
 </style>
 <div class="container-fluid position-absolute h-100">
-    <form class="row justify-content-center align-items-center h-100  needs-validation" novalidate>
+    <form class="row justify-content-center align-items-center h-100 needs-validation mt-4" novalidate>
         <div class="col-md-8 card p-0">
             <div class="card-header fw-bolder">
                 <h3><i class="fa fa-wpforms" aria-hidden="true"></i> Cadastro de Fornecedor</h3> 
@@ -18,6 +18,10 @@
                     <div class="col-md-12">
                         <label for="cnpj" class="form-label">CNPJ:</label>
                         <input type="text" name="cnpj"  class="form-control cnpj" id="cnpj" maxlenght="14" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="senha" class="form-label">Senha de acesso:</label>
+                        <input type="text" class="form-control" name="senha" id="senha" required>
                     </div>
                     <div class="col-md-4">
                         <label for="data_inicio" class="form-label">Data de Inicio:</label>
@@ -65,23 +69,22 @@
                 // dados do fornecedor
                 let empresa = $('input#nome_fornecedor').val()
                 let cnpj = $('input#cnpj').val()
+                let senha = $('input#senha').val()
                 let data_inicio = $('input#data_inicio').val()
                 let data_fim = $('input#data_fim').val()
                 let tipo = $('select#tipo').val()
 
                 
                 if (!form.checkValidity()) {
-
                     $.alert('<h4 class="text-warning">Aviso <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h4><p>Preencha corretamente todos os campos.</p>')
-
                 }else{
-
                     $.ajax({
                         url: 'src/fornecedor/actions/form_action.php',
                         method: 'POST',
                         data: {
                             empresa,
                             cnpj,
+                            senha,
                             data_inicio,
                             data_fim,
                             tipo,

@@ -6,6 +6,7 @@
         $sql = $pdo->prepare("UPDATE fornecedores SET 
         nome = :n, 
         cnpj = :cnpj, 
+        senha = :senha,               
         tipo = :t, 
         data_inicio = :di, 
         data_fim = :df
@@ -13,6 +14,7 @@
 
         $sql->bindValue(":n", utf8_decode($_POST['empresa']));
         $sql->bindValue(":cnpj", $_POST['cnpj']);
+        $sql->bindValue(":senha", $_POST['senha']);
         $sql->bindValue(":t", $_POST['tipo']);
         $sql->bindValue(":di", $_POST['data_inicio']);
         $sql->bindValue(":df", $_POST['data_fim']);
@@ -35,7 +37,7 @@
         let local = $(this).attr('local')
         $.ajax({
             url: local,
-            success: function(retorno){ 
+            success: function(retorno){
                 popup_att_resultado.close()
                 $('div#home').html(retorno)
             }

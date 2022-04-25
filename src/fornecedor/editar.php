@@ -38,6 +38,10 @@
                         <label for="cnpj" class="form-label">CNPJ:</label>
                         <input type="text" name="cnpj"  class="form-control cnpj" id="cnpj" maxlenght="14" value="<?=$d['cnpj']?>" required>
                     </div>
+                    <div class="col-md-12">
+                        <label for="senha" class="form-label">Senha de acesso:</label>
+                        <input type="text" class="form-control" name="senha" id="senha" value="<?=$d['senha']?>" required>
+                    </div>
                     <div class="col-md-4">
                         <label for="data_inicio" class="form-label">Data de Inicio:</label>
                         <input type="date" class="form-control" name="data_inicio" id="data_inicio" value="<?=$d['data_inicio']?>" required>
@@ -152,7 +156,6 @@
         })
     })
 
-
     $('button[excluir_contato]').click(function(){
         codigo = $(this).attr("cod");
         $.confirm({
@@ -182,8 +185,6 @@
     })
 
 
-
-
     popup_att_resultado = '';
 
 
@@ -196,6 +197,7 @@
                 let codigo = $(this).attr("cod")
                 let empresa = $('input#nome_fornecedor').val()
                 let cnpj = $('input#cnpj').val()
+                let senha = $('input#senha').val()
                 let data_inicio = $('input#data_inicio').val()
                 let data_fim = $('input#data_fim').val()
                 let tipo = $('select#tipo').val()
@@ -214,6 +216,7 @@
                             codigo,
                             empresa,
                             cnpj,
+                            senha,
                             data_inicio,
                             data_fim,
                             tipo,
