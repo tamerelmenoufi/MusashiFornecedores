@@ -26,6 +26,7 @@
     }
   }
 </style>
+
 <div class="container-fluid p-0" style="position: fixed; top: 0; z-index: 9999;">
     <nav menu class="navbar navbar-expand-lg navbar-light bg-light noprint nav-tabs" style="height: 20%">
       <div class="container-fluid">
@@ -89,6 +90,7 @@
       </div>
     </nav>
 </div>
+
 <script>
     $('a[abrir]').click(function(){
         let local = $(this).attr('local')

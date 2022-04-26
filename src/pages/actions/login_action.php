@@ -38,7 +38,6 @@ if ($_POST['acao'] == 'logar') {
     $UsuCod = $sql->fetch();
 
     if ($sql->rowCount() > 0) {
-        $_SESSION['musashi_cod_usu'] = $UsuCod['codigo'];
         $url = "";
 
         if($tipo === "administrador"){
@@ -46,8 +45,7 @@ if ($_POST['acao'] == 'logar') {
             $url = "src/pages/home.php";
         }elseif($tipo === "fornecedor"){
             $_SESSION['musashi_cod_forn'] = $UsuCod['codigo'];
-            $_SESSION['musashi_cod_usu'] = $UsuCod['codigo'];
-            $url = "src/pages/home_fornecedor.php";
+            $url = "src/consultar/home.php";
         }
 
         echo json_encode(["status" => true, "url" => $url]);

@@ -1,5 +1,6 @@
 <?php
 require "../../lib/config.php";
+session_destroy();
 ?>
 
 <div tela_login class="container-fluid position-absolute h-100">
@@ -83,10 +84,9 @@ require "../../lib/config.php";
                 if (retorno.status === false) {
                     $.alert(msg)
                 } else {
-                    let url = tipo === 'fornecedor' ? 'src/pages/home_fornecedor.php' : 'src/pages/home.php';
 
                     $.ajax({
-                        url : retorno.url,
+                        url: retorno.url,
                         success: function (home) {
                             $('div#body').html(home)
                         }
@@ -107,6 +107,8 @@ require "../../lib/config.php";
     });
 
     $(".form-check-tipo").change(function () {
+        $("input#cnpj, input#user, input#senha").val("");
+
         var val = $(this).val();
 
         if (val == "administrador") {
@@ -116,7 +118,5 @@ require "../../lib/config.php";
             $(".cnpj-container").show();
             $(".user").hide();
         }
-
-
     });
 </script>
