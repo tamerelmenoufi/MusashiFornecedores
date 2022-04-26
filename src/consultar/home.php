@@ -46,11 +46,8 @@ if (isset($_POST['ano'])) {
 <script>
     $(function () {
         $.ajax({
-            url: "src/fornecedor/relatorio_fornecedor.php",
-            type: "POST",
-            data: {
-                codigo_fornecedor: "<?=$_SESSION['musashi_cod_forn']; ?>",
-            },
+            url: "src/consultar/listagem_mes.php",
+            type: "GET",
             success: function (retorno) {
                 $("div#home").html(retorno);
             }
