@@ -366,7 +366,7 @@ $(function(){
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
         //alert(mes);
         $.ajax({
-            url: 'src/fornecedor/relatorio_fornecedor.php',
+            url: 'src/consultar/relatorio_fornecedor.php',
             method: 'POST',
             data: {
                 codigo_fornecedor,
@@ -432,7 +432,7 @@ $(function(){
         })
 
         $.ajax({
-            url: 'src/fornecedor/relatorio_fornecedor.php',
+            url: 'src/consultar/relatorio_fornecedor.php',
             method: 'POST',
             data: {
                 codigo_fornecedor,
@@ -478,7 +478,7 @@ $(function(){
     let tipo_relatorio = '<?=$tipo_relatorio?>';
 
     $.ajax({
-        url: 'src/fornecedor/relatorio/<?=$tipo_relatorio?>/barras.php',
+        url: 'src/consultar/relatorio/<?=$tipo_relatorio?>/barras.php',
         method: 'POST',
         data: {
             codigo: codigo_fornecedor,
@@ -492,7 +492,7 @@ $(function(){
     })
 
     $.ajax({
-        url: 'src/fornecedor/relatorio/<?=$tipo_relatorio?>/linhas.php',
+        url: 'src/consultar/relatorio/<?=$tipo_relatorio?>/linhas.php',
         method: 'POST',
         data: {
             codigo: codigo_fornecedor,

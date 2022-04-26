@@ -49,6 +49,8 @@ require "../../lib/config.php";
                                 <button
                                         relatorio
                                         cod="<?= $d['codigo'] ?>"
+                                        mes="<?= $d['mes'] ?>"
+                                        ano="<?= $d['ano'] ?>"
                                         type="button"
                                         class="btn btn-success btn-sm"
                                         title="Relatório"
@@ -77,12 +79,16 @@ require "../../lib/config.php";
     $(function () {
         $('button[relatorio]').click(function () {
             let codigo_fornecedor = $(this).attr('cod')
+            let mes = $(this).attr('mes');
+            let ano = $(this).attr('ano');
 
             $.ajax({
                 url: 'src/consultar/relatorio_fornecedor.php',
                 method: 'POST',
                 data: {
-                    codigo_fornecedor
+                    codigo_fornecedor,
+                    mes,
+                    ano,
                 }, success: function (retorno) {
                     $('div#home').html(retorno)
                 }
