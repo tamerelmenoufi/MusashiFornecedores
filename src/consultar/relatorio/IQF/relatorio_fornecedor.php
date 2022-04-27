@@ -200,55 +200,34 @@
 
 <div class="container-fluid">
     <div painel class="row justify-content-center align-items-center g-3 m-3">
-        <div rs class="col-4">
-            <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> Relatório de Desempenho</h3>
-        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div rs>
+                <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> Relatório de Desempenho</h3>
+            </div>
 
-        <div class="col-1 noprint">
-            <select ano class="form-select">
-                <option value="<?=$Y?>" selected><?=$Y?></option>
-                <?php
-                    $query = $pdo->prepare("SELECT ano FROM avaliacao_anual WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}");
-                    $query->execute();
 
-                    while($options = $query->fetch()){
-                ?>
-                    <option value="<?=$options['ano']?>"><?=$options['ano']?></option>
-                <?php
-                    }
-                ?>
-            </select>
-        </div>
-        <div class="col-1 noprint">
-            <select mes class="form-select">
-                <option value="<?=$M?>" selected><?=$M?></option>
-                <?php
-                    for($i=1;$i<=12;$i++){
-                ?>
-                    <option value="<?=str_pad($i, 2, "0", STR_PAD_LEFT)?>"><?=str_pad($i, 2, "0", STR_PAD_LEFT)?></option>
-                <?php
-                    }
-                ?>
-            </select>
+            <div class="d-flex flex-row">
+                <div class="noprint">
+                    <button
+                            imprimir
+                            type="button"
+                            class="btn btn-primary me-2"
+                            title="Imprimir"
+                    >
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                    </button>
+                </div>
 
-        </div>
-
-        <div class="col-2 noprint">
-            <select tipo_relatorio class="form-select">
-                <option value="IPF" <?= $tipo_relatorio == 'IPF' || $tipo_relatorio == '' ? 'selected':''?>>IPF</option>
-                <option value="IQF" <?= $tipo_relatorio == 'IQF'? 'selected':''?> >IQF</option>
-                <option value="IAF" <?= $tipo_relatorio == 'IAF'? 'selected':''?> >IAF</option>
-
-            </select>
-
-        </div>
-
-        <div class="col-2 noprint">
-            <button imprimir type="button" class="btn btn-primary " title="Imprimir"><i class="fa fa-print" aria-hidden="true"></i></button>
-        </div>
-
-        <div class="col-2 noprint">
-            <button voltar type="button" class="btn btn-light fs-6 pull-right noprint"><i class="fa fa-angle-left" aria-hidden="true"></i> voltar</button>
+                <div class="noprint">
+                    <button
+                            voltar
+                            type="button"
+                            class="btn btn-light fs-6 pull-right noprint"
+                    >
+                        <i class="fa fa-angle-left" aria-hidden="true"></i> voltar
+                    </button>
+                </div>
+            </div>
         </div>
 
 
