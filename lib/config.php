@@ -3,6 +3,8 @@ session_start();
 
 global $pdo;
 
+date_default_timezone_set('America/Manaus');
+
 try {
     if ($_SERVER['HTTP_HOST'] === 'localhost') {
         $pdo = new PDO("mysql:dbname=musashi_painel;host=localhost", "root", "");
@@ -29,4 +31,5 @@ if (isset($_SESSION['musashi_cod_usu'])) {
 
     $ConfForn = $sql->fetch();
 }
+
 ?>
