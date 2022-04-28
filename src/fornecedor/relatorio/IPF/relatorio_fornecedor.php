@@ -1,5 +1,5 @@
 <?php
-// require_once "../../../../lib/config.php";
+#require_once "../../../../lib/config.php";
 // error_reporting(E_ALL);
 global $pdo;
 
@@ -113,6 +113,7 @@ function mesExtenso($mes)
                 ?>
             </select>
         </div>
+
         <div class="col-1 noprint">
             <select mes class="form-select">
                 <option value="<?= $M ?>" selected><?= $M ?></option>
@@ -149,11 +150,11 @@ function mesExtenso($mes)
             </button>
         </div>
 
-
         <div class="col-5">
             <span class="fw-light">Fornecedor:</span><h5><?= utf8_encode($fornecedor['nome']) ?> <i
                         class="fa fa-handshake-o" aria-hidden="true"></i></h5>
         </div>
+
         <input type="hidden" fornecedor="<?= $_POST['codigo_fornecedor'] ?>">
         <div class="col-3 ">
             <span class="fw-light">CNPJ:</span>
@@ -375,17 +376,19 @@ function mesExtenso($mes)
                 $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
                 $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
                 $is_assinado = ($search >= 0 and $search !== false);
-                var_dump($search);
                 ?>
-                <button
-                        assinar
-                        type="button"
-                        class="btn btn-success float-end"
-                    <?= $is_assinado ? 'disabled' : '' ?>
-                >
-                    <i class="fa fa-pencil-square-o"
-                       aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
-                </button>
+
+                <?php if ($ConfUsu['assinante_documento'] === 'S') { ?>
+                    <button
+                            assinar
+                            type="button"
+                            class="btn btn-success float-end"
+                        <?= $is_assinado ? 'disabled' : '' ?>
+                    >
+                        <i class="fa fa-pencil-square-o"
+                           aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
+                    </button>
+                <?php } ?>
 
             </div>
 
