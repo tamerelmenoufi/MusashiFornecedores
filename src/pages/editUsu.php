@@ -132,7 +132,7 @@ if ($_POST['tipo'] == "editar") {
         let usuario = $("input[usuario]").val()
         let tipo = $("select[tipo]").val()
         let cargo = $("input[cargo]").val()
-        let assinante_documento = $("#assinante_documento").is(':checked')
+        let assinante_documento = $("#assinante_documento").is(':checked') ? 'S' : 'N'
 
         $.ajax({
             url: local,

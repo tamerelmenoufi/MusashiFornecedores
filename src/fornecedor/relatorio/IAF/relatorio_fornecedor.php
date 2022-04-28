@@ -556,9 +556,60 @@ function mesExtenso($mes)
             </div>
         </div>
 
-        <div class="row m-0 p-0">
-            <h3>Assinaturas</h3>
-        </div>
+        <div class="row my-4 p-0"> <!-- div assinaturas -->
+            <div>
+                <h3 class="text-center">
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
+                </h3>
+            </div>
+            <div>
+                <?php
+                $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
+                $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
+                $is_assinado = ($search >= 0 and $search !== false);
+                ?>
+
+                <?php if ($ConfUsu['assinante_documento'] === 'S') { ?>
+                    <button
+                            assinar
+                            type="button"
+                            class="btn btn-success float-end"
+                        <?= $is_assinado ? 'disabled' : '' ?>
+                    >
+                        <i class="fa fa-pencil-square-o"
+                           aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
+                    </button>
+                <?php } ?>
+
+            </div>
+
+
+            <table id="tabela-assinaturas" class="table table-striped table">
+                <thead tfonts>
+                <tr>
+                    <th scope="col">USUÁRIO</th>
+                    <th scope="col">DATA DA ASSINATURA</th>
+                    <th scope="col">CARGO</th>
+                    <th scope="col">CHAVE</th>
+                </tr>
+                </thead>
+                <tbody tfonts>
+                <?php
+
+
+                if ($assinaturas_data and is_array($assinaturas_data)) {
+                    foreach ($assinaturas_data as $ass) { ?>
+                        <tr>
+                            <td><?= $ass['usuario'] ?></td>
+                            <td><?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?></td>
+                            <td><?= $ass['cargo'] ?></td>
+                            <td><?= $ass['chave'] ?></td>
+                        </tr>
+                    <?php }
+                } ?>
+                </tbody>
+            </table>
+        </div> <!-- div assinaturas -->
     </div>
 </div>
 
@@ -681,6 +732,27 @@ function mesExtenso($mes)
             })
         })
 
+        $('button[assinar]').click(function () {
+            let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
+            let ano = '<?=$Y?>';
+            let mes = '<?=$M?>';
+
+            $.dialog({
+                title: 'ASSINATURA',
+                content: function () {
+                    var self = this;
+
+                    return $.ajax({
+                        url: 'src/fornecedor/assinatura.php',
+                        method: 'POST',
+                        data: {codigo_fornecedor, ano, mes},
+                    }).done(function (retorno) {
+                        self.setContent(retorno);
+                    });
+                },
+                columnClass: 'medium'
+            })
+        });
 
         let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
         let ano = '<?=$Y?>';

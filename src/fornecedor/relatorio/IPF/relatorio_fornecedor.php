@@ -365,7 +365,7 @@ function mesExtenso($mes)
             ?>
         </div>
 
-        <div class="row my-4 p-0">
+        <div class="row my-4 p-0"> <!-- div assinaturas -->
             <div>
                 <h3 class="text-center">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
@@ -418,7 +418,7 @@ function mesExtenso($mes)
                 } ?>
                 </tbody>
             </table>
-        </div>
+        </div> <!-- div assinaturas -->
     </div>
 </div>
 
