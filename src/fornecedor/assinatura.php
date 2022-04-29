@@ -164,6 +164,13 @@ $_SESSION['mes'] = $_POST['mes'];
                                         <td>${dt_hora}</td>
                                         <td>${dados.cargo}</td>
                                         <td>${dados.chave}</td>
+                                        <td><button
+                                                remover_assinatura
+                                                class="btn btn-danger btn-sm"
+                                                cod=""
+                                                cod_mensal=""
+                                            >Remover</button>
+                                        </td>
                             </tr>`;
                         $("#tabela-assinaturas tbody").append(html);
 
