@@ -369,7 +369,7 @@ function mesExtenso($mes)
         </div>
 
         <div class="row my-4 p-0"> <!-- div assinaturas -->
-            <div>
+            <div class="noprint">
                 <h3 class="text-center">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
                 </h3>
@@ -407,7 +407,7 @@ function mesExtenso($mes)
                         <th scope="col">CARGO</th>
                         <th scope="col">CHAVE</th>
                         <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
-                            <th scope="col">AÇÕES</th>
+                            <th scope="col" class="noprint">AÇÕES</th>
                         <?php } ?>
                     </tr>
                     </thead>
@@ -424,7 +424,7 @@ function mesExtenso($mes)
                                 <td><?= $ass['chave'] ?></td>
 
                                 <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
-                                    <td>
+                                    <td class="noprint">
                                         <button
                                                 remover_assinatura
                                                 class="btn btn-danger btn-sm"
@@ -613,10 +613,12 @@ function mesExtenso($mes)
                                         $.alert(retorno.msg);
                                         obj.remove();
 
-                                        $('button[assinar]')
-                                            .removeAttr('disabled')
-                                            .find('span[text]')
-                                            .text('ASSINAR');
+                                        if (retorno.desabilita_btn === true) {
+                                            $('button[assinar]')
+                                                .removeAttr('disabled')
+                                                .find('span[text]')
+                                                .text('ASSINAR');
+                                        }
                                     } else {
                                         $.alert(retorno.msg);
                                     }

@@ -457,6 +457,9 @@
                     $qnt = $query->fetch();
                 }
                 ?>
+
+                    <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
+
                     <div class="col-md-2 col-4">
                         <div class="rounded p-2 text-center border h-100">
                             <h6>FORNECEDORES AVALIADOS</h6>
@@ -521,58 +524,80 @@
         </div>
 
         <div class="row my-4 p-0"> <!-- div assinaturas -->
-            <div>
+            <div class="noprint">
                 <h3 class="text-center">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
                 </h3>
             </div>
-            <div>
-                <?php
-                $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
-                $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
-                $is_assinado = ($search >= 0 and $search !== false);
-                ?>
+            <?php if ($pontuacao['codigo']) { ?>
+                <div>
+                    <?php
 
-                <?php if ($ConfUsu['assinante_documento'] === 'S') { ?>
-                    <button
-                            assinar
-                            type="button"
-                            class="btn btn-success float-end"
-                        <?= $is_assinado ? 'disabled' : '' ?>
-                    >
-                        <i class="fa fa-pencil-square-o"
-                           aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
-                    </button>
-                <?php } ?>
+                    $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
+                    $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
+                    $is_assinado = ($search >= 0 and $search !== false);
+                    ?>
 
-            </div>
-
-
-            <table id="tabela-assinaturas" class="table table-striped table">
-                <thead tfonts>
-                <tr>
-                    <th scope="col">USUÁRIO</th>
-                    <th scope="col">DATA DA ASSINATURA</th>
-                    <th scope="col">CARGO</th>
-                    <th scope="col">CHAVE</th>
-                </tr>
-                </thead>
-                <tbody tfonts>
-                <?php
-
-
-                if ($assinaturas_data and is_array($assinaturas_data)) {
-                    foreach ($assinaturas_data as $ass) { ?>
-                        <tr>
-                            <td><?= $ass['usuario'] ?></td>
-                            <td><?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?></td>
-                            <td><?= $ass['cargo'] ?></td>
-                            <td><?= $ass['chave'] ?></td>
-                        </tr>
+                    <?php if ($ConfUsu['assinante_documento'] === 'S') { ?>
+                        <button
+                                assinar
+                                type="button"
+                                class="btn btn-success float-end"
+                            <?= $is_assinado ? 'disabled' : '' ?>
+                        >
+                            <i class="fa fa-pencil-square-o"
+                               aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
+                        </button>
                     <?php }
-                } ?>
-                </tbody>
-            </table>
+                    ?>
+
+                </div>
+
+
+                <table id="tabela-assinaturas" class="table table-striped table">
+                    <thead tfonts>
+                    <tr>
+                        <th scope="col">USUÁRIO</th>
+                        <th scope="col">DATA DA ASSINATURA</th>
+                        <th scope="col">CARGO</th>
+                        <th scope="col">CHAVE</th>
+                        <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
+                            <th scope="col" class="noprint">AÇÕES</th>
+                        <?php } ?>
+                    </tr>
+                    </thead>
+                    <tbody tfonts>
+                    <?php
+
+
+                    if ($assinaturas_data and is_array($assinaturas_data)) {
+                        foreach ($assinaturas_data as $ass) { ?>
+                            <tr>
+                                <td><?= $ass['usuario'] ?></td>
+                                <td><?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?></td>
+                                <td><?= $ass['cargo'] ?></td>
+                                <td><?= $ass['chave'] ?></td>
+
+                                <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
+                                    <td class="noprint">
+                                        <button
+                                                remover_assinatura
+                                                class="btn btn-danger btn-sm"
+                                                cod="<?= $ass['codigo']; ?>"
+                                                cod_mensal="<?= $pontuacao['codigo']; ?>"
+                                        >
+                                            Remover
+                                        </button>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                        <?php }
+                    } ?>
+                    </tbody>
+                </table>
+            <?php } else { ?>
+                <p class="text-center text-muted"><?= "{$Y}/{$M} não possui registro para este fornecedor"; ?></p>
+            <?php } ?>
         </div> <!-- div assinaturas -->
 
     </div>
@@ -699,9 +724,8 @@ $(function(){
     })
 
     $('button[assinar]').click(function () {
-        let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
-        let ano = '<?=$Y?>';
-        let mes = '<?=$M?>';
+        let cod_mensal = $('input[cod_mensal]').val();
+
 
         $.dialog({
             title: 'ASSINATURA',
@@ -711,12 +735,61 @@ $(function(){
                 return $.ajax({
                     url: 'src/fornecedor/assinatura.php',
                     method: 'POST',
-                    data: {codigo_fornecedor, ano, mes},
+                    data: {cod_mensal},
                 }).done(function (retorno) {
                     self.setContent(retorno);
                 });
             },
             columnClass: 'medium'
+        })
+    });
+
+    $('#tabela-assinaturas').on('click', 'button[remover_assinatura]', function () {
+        var codigo = $(this).attr('cod');
+        var codigo_mensal = $(this).attr('cod_mensal');
+        var obj = $(this).parent().parent();
+
+        $.alert({
+            title: false,
+            content: 'Tem certeza que deseja remover assinatura?',
+            buttons: {
+                sim: {
+                    text: 'Sim',
+                    action: function () {
+                        $.ajax({
+                            url: 'src/fornecedor/actions/assinatura.php',
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: {
+                                codigo,
+                                codigo_mensal,
+                                acao: 'remover_assinatura',
+                            },
+                            success: function (retorno) {
+                                if (retorno.status) {
+                                    $.alert(retorno.msg);
+                                    obj.remove();
+
+                                    if (retorno.desabilita_btn === true) {
+                                        $('button[assinar]')
+                                            .removeAttr('disabled')
+                                            .find('span[text]')
+                                            .text('ASSINAR');
+                                    }
+                                } else {
+                                    $.alert(retorno.msg);
+                                }
+                            }
+                        })
+                    },
+                },
+                nao: {
+                    text: 'Não',
+                    action: function () {
+
+                    }
+                }
+            }
         })
     });
 

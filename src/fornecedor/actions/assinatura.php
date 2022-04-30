@@ -23,8 +23,10 @@ if ($_POST and $_POST['acao'] === 'remover_assinatura') {
 
     if (@$query1->execute()) {
         echo json_encode([
-            'status' => true,
-            'msg'    => 'Assinatura removida com sucesso'
+            'status'         => true,
+            'msg'            => 'Assinatura removida com sucesso',
+            'desabilita_btn' => $codigo == $_SESSION['musashi_cod_usu']
+
         ]);
     } else {
         echo json_encode([

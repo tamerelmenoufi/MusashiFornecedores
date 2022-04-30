@@ -171,7 +171,7 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                         `;
 
                         if (retorno.tipo == '1') {
-                            html += `<td>
+                            html += `<td class="noprint">
                                 <button
                                     remover_assinatura
                                     class="btn btn-danger btn-sm"
