@@ -14,10 +14,8 @@ if ($_POST['acao'] === 'assinar') {
     if ($query->rowCount() > 0) {
         $usuario = $query->fetch();
 
-        $query2 = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = :cf AND mes = :m AND ano = :a");
-        $query2->bindValue(":cf", $_SESSION['codigo_fornecedor']);
-        $query2->bindValue(":m", strval(intval($_SESSION['mes'])));
-        $query2->bindValue(":a", $_SESSION['ano']);
+        $query2 = $pdo->prepare("SELECT codigo, assinaturas FROM avaliacao_mensal WHERE codigo = :c");
+        $query2->bindValue(":c", $_SESSION['cod_mensal']);
         $query2->execute();
 
         $assinaturas = [];
@@ -38,8 +36,6 @@ if ($_POST['acao'] === 'assinar') {
             "chave"     => $chave,
         ];
 
-
-
         array_push($assinaturas, $nova_assinatura);
 
         $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET assinaturas = :a WHERE codigo = :c");
@@ -47,13 +43,16 @@ if ($_POST['acao'] === 'assinar') {
         $query3->bindValue(':c', $avaliacao_mes['codigo']);
 
         if ($query3->execute()) {
-            unset($_SESSION['mes'], $_SESSION['ano']);
             echo json_encode([
-                "status"  => true,
-                "msg"     => "Assinado com sucesso",
-                "codigo"  => $avaliacao_mes['codigo'],
-                "dados"   => $nova_assinatura,
+                "status"     => true,
+                "msg"        => "Assinado com sucesso",
+                "codigo"     => $avaliacao_mes['codigo'],
+                "dados"      => $nova_assinatura,
+                "cod_mensal" => $_SESSION['cod_mensal'],
+                "tipo"       => $ConfUsu['tipo']
             ]);
+
+            unset($_SESSION['cod_mensal']);
         } else {
             echo json_encode([
                 "status" => false,
@@ -63,14 +62,16 @@ if ($_POST['acao'] === 'assinar') {
         }
         #@formatter:on
     } else {
-        echo json_encode(["status" => false, "msg" => "Usuário não encontrado"]);
+        echo json_encode([
+            "status" => false,
+            "msg" => "Usuário não encontrado"
+        ]);
     }
 
     exit();
 }
-$_SESSION['codigo_fornecedor'] = $_POST['codigo_fornecedor'];
-$_SESSION['ano'] = $_POST['ano'];
-$_SESSION['mes'] = $_POST['mes'];
+
+$_SESSION['cod_mensal'] = $_POST['cod_mensal'];
 
 ?>
 
@@ -78,6 +79,7 @@ $_SESSION['mes'] = $_POST['mes'];
     <div class="row">
         <div class="col-md-12">
             <form class="form-assinatura needs-validation" novalidate>
+
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
                     <input
@@ -86,7 +88,9 @@ $_SESSION['mes'] = $_POST['mes'];
                             id="senha"
                             required
                     >
-                    <div class="form-text">Confirme sua senha para validação da assinatura.</div>
+                    <div class="form-text">
+                        Confirme sua senha para validação da assinatura.
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary mb-2">
@@ -141,15 +145,15 @@ $_SESSION['mes'] = $_POST['mes'];
 
                         setTimeout(function () {
                             $('.spinner-border').hide();
-                            $(".container-assinatura")
-                                .html(`<h3 class="text-success text-center">${retorno.msg}</h3>`);
-                        }, 800);
 
+                            $(".container-assinatura").html(`<h3 class="text-success text-center">${retorno.msg}</h3>`);
+                        }, 800);
 
                         const {dados} = retorno;
                         let data_hora = dados.data_hora;
                         data_hora = new Date(data_hora);
 
+                        // *Formatador de data e hora*
                         let dt_hora = new Intl.DateTimeFormat('pt-BR', {
                                 year: 'numeric',
                                 month: 'numeric',
@@ -164,22 +168,27 @@ $_SESSION['mes'] = $_POST['mes'];
                                         <td>${dt_hora}</td>
                                         <td>${dados.cargo}</td>
                                         <td>${dados.chave}</td>
-                                        <td><button
-                                                remover_assinatura
-                                                class="btn btn-danger btn-sm"
-                                                cod=""
-                                                cod_mensal=""
-                                            >Remover</button>
-                                        </td>
-                            </tr>`;
+                        `;
+
+                        if (retorno.tipo == '1') {
+                            html += `<td>
+                                <button
+                                    remover_assinatura
+                                    class="btn btn-danger btn-sm"
+                                    cod="${dados.codigo}"
+                                    cod_mensal="${retorno.cod_mensal}"
+                                >Remover</button>
+                            </td>`;
+                        }
+
+                        html += `</tr>`;
+
                         $("#tabela-assinaturas tbody").append(html);
 
                         $('button[assinar]')
                             .attr('disabled', 'disabled')
                             .find('span[text]')
                             .text('ASSINADO');
-
-
                     } else {
                         $('.spinner-border').hide();
                         $.alert(retorno.msg);

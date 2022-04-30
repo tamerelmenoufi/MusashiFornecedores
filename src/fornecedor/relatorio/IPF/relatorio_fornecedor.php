@@ -298,6 +298,8 @@ function mesExtenso($mes)
             $qnt = $query->fetch();
 
             ?>
+            <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
+
             <div class="col-md-2 col-4">
                 <div class="rounded p-2 text-center border h-100">
                     <h6>FORNECEDORES AVALIADOS</h6>
@@ -404,7 +406,9 @@ function mesExtenso($mes)
                         <th scope="col">DATA DA ASSINATURA</th>
                         <th scope="col">CARGO</th>
                         <th scope="col">CHAVE</th>
-                        <th scope="col">AÇÕES</th>
+                        <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
+                            <th scope="col">AÇÕES</th>
+                        <?php } ?>
                     </tr>
                     </thead>
                     <tbody tfonts>
@@ -418,16 +422,19 @@ function mesExtenso($mes)
                                 <td><?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?></td>
                                 <td><?= $ass['cargo'] ?></td>
                                 <td><?= $ass['chave'] ?></td>
-                                <td>
-                                    <button
-                                            remover_assinatura
-                                            class="btn btn-danger btn-sm"
-                                            cod="<?= $ass['codigo']; ?>"
-                                            cod_mensal="<?= $pontuacao['codigo']; ?>"
-                                    >
-                                        Remover
-                                    </button>
-                                </td>
+
+                                <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
+                                    <td>
+                                        <button
+                                                remover_assinatura
+                                                class="btn btn-danger btn-sm"
+                                                cod="<?= $ass['codigo']; ?>"
+                                                cod_mensal="<?= $pontuacao['codigo']; ?>"
+                                        >
+                                            Remover
+                                        </button>
+                                    </td>
+                                <?php } ?>
                             </tr>
                         <?php }
                     } ?>
@@ -560,9 +567,8 @@ function mesExtenso($mes)
         })
 
         $('button[assinar]').click(function () {
-            let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor');
-            let ano = '<?=$Y?>';
-            let mes = '<?=$M?>';
+            let cod_mensal = $('input[cod_mensal]').val();
+
 
             $.dialog({
                 title: 'ASSINATURA',
@@ -572,7 +578,7 @@ function mesExtenso($mes)
                     return $.ajax({
                         url: 'src/fornecedor/assinatura.php',
                         method: 'POST',
-                        data: {codigo_fornecedor, ano, mes},
+                        data: {cod_mensal},
                     }).done(function (retorno) {
                         self.setContent(retorno);
                     });
@@ -581,7 +587,7 @@ function mesExtenso($mes)
             })
         });
 
-        $('button[remover_assinatura]').click(function () {
+        $('#tabela-assinaturas').on('click', 'button[remover_assinatura]', function () {
             var codigo = $(this).attr('cod');
             var codigo_mensal = $(this).attr('cod_mensal');
             var obj = $(this).parent().parent();
@@ -606,6 +612,11 @@ function mesExtenso($mes)
                                     if (retorno.status) {
                                         $.alert(retorno.msg);
                                         obj.remove();
+
+                                        $('button[assinar]')
+                                            .removeAttr('disabled')
+                                            .find('span[text]')
+                                            .text('ASSINAR');
                                     } else {
                                         $.alert(retorno.msg);
                                     }
