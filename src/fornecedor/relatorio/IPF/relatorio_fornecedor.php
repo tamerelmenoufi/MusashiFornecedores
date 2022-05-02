@@ -75,6 +75,12 @@ function mesExtenso($mes)
         vertical-align: middle !important;
     }
 
+    @media all {
+        .page-break {
+            display: none;
+        }
+    }
+
     @media print {
         div[rs] {
             width: 100% !important;
@@ -92,6 +98,15 @@ function mesExtenso($mes)
 
         div.tfonts {
             font-size: 14px;
+        }
+
+        .assinaturas-item {
+            width: 100%;
+        }
+
+        .page-break {
+            display: block !important;
+            page-break-before: always !important;
         }
     }
 </style>
@@ -144,8 +159,9 @@ function mesExtenso($mes)
         </div>
 
         <div class="col-2 noprint">
-            <button imprimir type="button" class="btn btn-primary " title="Imprimir"><i class="fa fa-print"
-                                                                                        aria-hidden="true"></i></button>
+            <button imprimir type="button" class="btn btn-primary " title="Imprimir">
+                <i class="fa fa-print" aria-hidden="true"></i>
+            </button>
         </div>
 
         <div class="col-2 noprint">
@@ -160,10 +176,12 @@ function mesExtenso($mes)
         </div>
 
         <input type="hidden" fornecedor="<?= $_POST['codigo_fornecedor'] ?>">
+
         <div class="col-3 ">
             <span class="fw-light">CNPJ:</span>
             <p><?= $fornecedor['cnpj'] ?></p>
         </div>
+
         <div class="col-2 ">
             <span class="fw-light">Data de inicio:</span>
             <p><?= date('d/m/Y', strtotime($fornecedor['data_inicio'])) ?></p>
@@ -273,6 +291,7 @@ function mesExtenso($mes)
                 </table>
             </div>
         </div>
+
         <div class="container-fluid">
             <div class="row justify-content-center align-items-center g-3 m-3">
                 <div rs="" class="col-12 text-center">
@@ -280,8 +299,8 @@ function mesExtenso($mes)
                 </div>
             </div>
         </div>
-        <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
+        <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
         <div class="row m-0 p-0 justify-content-center ">
             <?php
@@ -372,6 +391,58 @@ function mesExtenso($mes)
             ?>
         </div>
 
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center g-3 m-3">
+        <!-- Card assinaturas-->
+        <div class="row my-4 p-0">
+            <?php
+            $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
+
+            if ($pontuacao['codigo'] and $assinaturas_data) { ?>
+                <div class="mb-4">
+                    <h3 class="text-center">
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
+                    </h3>
+                </div>
+                <?php foreach ($assinaturas_data as $ass) { ?>
+                    <div class="col-4 mb-2 assinaturas-item">
+                        <div class="rounded border h-100 px-3 py-2">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div>
+                                    <div title="Usuário">
+                                        <i class="fa fa-user" aria-hidden="true"></i> <?= $ass['usuario']; ?>
+                                    </div>
+                                    <div title="Cargo">
+                                        <i class="fa fa-briefcase" aria-hidden="true"></i> <?= $ass['cargo']; ?>
+                                    </div>
+                                    <div title="Data e Hora da assinatura">
+                                        <i class="fa fa-calendar"
+                                           aria-hidden="true"></i> <?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?>
+                                    </div>
+                                    <div title="Chave">
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                        <small><?= $ass['chave']; ?></small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center px-3">
+                                    <img
+                                            src="src/fornecedor/barcode.php?f=png&s=qr&d=<?= $ass['chave'] ?>"
+                                            style="width: 70px"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+            } ?>
+        </div>
+        <!-- End Card assinaturas-->
+
         <div class="row my-4 p-0 noprint"> <!-- div assinaturas -->
             <div class="noprint">
                 <h3 class="text-center">
@@ -381,8 +452,6 @@ function mesExtenso($mes)
             <?php if ($pontuacao['codigo']) { ?>
                 <div>
                     <?php
-
-                    $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
                     $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
                     $is_assinado = ($search >= 0 and $search !== false);
                     ?>
@@ -395,7 +464,8 @@ function mesExtenso($mes)
                             <?= $is_assinado ? 'disabled' : '' ?>
                         >
                             <i class="fa fa-pencil-square-o"
-                               aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
+                               aria-hidden="true"></i> <span
+                                    text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
                         </button>
                     <?php }
                     ?>
@@ -454,6 +524,7 @@ function mesExtenso($mes)
         </div> <!-- div assinaturas -->
     </div>
 </div>
+
 
 <script>
 
