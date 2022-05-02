@@ -71,6 +71,10 @@ function mesExtenso($mes)
 ?>
 
 <style>
+    #tabela-assinaturas tbody tr {
+        vertical-align: middle !important;
+    }
+
     @media print {
         div[rs] {
             width: 100% !important;
@@ -287,88 +291,88 @@ function mesExtenso($mes)
             $sql->bindValue(":m", $M);
             $sql->execute();
 
-            //if($sql->rowCount()){
-            $pontuacao = $sql->fetch();
+            if ($sql->rowCount()) {
+                $pontuacao = $sql->fetch();
 
-            $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = :y  AND mes = :m AND status = 1");
-            $query->bindValue(":y", $Y);
-            $query->bindValue(":m", $M);
-            $query->execute();
+                $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = :y  AND mes = :m AND status = 1");
+                $query->bindValue(":y", $Y);
+                $query->bindValue(":m", $M);
+                $query->execute();
 
-            $qnt = $query->fetch();
+                $qnt = $query->fetch();
 
-            ?>
-            <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
+                ?>
+                <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
 
-            <div class="col-md-2 col-4">
-                <div class="rounded p-2 text-center border h-100">
-                    <h6>FORNECEDORES AVALIADOS</h6>
-                    <p><?= $qnt['quantidade'] ?></p>
+                <div class="col-md-2 col-4">
+                    <div class="rounded p-2 text-center border h-100">
+                        <h6>FORNECEDORES AVALIADOS</h6>
+                        <p><?= $qnt['quantidade'] ?></p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2 col-4">
-                <div class="rounded p-2 text-center border h-100">
-                    <h6>RESULTADO DA PERFORMANCE</h6>
-                    <p><?= $pontuacao['classificacao'] ?></p>
+                <div class="col-md-2 col-4">
+                    <div class="rounded p-2 text-center border h-100">
+                        <h6>RESULTADO DA PERFORMANCE</h6>
+                        <p><?= $pontuacao['classificacao'] ?></p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2 col-4">
-                <div class="rounded p-2 text-center border h-100">
-                    <h6>CLASSIFICAÇÃO Q&D</h6>
-                    <p><?= $pontuacao['qualificacao_ipf'] ?></p>
+                <div class="col-md-2 col-4">
+                    <div class="rounded p-2 text-center border h-100">
+                        <h6>CLASSIFICAÇÃO Q&D</h6>
+                        <p><?= $pontuacao['qualificacao_ipf'] ?></p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2 col-4">
-                <div class="rounded p-2 text-center border h-100">
-                    <h6>POSIÇÃO NO RANKING</h6>
-                    <p><?= $pontuacao['posicao'] ?>º</p>
+                <div class="col-md-2 col-4">
+                    <div class="rounded p-2 text-center border h-100">
+                        <h6>POSIÇÃO NO RANKING</h6>
+                        <p><?= $pontuacao['posicao'] ?>º</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2 col-4">
-                <div class="rounded p-2 text-center border h-100">
-                    <h6>DATA QAV-1</h6>
-                    <?php
-                    if ($pontuacao['qav_data'] == NULL) {
-                        ?>
-                        <p>0000-00-00</p>
+                <div class="col-md-2 col-4">
+                    <div class="rounded p-2 text-center border h-100">
+                        <h6>DATA QAV-1</h6>
                         <?php
-                    } else {
-                        ?>
-                        <p><?= date('d/m/Y', strtotime($pontuacao['qav_data'])) ?></p>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>
-            <div class="col-md-2 col-4">
-                <div class="rounded p-2 text-center border h-100 ">
-                    <h6>NOTA QAV-1</h6>
-                    <div class="input-group">
-                        <?php
-                        if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
+                        if ($pontuacao['qav_data'] == NULL) {
                             ?>
-                            <input type="number" qav class="form-control">
-                            <div class="input-group-text p-0">
-                                <button qav_av class="btn btn-success btn-sm h-100 w-100"
-                                        style="border-radius: 0px 3px 3px 0px;">Avaliar
-                                </button>
-                            </div>
+                            <p>0000-00-00</p>
                             <?php
-                        }else{
+                        } else {
+                            ?>
+                            <p><?= date('d/m/Y', strtotime($pontuacao['qav_data'])) ?></p>
+                            <?php
+                        }
                         ?>
                     </div>
-                    <p><?= $pontuacao['qav'] ?></p>
-                    <?php
-                    }
-                    ?>
                 </div>
-            </div>
-            <?php
-            //}
+                <div class="col-md-2 col-4">
+                    <div class="rounded p-2 text-center border h-100 ">
+                        <h6>NOTA QAV-1</h6>
+                        <div class="input-group">
+                            <?php
+                            if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
+                                ?>
+                                <input type="number" qav class="form-control">
+                                <div class="input-group-text p-0">
+                                    <button qav_av class="btn btn-success btn-sm h-100 w-100"
+                                            style="border-radius: 0px 3px 3px 0px;">Avaliar
+                                    </button>
+                                </div>
+                                <?php
+                            }else{
+                            ?>
+                        </div>
+                        <p><?= $pontuacao['qav'] ?></p>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }
             ?>
         </div>
 
-        <div class="row my-4 p-0"> <!-- div assinaturas -->
+        <div class="row my-4 p-0 noprint"> <!-- div assinaturas -->
             <div class="noprint">
                 <h3 class="text-center">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
@@ -406,6 +410,7 @@ function mesExtenso($mes)
                         <th scope="col">DATA DA ASSINATURA</th>
                         <th scope="col">CARGO</th>
                         <th scope="col">CHAVE</th>
+                        <th scope="col">QR CODE</th>
                         <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
                             <th scope="col" class="noprint">AÇÕES</th>
                         <?php } ?>
@@ -422,7 +427,10 @@ function mesExtenso($mes)
                                 <td><?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?></td>
                                 <td><?= $ass['cargo'] ?></td>
                                 <td><?= $ass['chave'] ?></td>
-
+                                <td>
+                                    <img src="src/fornecedor/barcode.php?f=png&s=qr&d=<?= $ass['chave'] ?>"
+                                         style="width: 43px">
+                                </td>
                                 <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
                                     <td class="noprint">
                                         <button
@@ -431,7 +439,7 @@ function mesExtenso($mes)
                                                 cod="<?= $ass['codigo']; ?>"
                                                 cod_mensal="<?= $pontuacao['codigo']; ?>"
                                         >
-                                            Remover
+                                            Excluir
                                         </button>
                                     </td>
                                 <?php } ?>

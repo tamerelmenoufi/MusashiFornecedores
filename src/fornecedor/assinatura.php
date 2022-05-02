@@ -168,6 +168,7 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                                         <td>${dt_hora}</td>
                                         <td>${dados.cargo}</td>
                                         <td>${dados.chave}</td>
+                                        <td><img src="src/fornecedor/barcode.php?f=png&s=qr&d=${dados.chave}" style="width: 43px"></td>
                         `;
 
                         if (retorno.tipo == '1') {
@@ -177,7 +178,7 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                                     class="btn btn-danger btn-sm"
                                     cod="${dados.codigo}"
                                     cod_mensal="${retorno.cod_mensal}"
-                                >Remover</button>
+                                >Excluir</button>
                             </td>`;
                         }
 
