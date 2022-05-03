@@ -143,6 +143,7 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                 success: function (retorno) {
                     if (retorno.status) {
 
+
                         setTimeout(function () {
                             $('.spinner-border').hide();
 
