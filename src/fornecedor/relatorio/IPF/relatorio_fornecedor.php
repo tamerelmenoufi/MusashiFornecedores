@@ -404,33 +404,46 @@ function mesExtenso($mes)
             $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
             $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
             $is_assinado = ($search >= 0 and $search !== false);
+            ?>
+            <div class="position-relative mb-4">
+                <h3 class="text-center">
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
+                </h3>
+
+                <?php if ($ConfUsu['assinante_documento'] === 'S' and $pontuacao['codigo']) { ?>
+                    <button
+                            assinar
+                            type="button"
+                            class="btn btn-success noprint"
+                            style="position:absolute; right: 20px; top:0 "
+                        <?= $is_assinado ? 'disabled' : '' ?>
+                    >
+                        <i
+                                class="fa fa-pencil-square-o"
+                                aria-hidden="true"
+                        ></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
+                    </button>
+                <?php } ?>
+            </div>
+
+            <?php
 
             if ($pontuacao['codigo']) { ?>
-                <div class="mb-4">
-                    <h3 class="text-center">
-                        <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
-                    </h3>
-
-                    <div>
-                        <?php if ($ConfUsu['assinante_documento'] === 'S') { ?>
-                            <button
-                                    assinar
-                                    type="button"
-                                    class="btn btn-success float-end"
-                                <?= $is_assinado ? 'disabled' : '' ?>
-                            >
-                                <i class="fa fa-pencil-square-o"
-                                   aria-hidden="true"></i> <span
-                                        text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
-                            </button>
-                        <?php }
-                        ?>
-                    </div>
-                </div>
                 <?php if ($assinaturas_data) { ?>
                     <?php foreach ($assinaturas_data as $ass) { ?>
                         <div class="col-4 mb-2 assinaturas-item">
-                            <div class="rounded border h-100 px-3 py-2">
+                            <div class="rounded border h-100 px-3 py-2 position-relative">
+                                <a
+                                        href="#"
+                                        class="position-absolute text-danger noprint"
+                                        remover_assinatura
+                                        cod="<?= $ass['codigo']; ?>"
+                                        cod_mensal="<?= $pontuacao['codigo']; ?>"
+                                        style="top: 0; right: 5px"
+                                >
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+
                                 <div class="d-flex flex-row justify-content-between">
                                     <div style="flex:1">
                                         <div title="Usuário">
@@ -617,10 +630,12 @@ function mesExtenso($mes)
             })
         });
 
-        $('#tabela-assinaturas').on('click', 'button[remover_assinatura]', function () {
+        $('a[remover_assinatura]').click(function (e) {
+            e.preventDefault();
+
             var codigo = $(this).attr('cod');
             var codigo_mensal = $(this).attr('cod_mensal');
-            var obj = $(this).parent().parent();
+            var obj = $(this).parent();
 
             $.alert({
                 title: false,
@@ -641,6 +656,7 @@ function mesExtenso($mes)
                                 success: function (retorno) {
                                     if (retorno.status) {
                                         $.alert(retorno.msg);
+
                                         obj.remove();
 
                                         if (retorno.desabilita_btn === true) {

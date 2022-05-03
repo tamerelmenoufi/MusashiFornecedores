@@ -128,6 +128,9 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
             e.preventDefault();
 
             var senha = $("#senha").val();
+            var codigo_fornecedor = '<?= $_POST['codigo_fornecedor']; ?>';
+            var mes = '<?= $_POST['mes']; ?>';
+            var ano = '<?= $_POST['ano']; ?>';
 
             $.ajax({
                 url: "src/fornecedor/assinatura.php",
@@ -143,54 +146,25 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                 success: function (retorno) {
                     if (retorno.status) {
 
+                        $.ajax({
+                            url: 'src/fornecedor/relatorio_fornecedor.php',
+                            method: 'POST',
+                            data: {
+                                codigo_fornecedor,
+                                ano,
+                                mes
+                            }, success: function (retorno) {
+                                $('div#home').html(retorno);
 
+                            }
+                        });
+                        
                         setTimeout(function () {
                             $('.spinner-border').hide();
 
                             $(".container-assinatura").html(`<h3 class="text-success text-center">${retorno.msg}</h3>`);
                         }, 800);
 
-                        const {dados} = retorno;
-                        let data_hora = dados.data_hora;
-                        data_hora = new Date(data_hora);
-
-                        // *Formatador de data e hora*
-                        let dt_hora = new Intl.DateTimeFormat('pt-BR', {
-                                year: 'numeric',
-                                month: 'numeric',
-                                day: 'numeric',
-                                hour: 'numeric',
-                                minute: 'numeric',
-                            }
-                        ).format(data_hora);
-
-                        let html = `<tr>
-                                        <td>${dados.usuario}</td>
-                                        <td>${dt_hora}</td>
-                                        <td>${dados.cargo}</td>
-                                        <td>${dados.chave}</td>
-                                        <td><img src="src/fornecedor/barcode.php?f=png&s=qr&d=${dados.chave}" style="width: 43px"></td>
-                        `;
-
-                        if (retorno.tipo == '1') {
-                            html += `<td class="noprint">
-                                <button
-                                    remover_assinatura
-                                    class="btn btn-danger btn-sm"
-                                    cod="${dados.codigo}"
-                                    cod_mensal="${retorno.cod_mensal}"
-                                >Excluir</button>
-                            </td>`;
-                        }
-
-                        html += `</tr>`;
-
-                        $("#tabela-assinaturas tbody").append(html);
-
-                        $('button[assinar]')
-                            .attr('disabled', 'disabled')
-                            .find('span[text]')
-                            .text('ASSINADO');
                     } else {
                         $('.spinner-border').hide();
                         $.alert(retorno.msg);
