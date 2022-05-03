@@ -64,7 +64,7 @@ if ($_POST['acao'] === 'assinar') {
     } else {
         echo json_encode([
             "status" => false,
-            "msg" => "Usuário não encontrado"
+            "msg" => "Senha incorreta!"
         ]);
     }
 
@@ -158,7 +158,7 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
 
                             }
                         });
-                        
+
                         setTimeout(function () {
                             $('.spinner-border').hide();
 

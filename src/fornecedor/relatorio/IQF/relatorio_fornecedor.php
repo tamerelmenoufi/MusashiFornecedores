@@ -200,6 +200,11 @@ function mesExtenso($mes)
         div.tfonts {
             font-size: 14px;
         }
+
+        .page-break {
+            display: block !important;
+            page-break-before: always !important;
+        }
     }
 
 </style>
@@ -262,16 +267,18 @@ function mesExtenso($mes)
             </button>
         </div>
 
-
         <div class="col-5">
             <span class="fw-light">Fornecedor:</span><h5><?= utf8_encode($fornecedor['nome']) ?> <i
                         class="fa fa-handshake-o" aria-hidden="true"></i></h5>
         </div>
+
         <input type="hidden" fornecedor="<?= $_POST['codigo_fornecedor'] ?>">
+
         <div class="col-3 ">
             <span class="fw-light">CNPJ:</span>
             <p><?= $fornecedor['cnpj'] ?></p>
         </div>
+
         <div class="col-2 ">
             <span class="fw-light">Data de inicio:</span>
             <p><?= date('d/m/Y', strtotime($fornecedor['data_inicio'])) ?></p>
@@ -283,6 +290,7 @@ function mesExtenso($mes)
             <p><?= date('d/m/Y', strtotime($fornecedor['data_fim'])) ?></p>
             <input type="hidden" fim="<?= $fornecedor['data_fim'] ?>">
         </div>
+
         <div class="row m-0 p-2 ">
             <!-- GRAFICOS -->
             <div barras class="col-12 p-0 mb-3" style="height: 800px"></div>
@@ -366,6 +374,7 @@ function mesExtenso($mes)
                 </table>
             </div>
         </div>
+
         <div class="container-fluid">
             <div class="row justify-content-center align-items-center g-3 m-3">
                 <div rs="" class="col-12 text-center">
@@ -373,8 +382,8 @@ function mesExtenso($mes)
                 </div>
             </div>
         </div>
-        <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
+        <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
 
         <div tabela class="col-md-12 mb-3 p-0 ">
             <table class="table table-striped table">
@@ -546,86 +555,93 @@ function mesExtenso($mes)
             <?php } ?>
         </div>
 
-        <div class="row my-4 p-0 noprint"> <!-- div assinaturas -->
-            <div class="noprint">
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="container-fluid">
+    <div class="justify-content-center align-items-center g-3 m-3">
+        <!-- Card assinaturas-->
+        <div class="row my-4 p-0">
+            <?php
+            $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
+            $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
+            $is_assinado = ($search >= 0 and $search !== false);
+            ?>
+            <div class="position-relative mb-4">
                 <h3 class="text-center">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
                 </h3>
+
+                <?php if ($ConfUsu['assinante_documento'] === 'S' and $pontuacao['codigo']) { ?>
+                    <button
+                            assinar
+                            type="button"
+                            class="btn btn-success noprint"
+                            style="position:absolute; right: 20px; top:0 "
+                        <?= $is_assinado ? 'disabled' : '' ?>
+                    >
+                        <i
+                                class="fa fa-pencil-square-o"
+                                aria-hidden="true"
+                        ></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
+                    </button>
+                <?php } ?>
             </div>
-            <?php if ($pontuacao['codigo']) { ?>
-                <div>
-                    <?php
 
-                    $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
-                    $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
-                    $is_assinado = ($search >= 0 and $search !== false);
-                    ?>
+            <?php
 
-                    <?php if ($ConfUsu['assinante_documento'] === 'S') { ?>
-                        <button
-                                assinar
-                                type="button"
-                                class="btn btn-success float-end"
-                            <?= $is_assinado ? 'disabled' : '' ?>
-                        >
-                            <i class="fa fa-pencil-square-o"
-                               aria-hidden="true"></i> <span text><?= $is_assinado ? 'ASSINADO' : 'ASSINAR' ?></span>
-                        </button>
-                    <?php }
-                    ?>
+            if ($pontuacao['codigo']) { ?>
+                <?php if ($assinaturas_data) { ?>
+                    <?php foreach ($assinaturas_data as $ass) { ?>
+                        <div class="col-4 mb-2 assinaturas-item">
+                            <div class="rounded border h-100 px-3 py-2 position-relative">
+                                <a
+                                        href="#"
+                                        class="position-absolute text-danger noprint"
+                                        remover_assinatura
+                                        cod="<?= $ass['codigo']; ?>"
+                                        cod_mensal="<?= $pontuacao['codigo']; ?>"
+                                        style="top: 0; right: 5px"
+                                >
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
 
-                </div>
+                                <div class="d-flex flex-row justify-content-between">
+                                    <div style="flex:1">
+                                        <div title="Usuário">
+                                            <i class="fa fa-user" aria-hidden="true"></i> <?= $ass['usuario']; ?>
+                                        </div>
+                                        <div title="Cargo">
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i> <?= $ass['cargo']; ?>
+                                        </div>
+                                        <div title="Data e Hora da assinatura">
+                                            <i class="fa fa-calendar"
+                                               aria-hidden="true"></i> <?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?>
+                                        </div>
+                                        <div title="Chave">
+                                            <i class="fa fa-lock" aria-hidden="true"></i>
+                                            <small><?= $ass['chave']; ?></small>
+                                        </div>
+                                    </div>
 
-
-                <table id="tabela-assinaturas" class="table table-striped table">
-                    <thead tfonts>
-                    <tr>
-                        <th scope="col">USUÁRIO</th>
-                        <th scope="col">DATA DA ASSINATURA</th>
-                        <th scope="col">CARGO</th>
-                        <th scope="col">CHAVE</th>
-                        <th scope="col">QR CODE</th>
-                        <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
-                            <th scope="col" class="noprint">AÇÕES</th>
-                        <?php } ?>
-                    </tr>
-                    </thead>
-                    <tbody tfonts>
-                    <?php
-
-
-                    if ($assinaturas_data and is_array($assinaturas_data)) {
-                        foreach ($assinaturas_data as $ass) { ?>
-                            <tr>
-                                <td><?= $ass['usuario'] ?></td>
-                                <td><?= date("d/m/Y H:i", strtotime($ass['data_hora'])) ?></td>
-                                <td><?= $ass['cargo'] ?></td>
-                                <td><?= $ass['chave'] ?></td>
-                                <td>
-                                    <img src="src/fornecedor/barcode.php?f=png&s=qr&d=<?= $ass['chave'] ?>"
-                                         style="width: 43px">
-                                </td>
-                                <?php if ($ConfUsu['tipo'] == 1) { //Permissão gestor?>
-                                    <td class="noprint">
-                                        <button
-                                                remover_assinatura
-                                                class="btn btn-danger btn-sm"
-                                                cod="<?= $ass['codigo']; ?>"
-                                                cod_mensal="<?= $pontuacao['codigo']; ?>"
+                                    <div class="d-flex align-items-center px-1">
+                                        <img
+                                                src="src/fornecedor/barcode.php?f=png&s=qr&d=<?= $ass['chave'] ?>"
+                                                style="width: 70px"
                                         >
-                                            Excluir
-                                        </button>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                        <?php }
-                    } ?>
-                    </tbody>
-                </table>
-            <?php } else { ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }
+                }
+            } else { ?>
                 <p class="text-center text-muted"><?= "{$Y}/{$M} não possui registro para este fornecedor"; ?></p>
             <?php } ?>
-        </div> <!-- div assinaturas -->
+        </div>
+        <!-- End Card assinaturas-->
 
     </div>
 </div>
@@ -751,6 +767,9 @@ function mesExtenso($mes)
 
         $('button[assinar]').click(function () {
             let cod_mensal = $('input[cod_mensal]').val();
+            let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
+            let ano = '<?=$Y?>';
+            let mes = '<?=$M?>';
 
             $.dialog({
                 title: 'ASSINATURA',
@@ -760,7 +779,12 @@ function mesExtenso($mes)
                     return $.ajax({
                         url: 'src/fornecedor/assinatura.php',
                         method: 'POST',
-                        data: {cod_mensal},
+                        data: {
+                            cod_mensal,
+                            codigo_fornecedor,
+                            ano,
+                            mes,
+                        },
                     }).done(function (retorno) {
                         self.setContent(retorno);
                     });
@@ -769,10 +793,12 @@ function mesExtenso($mes)
             })
         });
 
-        $('#tabela-assinaturas').on('click', 'button[remover_assinatura]', function () {
+        $('a[remover_assinatura]').click(function (e) {
+            e.preventDefault();
+
             var codigo = $(this).attr('cod');
             var codigo_mensal = $(this).attr('cod_mensal');
-            var obj = $(this).parent().parent();
+            var obj = $(this).parent();
 
             $.alert({
                 title: false,
@@ -793,6 +819,7 @@ function mesExtenso($mes)
                                 success: function (retorno) {
                                     if (retorno.status) {
                                         $.alert(retorno.msg);
+
                                         obj.remove();
 
                                         if (retorno.desabilita_btn === true) {
