@@ -182,6 +182,10 @@ function mesExtenso($mes)
         vertical-align: middle !important;
     }
 
+    div[barras], div[linhas] {
+        height: 800px;
+    }
+
     @media print {
         div[rs] {
             width: 100% !important;
@@ -199,6 +203,11 @@ function mesExtenso($mes)
 
         div.tfonts {
             font-size: 14px;
+        }
+
+        div[barras], div[linhas] {
+            height: auto;
+            margin-bottom: 100px;
         }
 
         .page-break {
@@ -297,7 +306,7 @@ function mesExtenso($mes)
 
         <div class="row m-0 p-2 ">
             <!-- GRAFICOS -->
-            <div barras class="col-12 p-0 mb-3" style="height: 800px"></div>
+            <div barras class="col-12 p-0 mb-3"></div>
 
             <div class="col-md-12 d-flex justify-content-center p-0 mb-3 ">
                 <div class="col-3 p-3 text-white bg-danger d-flex flex-column align-items-center justify-content-between">
@@ -329,6 +338,7 @@ function mesExtenso($mes)
                     </footer>
                 </div>
             </div>
+
             <div tabela class="col-md-12 mb-3 p-0 ">
                 <table class="table table-striped table">
                     <thead tfonts>
@@ -379,192 +389,197 @@ function mesExtenso($mes)
             </div>
         </div>
 
-        <div class="container-fluid">
-            <div class="row justify-content-center align-items-center g-3 m-3">
-                <div rs="" class="col-12 text-center">
-                    <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> ACOMPANHAMENTO DE EMISSÃO DE IP</h3>
-                </div>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center g-3 m-3">
+            <div rs="" class="col-12 text-center">
+                <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> ACOMPANHAMENTO DE EMISSÃO DE IP</h3>
             </div>
         </div>
+    </div>
 
-        <div linhas class="col-12 p-0 mb-3" style="height: 800px"></div>
+    <div linhas class="col-12 p-0 mb-3"></div>
 
-        <div tabela class="col-md-12 mb-3 p-0 ">
-            <table class="table table-striped table">
-                <thead tfonts>
-                <tr>
-                    <th scope="col">CRITÉRIOS Q</th>
-                    <?php
-                    for ($i = 11; $i >= 0; $i--) {
+    <div tabela class="col-md-12 mb-3 p-0 ">
+        <table class="table table-striped table">
+            <thead tfonts>
+            <tr>
+                <th scope="col">CRITÉRIOS Q</th>
+                <?php
+                for ($i = 11; $i >= 0; $i--) {
 
-                        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
-                        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
-                        ?>
-                        <th scope="col"><?= mesExtenso($Mes) ?>-<?= $Ano ?></th>
-                        <?php
-                    }
+                    $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                    $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
                     ?>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
+                    <th scope="col"><?= mesExtenso($Mes) ?>-<?= $Ano ?></th>
+                    <?php
+                }
+                ?>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
 
+                <td>
+                    <table class="table">
+                        <tr>
+                            <td scope="col">IPEmitido</td>
+                        </tr>
+                        <tr>
+                            <td scope="col">IPOficial"R"</td>
+                        </tr>
+                        <tr>
+                            <td scope="col">Atraso Resp.</td>
+                        </tr>
+                        <tr>
+                            <td scope="col">PPM</td>
+                        </tr>
+                        <tr>
+                            <td scope="col">QUALITY</td>
+                        </tr>
+                        <tr>
+                            <td scope="col">IQF</td>
+                        </tr>
+
+                    </table>
+                </td>
+
+                <?php
+                for ($i = 11; $i >= 0; $i--) {
+
+                    $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
+                    $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+
+                    $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
+
+                    ?>
                     <td>
                         <table class="table">
                             <tr>
-                                <td scope="col">IPEmitido</td>
+                                <td scope="col">&nbsp;<?= $retorno['quality_ip_emitido'] ?></td>
                             </tr>
                             <tr>
-                                <td scope="col">IPOficial"R"</td>
+                                <td scope="col">&nbsp;<?= $retorno['quality_ip_reincidente'] ?></td>
                             </tr>
                             <tr>
-                                <td scope="col">Atraso Resp.</td>
+                                <td scope="col">&nbsp;<?= $retorno['quality_atraso_resposta'] ?></td>
                             </tr>
                             <tr>
-                                <td scope="col">PPM</td>
+                                <td scope="col">&nbsp;<?= $retorno['quality_ppm'] ?></td>
                             </tr>
                             <tr>
-                                <td scope="col">QUALITY</td>
+                                <td scope="col">&nbsp;<?= $retorno['quality'] ?></td>
                             </tr>
                             <tr>
-                                <td scope="col">IQF</td>
+                                <td scope="col">
+                                    &nbsp;<?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 0)) ?: false) ?></td>
                             </tr>
-
                         </table>
                     </td>
-
                     <?php
-                    for ($i = 11; $i >= 0; $i--) {
+                }
+                ?>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-                        $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
-                        $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
+    <div class="row m-0 p-0 justify-content-center">
+        <?php
+        $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
+        $sql->execute();
 
-                        $retorno = dias_atrasos_tabela($Mes, $Ano, $_POST['codigo_fornecedor']);
+        if ($sql->rowCount()) {
+            $pontuacao = $sql->fetch();
+            $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
+            $query->execute();
+            $qnt = $query->fetch();
 
+            ?>
+
+            <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
+
+            <div class="col-md-2 col-4 mb-3">
+                <div class="rounded p-2 text-center border h-100">
+                    <h6>FORNECEDORES AVALIADOS</h6>
+                    <p><?= $qnt['quantidade'] ?></p>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-4 mb-3">
+                <div class="rounded p-2 text-center border h-100">
+                    <h6>RESULTADO DA PERFORMANCE</h6>
+                    <p><?= $pontuacao['classificacao'] ?></p>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-4 mb-3">
+                <div class="rounded p-2 text-center border h-100">
+                    <h6>CLASSIFICAÇÃO Q&D</h6>
+                    <p><?= $pontuacao['qualificacao_ipf'] ?></p>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-4 mb-3">
+                <div class="rounded p-2 text-center border h-100">
+                    <h6>POSIÇÃO NO RANKING</h6>
+                    <p><?= (($pontuacao['posicao']) ? "{$pontuacao['posicao']}º" : false) ?></p>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-4 mb-3">
+                <div class="rounded p-2 text-center border h-100">
+                    <h6>DATA QAV-1</h6>
+                    <?php
+                    if ($pontuacao['qav_data'] == NULL) {
                         ?>
-                        <td>
-                            <table class="table">
-                                <tr>
-                                    <td scope="col">&nbsp;<?= $retorno['quality_ip_emitido'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td scope="col">&nbsp;<?= $retorno['quality_ip_reincidente'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td scope="col">&nbsp;<?= $retorno['quality_atraso_resposta'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td scope="col">&nbsp;<?= $retorno['quality_ppm'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td scope="col">&nbsp;<?= $retorno['quality'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td scope="col">
-                                        &nbsp;<?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 0)) ?: false) ?></td>
-                                </tr>
-                            </table>
-                        </td>
+                        <p></p>
+                        <?php
+                    } else {
+                        ?>
+                        <p><?= date('d/m/Y', strtotime($pontuacao['qav_data'])) ?></p>
                         <?php
                     }
                     ?>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="row m-0 p-0 justify-content-center ">
-            <?php
-            $sql = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = '{$_POST['codigo_fornecedor']}' AND ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
-            $sql->execute();
-
-            if ($sql->rowCount()) {
-                $pontuacao = $sql->fetch();
-                $query = $pdo->prepare("SELECT count(codigo) as quantidade FROM avaliacao_mensal WHERE ano = '{$Ano}'  AND mes = '{$Mes}' AND status = 1");
-                $query->execute();
-                $qnt = $query->fetch();
-
-                ?>
-
-                <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
-
-                <div class="col-md-2 col-4">
-                    <div class="rounded p-2 text-center border h-100">
-                        <h6>FORNECEDORES AVALIADOS</h6>
-                        <p><?= $qnt['quantidade'] ?></p>
-                    </div>
                 </div>
+            </div>
 
-                <div class="col-md-2 col-4">
-                    <div class="rounded p-2 text-center border h-100">
-                        <h6>RESULTADO DA PERFORMANCE</h6>
-                        <p><?= $pontuacao['classificacao'] ?></p>
-                    </div>
-                </div>
-
-                <div class="col-md-2 col-4">
-                    <div class="rounded p-2 text-center border h-100">
-                        <h6>CLASSIFICAÇÃO Q&D</h6>
-                        <p><?= $pontuacao['qualificacao_ipf'] ?></p>
-                    </div>
-                </div>
-
-                <div class="col-md-2 col-4">
-                    <div class="rounded p-2 text-center border h-100">
-                        <h6>POSIÇÃO NO RANKING</h6>
-                        <p><?= (($pontuacao['posicao']) ? "{$pontuacao['posicao']}º" : false) ?></p>
-                    </div>
-                </div>
-
-                <div class="col-md-2 col-4">
-                    <div class="rounded p-2 text-center border h-100">
-                        <h6>DATA QAV-1</h6>
+            <div class="col-md-2 col-4 mb-3">
+                <div class="rounded p-2 text-center border h-100 ">
+                    <h6>NOTA QAV-1</h6>
+                    <div class="input-group">
                         <?php
-                        if ($pontuacao['qav_data'] == NULL) {
+                        if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
                             ?>
-                            <p></p>
-                            <?php
-                        } else {
-                            ?>
-                            <p><?= date('d/m/Y', strtotime($pontuacao['qav_data'])) ?></p>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                </div>
-
-                <div class="col-md-2 col-4">
-                    <div class="rounded p-2 text-center border h-100 ">
-                        <h6>NOTA QAV-1</h6>
-                        <div class="input-group">
-                            <?php
-                            if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
-                                ?>
-                                <input type="number" qav class="form-control">
-                                <div class="input-group-text p-0">
-                                    <button qav_av class="btn btn-success btn-sm h-100 w-100"
-                                            style="border-radius: 0px 3px 3px 0px;">Avaliar
-                                    </button>
-                                </div>
-                                <?php
-                            }else{
-                            ?>
-                        </div>
-                        <p><?= $pontuacao['qav'] ?></p>
-                        <?php if ($ConfUsu['tipo'] == '1') { ?>
-                            <div class="d-grid gap-2 noprint">
-                                <button qav_limpar type="button" class="btn btn-danger btn-sm">LIMPAR NOTA</button>
+                            <input type="number" qav class="form-control">
+                            <div class="input-group-text p-0">
+                                <button qav_av class="btn btn-success btn-sm h-100 w-100"
+                                        style="border-radius: 0px 3px 3px 0px;">Avaliar
+                                </button>
                             </div>
-                        <?php } ?>
-                        <?php
-                        }
+                            <?php
+                        }else{
                         ?>
                     </div>
+                    <p><?= $pontuacao['qav'] ?></p>
+                    <?php if ($ConfUsu['tipo'] == '1') { ?>
+                        <div class="d-grid gap-2 noprint">
+                            <button qav_limpar type="button" class="btn btn-danger btn-sm">LIMPAR NOTA</button>
+                        </div>
+                    <?php } ?>
+                    <?php
+                    }
+                    ?>
                 </div>
-            <?php } ?>
-        </div>
-
+            </div>
+        <?php } ?>
     </div>
+
 </div>
 
 <div class="page-break"></div>
