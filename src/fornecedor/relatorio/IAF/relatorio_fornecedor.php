@@ -210,6 +210,10 @@ function mesExtenso($mes)
             display: block !important;
             page-break-before: always !important;
         }
+
+        .assinaturas-item {
+            width: 100%;
+        }
     }
 
 </style>
@@ -556,6 +560,11 @@ function mesExtenso($mes)
                             ?>
                         </div>
                         <p><?= $pontuacao['qav'] ?></p>
+                        <?php if ($ConfUsu['tipo'] == '1') { ?>
+                            <div class="d-grid gap-2 noprint">
+                                <button qav_limpar type="button" class="btn btn-danger btn-sm">LIMPAR NOTA</button>
+                            </div>
+                        <?php } ?>
                         <?php
                         }
                         ?>
@@ -641,7 +650,7 @@ function mesExtenso($mes)
                                     <div class="d-flex align-items-center px-1">
                                         <img
                                                 src="src/fornecedor/barcode.php?f=png&s=qr&d=<?= $url_qrcode; ?>"
-                                                style="width: 70px"
+                                                style="width: 80px"
                                         >
                                     </div>
                                 </div>
@@ -735,46 +744,90 @@ function mesExtenso($mes)
                     qav,
                     ano,
                     mes
+                },
+                success: function () {
+                    $.ajax({
+                        url: 'src/fornecedor/relatorio_fornecedor.php',
+                        method: 'POST',
+                        data: {
+                            codigo_fornecedor,
+                            ano,
+                            mes
+                        }, success: function (retorno) {
+                            $('div#home').html(retorno);
+
+                            // $.ajax({
+                            //     url: 'src/fornecedor/barras.php',
+                            //     method: 'POST',
+                            //     data: {
+                            //         codigo: codigo_fornecedor,
+                            //         ano
+                            //     },success: function(chart){
+                            //         $('div[barras]').html(chart)
+
+                            //     }
+                            // })
+
+                            // $.ajax({
+                            //     url: 'src/fornecedor/linhas.php',
+                            //     method: 'POST',
+                            //     data: {
+                            //         codigo: codigo_fornecedor,
+                            //         ano
+                            //     },success: function(chart){
+                            //         $('div[linhas]').html(chart)
+
+                            //     }
+                            // })
+
+
+                        }
+                    })
+                }
+            })
+        })
+
+        $('button[qav_limpar]').click(function () {
+            let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
+            let ano = '<?=$Y?>';
+            let mes = '<?=$M?>';
+
+            $.alert({
+                title: false,
+                content: 'Tem certeza que deseja resetar o qav?',
+                buttons: {
+                    Sim: function () {
+                        $.ajax({
+                            url: 'src/fornecedor/actions/qav_action.php',
+                            method: 'POST',
+                            data: {
+                                codigo_fornecedor,
+                                ano,
+                                mes,
+                                acao: 'qav_limpar',
+                            }, success: function () {
+
+                                $.ajax({
+                                    url: 'src/fornecedor/relatorio_fornecedor.php',
+                                    method: 'POST',
+                                    data: {
+                                        codigo_fornecedor,
+                                        ano,
+                                        mes
+                                    }, success: function (retorno) {
+                                        $('div#home').html(retorno);
+                                    }
+                                });
+
+                            }
+                        });
+                    },
+                    Não: function () {
+
+                    }
                 }
             })
 
-            $.ajax({
-                url: 'src/fornecedor/relatorio_fornecedor.php',
-                method: 'POST',
-                data: {
-                    codigo_fornecedor,
-                    ano,
-                    mes
-                }, success: function (retorno) {
-                    $('div#home').html(retorno);
-
-                    // $.ajax({
-                    //     url: 'src/fornecedor/barras.php',
-                    //     method: 'POST',
-                    //     data: {
-                    //         codigo: codigo_fornecedor,
-                    //         ano
-                    //     },success: function(chart){
-                    //         $('div[barras]').html(chart)
-
-                    //     }
-                    // })
-
-                    // $.ajax({
-                    //     url: 'src/fornecedor/linhas.php',
-                    //     method: 'POST',
-                    //     data: {
-                    //         codigo: codigo_fornecedor,
-                    //         ano
-                    //     },success: function(chart){
-                    //         $('div[linhas]').html(chart)
-
-                    //     }
-                    // })
-
-
-                }
-            })
         })
 
         $('button[assinar]').click(function () {
@@ -814,7 +867,7 @@ function mesExtenso($mes)
 
             $.alert({
                 title: false,
-                content: 'Tem certeza que deseja remover assinatura?',
+                content: 'Tem certeza que deseja limpar a nota qav?',
                 buttons: {
                     sim: {
                         text: 'Sim',
