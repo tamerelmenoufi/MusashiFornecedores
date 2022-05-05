@@ -599,7 +599,7 @@ function mesExtenso($mes)
         <!-- Card assinaturas-->
         <div class="row my-4 p-0">
             <?php
-            $assinaturas_data = @json_decode($pontuacao['assinaturas'], true) ?: [];
+            $assinaturas_data = @json_decode($pontuacao['assinaturas_iaf'], true) ?: [];
             $search = array_search($_SESSION['musashi_cod_usu'], array_column($assinaturas_data, 'codigo'));
             $is_assinado = ($search >= 0 and $search !== false);
             ?>
@@ -703,7 +703,8 @@ function mesExtenso($mes)
                     codigo_fornecedor,
                     ano,
                     mes,
-                    tipo_relatorio
+                    tipo_relatorio,
+                    tipo_relatorio: 'IAF',
                 }, success: function (retorno) {
                     $('div#home').html(retorno)
 
@@ -850,6 +851,7 @@ function mesExtenso($mes)
             let codigo_fornecedor = $('input[fornecedor]').attr('fornecedor')
             let ano = '<?=$Y?>';
             let mes = '<?=$M?>';
+            let tipo_relatorio = '<?=$tipo_relatorio?>';
 
             $.dialog({
                 title: 'ASSINATURA',
@@ -864,6 +866,7 @@ function mesExtenso($mes)
                             codigo_fornecedor,
                             ano,
                             mes,
+                            tipo_relatorio
                         },
                     }).done(function (retorno) {
                         self.setContent(retorno);
@@ -876,9 +879,10 @@ function mesExtenso($mes)
         $('a[remover_assinatura]').click(function (e) {
             e.preventDefault();
 
-            var codigo = $(this).attr('cod');
-            var codigo_mensal = $(this).attr('cod_mensal');
-            var obj = $(this).parent();
+            let codigo = $(this).attr('cod');
+            let codigo_mensal = $(this).attr('cod_mensal');
+            let obj = $(this).parent();
+            let tipo_relatorio = '<?=$tipo_relatorio?>';
 
             $.alert({
                 title: false,
@@ -895,6 +899,7 @@ function mesExtenso($mes)
                                     codigo,
                                     codigo_mensal,
                                     acao: 'remover_assinatura',
+                                    tipo_relatorio
                                 },
                                 success: function (retorno) {
                                     if (retorno.status) {

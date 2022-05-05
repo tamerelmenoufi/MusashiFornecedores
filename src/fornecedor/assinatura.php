@@ -4,7 +4,9 @@ require "../../lib/config.php";
 global $pdo;
 
 if ($_POST['acao'] === 'assinar') {
-    $senha = md5($_POST['senha']);
+    #@formatter:off
+    $senha          = md5($_POST['senha']);
+    $tipo_relatorio = $_POST['tipo_relatorio'];
 
     $query = $pdo->prepare("SELECT codigo, nome, cargo FROM login WHERE codigo = :c AND senha = :s");
     $query->bindValue(":s", $senha);
@@ -12,9 +14,15 @@ if ($_POST['acao'] === 'assinar') {
     $query->execute();
 
     if ($query->rowCount() > 0) {
+        $campo_assinatura = "";
+
+        if ($tipo_relatorio === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
+        elseif ($tipo_relatorio === 'IQF') $campo_assinatura = 'assinaturas_iqf';
+        elseif ($tipo_relatorio === 'IAF') $campo_assinatura = 'assinaturas_iaf';
+
         $usuario = $query->fetch();
 
-        $query2 = $pdo->prepare("SELECT codigo, assinaturas FROM avaliacao_mensal WHERE codigo = :c");
+        $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
         $query2->bindValue(":c", $_SESSION['cod_mensal']);
         $query2->execute();
 
@@ -22,11 +30,17 @@ if ($_POST['acao'] === 'assinar') {
 
         $avaliacao_mes = $query2->fetch();
 
-        #@formatter:off
-
         $assinaturas    = json_decode($avaliacao_mes['assinaturas']) ?: [];
         $data_hora      = date('Y-m-d H:i:s');
-        $chave          = md5($_SESSION['musashi_cod_usu'] . $data_hora . $usuario['nome'] . $usuario['cargo']);
+        $chave          = md5(
+                $_SESSION['musashi_cod_usu']
+                    . $data_hora
+                    . $usuario['nome']
+                    . $usuario['cargo']
+                    . $tipo_relatorio
+        );
+
+        file_put_contents('debug.txt',$_SESSION['musashi_cod_usu'].$data_hora.$usuario['nome'].$usuario['cargo'].$tipo_relatorio);
 
         $nova_assinatura = [
             "codigo"    => $_SESSION['musashi_cod_usu'],
@@ -38,7 +52,7 @@ if ($_POST['acao'] === 'assinar') {
 
         array_push($assinaturas, $nova_assinatura);
 
-        $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET assinaturas = :a WHERE codigo = :c");
+        $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
         $query3->bindValue(':a', json_encode($assinaturas));
         $query3->bindValue(':c', $avaliacao_mes['codigo']);
 
@@ -126,18 +140,21 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
 
         $(".form-assinatura").submit(function (e) {
             e.preventDefault();
-
-            var senha = $("#senha").val();
-            var codigo_fornecedor = '<?= $_POST['codigo_fornecedor']; ?>';
-            var mes = '<?= $_POST['mes']; ?>';
-            var ano = '<?= $_POST['ano']; ?>';
+            //@formatter:off
+            let senha             = $("#senha").val();
+            let codigo_fornecedor = '<?= $_POST['codigo_fornecedor']; ?>';
+            let mes               = '<?= $_POST['mes']; ?>';
+            let ano               = '<?= $_POST['ano']; ?>';
+            let tipo_relatorio    = '<?= $_POST['tipo_relatorio'];?>';
+            //@formatter:on
 
             $.ajax({
                 url: "src/fornecedor/assinatura.php",
                 type: "POST",
                 data: {
                     acao: 'assinar',
-                    senha
+                    senha,
+                    tipo_relatorio,
                 },
                 dataType: "JSON",
                 beforeSend: function () {
@@ -155,14 +172,13 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                                 mes
                             }, success: function (retorno) {
                                 $('div#home').html(retorno);
-
                             }
                         });
 
                         setTimeout(function () {
                             $('.spinner-border').hide();
-
-                            $(".container-assinatura").html(`<h3 class="text-success text-center">${retorno.msg}</h3>`);
+                            $(".container-assinatura")
+                                .html(`<h3 class="text-success text-center">${retorno.msg}</h3>`);
                         }, 800);
 
                     } else {

@@ -6,6 +6,7 @@ if ($_POST and $_POST['acao'] === 'remover_assinatura') {
     #@formatter:off
     $codigo        = $_POST['codigo'];
     $codigo_mensal = $_POST['codigo_mensal'];
+    $tipo_relatorio = $_POST['tipo_relatorio'];
 
     $query = $pdo->prepare("SELECT assinaturas FROM avaliacao_mensal WHERE codigo = :c");
     $query->bindValue(':c', $codigo_mensal);
