@@ -5,8 +5,9 @@ global $pdo;
 
 if ($_POST['acao'] === 'assinar') {
     #@formatter:off
-    $senha          = md5($_POST['senha']);
-    $tipo_relatorio = $_POST['tipo_relatorio'];
+    $senha = md5($_POST['senha']);
+    $ano   = $_POST['ano'];
+    $mes   = $_POST['mes'];
 
     $query = $pdo->prepare("SELECT codigo, nome, cargo FROM login WHERE codigo = :c AND senha = :s");
     $query->bindValue(":s", $senha);
@@ -14,30 +15,22 @@ if ($_POST['acao'] === 'assinar') {
     $query->execute();
 
     if ($query->rowCount() > 0) {
-        $campo_assinatura = "";
-
-        if ($tipo_relatorio === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
-        elseif ($tipo_relatorio === 'IQF') $campo_assinatura = 'assinaturas_iqf';
-        elseif ($tipo_relatorio === 'IAF') $campo_assinatura = 'assinaturas_iaf';
-
         $usuario = $query->fetch();
 
-        $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
-        $query2->bindValue(":c", $_SESSION['cod_mensal']);
-        $query2->execute();
+        $query_select = $pdo->prepare("SELECT codigo, assinaturas FROM assinatura_geral WHERE mes = :m AND ano = :a LIMIT 1");
+        $query_select->bindValue(":a", $ano);
+        $query_select->bindValue(":m", $mes);
+        $query_select->execute();
+
+        $assinaturas_fetch = $query_select->fetch();
 
         $assinaturas = [];
-
-        $avaliacao_mes = $query2->fetch();
-
-        $assinaturas    = json_decode($avaliacao_mes[$campo_assinatura]) ?: [];
         $data_hora      = date('Y-m-d H:i:s');
         $chave          = md5(
-                $_SESSION['musashi_cod_usu']
-                    . $data_hora
-                    . $usuario['nome']
-                    . $usuario['cargo']
-                    . $tipo_relatorio
+            $_SESSION['musashi_cod_usu']
+            . $data_hora
+            . $usuario['nome']
+            . $usuario['cargo']
         );
 
         $nova_assinatura = [
@@ -48,42 +41,52 @@ if ($_POST['acao'] === 'assinar') {
             "chave"     => $chave,
         ];
 
-        array_push($assinaturas, $nova_assinatura);
+        $retorno = false;
+        $error_query = '';
 
-        $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
-        $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-        $query3->bindValue(':c', $avaliacao_mes['codigo']);
+        if($query_select->rowCount()){
+            $assinaturas = json_decode($assinaturas_fetch['assinaturas']) ?: [];
+            array_push($assinaturas, $nova_assinatura);
 
-        if ($query3->execute()) {
+            $query_update = $pdo->prepare("UPDATE assinatura_geral SET assinaturas = :assinaturas WHERE codigo = :codigo");
+            $query_update->bindValue(':assinaturas', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $query_update->bindValue(':codigo', $assinaturas_fetch['codigo']);
+
+            $retorno = $query_update->execute();
+            $error_query = $query_update->errorInfo();
+        }else{
+            $query_insert = $pdo->prepare('INSERT INTO assinatura_geral SET mes = :mes, ano = :ano, assinaturas = :assinaturas');
+            $query_insert->bindValue(':mes', $mes);
+            $query_insert->bindValue(':ano', $ano);
+            $query_insert->bindValue(':assinaturas', json_encode([$nova_assinatura], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+
+            $retorno = $query_insert->execute();
+            $error_query = $query_insert->errorInfo();
+        }
+
+        if ($retorno) {
             echo json_encode([
                 "status"     => true,
                 "msg"        => "Assinado com sucesso",
-                "codigo"     => $avaliacao_mes['codigo'],
-                "dados"      => $nova_assinatura,
-                "cod_mensal" => $_SESSION['cod_mensal'],
-                "tipo"       => $ConfUsu['tipo']
             ]);
 
-            unset($_SESSION['cod_mensal']);
         } else {
             echo json_encode([
-                "status" => false,
-                "msg"    => "Erro ao inserir assinatura",
-                "error"  => $query3->errorInfo()
+                "status"    => false,
+                "msg"       => "Erro ao inserir assinatura",
+                "error_sql" => $error_query,
             ]);
         }
-        #@formatter:on
+
     } else {
         echo json_encode([
             "status" => false,
-            "msg" => "Senha incorreta!"
+            "msg"    => "Senha incorreta!"
         ]);
     }
-
+    #@formatter:on
     exit();
 }
-
-$_SESSION['cod_mensal'] = $_POST['cod_mensal'];
 
 ?>
 
@@ -113,7 +116,6 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                             aria-hidden="true"
                     ></span> Validar
                 </button>
-
             </form>
         </div>
     </div>
@@ -141,38 +143,38 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
             e.preventDefault();
             //@formatter:off
             let senha             = $("#senha").val();
-            let codigo_fornecedor = '<?= $_POST['codigo_fornecedor']; ?>';
             let mes               = '<?= $_POST['mes']; ?>';
             let ano               = '<?= $_POST['ano']; ?>';
-            let tipo_relatorio    = '<?= $_POST['tipo_relatorio'];?>';
             //@formatter:on
 
             $.ajax({
-                url: "src/fornecedor/assinatura.php",
+                url: "src/fornecedor/assinatura_geral.php",
                 type: "POST",
                 data: {
                     acao: 'assinar',
                     senha,
-                    tipo_relatorio,
+                    mes,
+                    ano,
                 },
                 dataType: "JSON",
                 beforeSend: function () {
                     $('.spinner-border').show();
                 },
                 success: function (retorno) {
+
                     if (retorno.status) {
 
                         $.ajax({
-                            url: 'src/fornecedor/relatorio_fornecedor.php',
-                            method: 'POST',
+                            url: "src/pages/resumo.php",
+                            method: "POST",
                             data: {
-                                codigo_fornecedor,
                                 ano,
                                 mes
-                            }, success: function (retorno) {
-                                $('div#home').html(retorno);
+                            },
+                            success: function (retorno) {
+                                $('div#home').html(retorno)
                             }
-                        });
+                        })
 
                         setTimeout(function () {
                             $('.spinner-border').hide();
