@@ -718,6 +718,8 @@ function mesExtenso($mes)
 
             var codigo = $(this).attr('cod');
             var codigo_mensal = $(this).attr('cod_mensal');
+            let tipo_relatorio = '<?=$tipo_relatorio?>';
+
             var obj = $(this).parent();
 
             $.alert({
@@ -734,6 +736,7 @@ function mesExtenso($mes)
                                 data: {
                                     codigo,
                                     codigo_mensal,
+                                    tipo_relatorio,
                                     acao: 'remover_assinatura',
                                 },
                                 success: function (retorno) {

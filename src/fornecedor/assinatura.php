@@ -23,6 +23,7 @@ if ($_POST['acao'] === 'assinar') {
         $usuario = $query->fetch();
 
         $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
+
         $query2->bindValue(":c", $_SESSION['cod_mensal']);
         $query2->execute();
 
@@ -168,7 +169,8 @@ $_SESSION['cod_mensal'] = $_POST['cod_mensal'];
                             data: {
                                 codigo_fornecedor,
                                 ano,
-                                mes
+                                mes,
+                                tipo_relatorio,
                             }, success: function (retorno) {
                                 $('div#home').html(retorno);
                             }
