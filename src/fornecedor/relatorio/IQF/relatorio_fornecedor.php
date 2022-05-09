@@ -504,58 +504,58 @@ function mesExtenso($mes)
 
             <input type="hidden" cod_mensal value="<?= $pontuacao['codigo'] ?>">
 
-            <div class="col-md-2 col-4 mb-3">
+            <div class="col-md-3 col-6 mb-3">
                 <div class="rounded p-2 text-center border h-100">
                     <h6>FORNECEDORES AVALIADOS</h6>
                     <p><?= $qnt['quantidade'] ?></p>
                 </div>
             </div>
 
-            <div class="col-md-2 col-4 mb-3">
+            <div class="col-md-3 col-6 mb-3">
                 <div class="rounded p-2 text-center border h-100">
                     <h6>RESULTADO DA PERFORMANCE</h6>
                     <p><?= $pontuacao['classificacao'] ?></p>
                 </div>
             </div>
 
-            <div class="col-md-2 col-4 mb-3">
+            <div class="col-md-3 col-6 mb-3">
                 <div class="rounded p-2 text-center border h-100">
                     <h6>CLASSIFICAÇÃO Q&D</h6>
                     <p><?= $pontuacao['qualificacao_ipf'] ?></p>
                 </div>
             </div>
 
-            <div class="col-md-2 col-4 mb-3">
+            <div class="col-md-3 col-6 mb-3">
                 <div class="rounded p-2 text-center border h-100">
                     <h6>POSIÇÃO NO RANKING</h6>
                     <p><?= (($pontuacao['posicao']) ? "{$pontuacao['posicao']}º" : false) ?></p>
                 </div>
             </div>
 
-            <div class="col-md-2 col-4 mb-3">
+            <!--<div class="col-md-2 col-4 mb-3">
                 <div class="rounded p-2 text-center border h-100">
                     <h6>DATA QAV-1</h6>
                     <?php
-                    if ($pontuacao['qav_data'] == NULL) {
-                        ?>
+            /*                    if ($pontuacao['qav_data'] == NULL) {
+                                    */ ?>
                         <p></p>
                         <?php
-                    } else {
-                        ?>
-                        <p><?= date('d/m/Y', strtotime($pontuacao['qav_data'])) ?></p>
+            /*                    } else {
+                                    */ ?>
+                        <p><? /*= date('d/m/Y', strtotime($pontuacao['qav_data'])) */ ?></p>
                         <?php
-                    }
-                    ?>
+            /*                    }
+                                */ ?>
                 </div>
-            </div>
+            </div>-->
 
-            <div class="col-md-2 col-4 mb-3">
+            <!--<div class="col-md-2 col-4 mb-3">
                 <div class="rounded p-2 text-center border h-100 ">
                     <h6>NOTA QAV-1</h6>
                     <div class="input-group">
                         <?php
-                        if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
-                            ?>
+            /*                        if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
+                                        */ ?>
                             <input type="number" qav class="form-control">
                             <div class="input-group-text p-0">
                                 <button qav_av class="btn btn-success btn-sm h-100 w-100"
@@ -563,20 +563,20 @@ function mesExtenso($mes)
                                 </button>
                             </div>
                             <?php
-                        }else{
-                        ?>
+            /*                        }else{
+                                    */ ?>
                     </div>
-                    <p><?= $pontuacao['qav'] ?></p>
-                    <?php if ($ConfUsu['tipo'] == '1') { ?>
+                    <p><? /*= $pontuacao['qav'] */ ?></p>
+                    <?php /*if ($ConfUsu['tipo'] == '1') { */ ?>
                         <div class="d-grid gap-2 noprint">
                             <button qav_limpar type="button" class="btn btn-danger btn-sm">LIMPAR NOTA</button>
                         </div>
-                    <?php } ?>
+                    <?php /*} */ ?>
                     <?php
-                    }
-                    ?>
+            /*                    }
+                                */ ?>
                 </div>
-            </div>
+            </div>-->
         <?php } ?>
     </div>
 

@@ -87,13 +87,13 @@ function mesExtenso($mes)
 //     }
 // }
 
-
-$array_valores = [];
-$array_quality = [];
+#@formatter:off
+$array_valores  = [];
+$array_quality  = [];
 $array_delivery = [];
-$array_meses = [];
-$array_cor = [];
-$array_border = [];
+$array_meses    = [];
+$array_cor      = [];
+$array_border   = [];
 
 for ($i = 11; $i >= 0; $i--) {
 
@@ -110,27 +110,27 @@ for ($i = 11; $i >= 0; $i--) {
     if ($query->rowCount() > 0) {
         $d = $query->fetch();
 
-        #formatter:off
+
         $ind = ($Mes * 1);
         $array_meses[$ind]    = '"' . mesExtenso($ind) . '/' . substr($Ano, -2) . '"';
         $array_valores[$ind]  = (($d['classificacao']) ?: '');
         $array_quality[$ind]  = (($d['quality']) ?: '');
         $array_delivery[$ind] = (($d['delivery']) ?: '');
 
-        if ($d['classificacao'] < 84.99) {
+        if ($d['delivery'] < 84.99) {
             $array_cor[$ind]    = '"#dc3545"'; /// DEFICIENTE
             $array_border[$ind] = '"#dc3545"';
-        } elseif ($d['classificacao'] > 84.99 && $d['classificacao'] < 93.99) {///// REGULAR
+        } elseif ($d['delivery'] > 84.99 && $d['delivery'] < 93.99) {///// REGULAR
             $array_cor[$ind]    = '"#ffc107"';
             $array_border[$ind] = '"#ffc107"';
-        } elseif ($d['classificacao'] > 93.99 && $d['classificacao'] < 98.99) { //// BOM
+        } elseif ($d['delivery'] > 93.99 && $d['delivery'] < 98.99) { //// BOM
             $array_cor[$ind]    = '"#007bff"';
             $array_border[$ind] = '"#6610f2"';
-        } elseif ($d['classificacao'] > 98.99 && $d['classificacao'] <= 100.00) { ///OTIMO
+        } elseif ($d['delivery'] > 98.99 && $d['delivery'] <= 100.00) { ///OTIMO
             $array_cor[$ind]    = '"#28a745"';
             $array_border[$ind] = '"#198754"';
         }
-        #formatter:on
+        #@formatter:on
     }
 }
 
