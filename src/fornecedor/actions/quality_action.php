@@ -24,8 +24,8 @@
 
     $ppm = $_POST['ppm'] == ''?0:$_POST['ppm'];
 
-    
-    $sql = $pdo->prepare("SELECT SUM(ip_emissao.demerito + ip_reincidente.demerito + ip_atraso.demerito) as demeritos 
+
+    $sql = $pdo->prepare("SELECT SUM(ip_emissao.demerito + ip_reincidente.demerito + ip_atraso.demerito) as demeritos
     FROM aux_ip_oficial_emissao ip_emissao
     JOIN aux_ip_reincidente ip_reincidente ON ip_reincidente.codigo = {$_POST['quality_ip_reincidente']}
     JOIN aux_ip_atraso_resposta ip_atraso ON ip_atraso.codigo = {$_POST['quality_atraso_resposta']}
@@ -35,7 +35,7 @@
 
     $demerito += $d['demeritos'];
 
-    $sql = $pdo->prepare("UPDATE registros_diarios SET 
+    $sql = $pdo->prepare("UPDATE registros_diarios SET
     calculo_ppm = {$ppm},
     quality_ip_emitido = {$_POST['quality_ip_emitido']},
     quality_ip_reincidente = {$_POST['quality_ip_reincidente']},
@@ -47,7 +47,7 @@
     WHERE codigo = {$_POST['codigo']}");
 
     $sql->execute();
-    ?>  
+    ?>
     <div class="container-fluid">
         <h4 class="text-success">Concluido <i class="fa fa-check-square-o" aria-hidden="true"></i></h4>
         <p>Avaliação foi registrada com sucesso.</p>
@@ -77,6 +77,9 @@
                     data: {
                         codigo_fornecedor,
                         data
+                    },
+                    success:function(dados){
+                        $.alert(dados);
                     }
                 })
 
