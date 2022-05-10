@@ -31,21 +31,34 @@ global $pdo;
         </div>
         <?php
         $chave = $_GET['chave'];
-        $query = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE status = '1' AND (assinaturas != '' OR assinaturas IS NOT NULL)");
+        $tipo = $_GET['tipo'];
+
+        $sql = "SELECT * FROM avaliacao_mensal "
+            . "WHERE status = '1' AND "
+            . "(assinaturas_ipf != '' AND assinaturas_ipf IS NOT NULL) OR "
+            . "(assinaturas_iqf != '' AND assinaturas_iqf IS NOT NULL) OR "
+            . "(assinaturas_iaf != '' AND assinaturas_iaf IS NOT NULL)";
+
+        $query = $pdo->prepare($sql);
         $query->execute();
 
         $assinaturas = [];
         $dados = [];
 
         while ($d = $query->fetch()) {
-            $assinaturas[$d['codigo']] = json_decode($d['assinaturas'], true);
+            if ($d['assinaturas_ipf']) $assinaturas[][$d['codigo']] = json_decode($d['assinaturas_ipf'], true);
+            if ($d['assinaturas_iqf']) $assinaturas[][$d['codigo']] = json_decode($d['assinaturas_iqf'], true);
+            if ($d['assinaturas_iaf']) $assinaturas[][$d['codigo']] = json_decode($d['assinaturas_iaf'], true);
         }
 
-        foreach ($assinaturas as $assinatura_key => $assinatura) {
-            foreach ($assinatura as $row) {
-                if ($row['chave'] === $chave) {
-                    $dados = $row;
-                    $dados['codigo_mensal'] = $assinatura_key;
+        foreach ($assinaturas as $assinatura) {
+            foreach ($assinatura as $key => $assinatura1) {
+                foreach ($assinatura1 as $ass) {
+                    if ($ass['chave'] === $chave) {
+                        $dados = $ass;
+                        $dados['codigo_mensal'] = $key;
+                        break;
+                    }
                 }
             }
         }
