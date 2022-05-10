@@ -65,8 +65,9 @@ global $pdo;
                 if ($d['assinaturas_iaf']) $assinaturas[][$d['codigo']] = json_decode($d['assinaturas_iaf'], true);
             }
 
-            foreach ($assinaturas_array as $assinaturas) {
-                foreach ($assinaturas as $codigo => $assinatura) {
+
+            foreach ($assinaturas as $array_ass) {
+                foreach ($array_ass as $codigo => $assinatura) {
 
                     foreach ($assinatura as $ass) {
                         if ($ass['chave'] === $chave) {
@@ -140,6 +141,71 @@ global $pdo;
             <?php endif; ?>
         <?php else: ?>
 
+            <?php
+            $sql = "SELECT * FROM assinatura_geral WHERE (assinaturas != '' AND assinaturas IS NOT NULL)";
+            $query_assinatura_geral = $pdo->prepare($sql);
+            $query_assinatura_geral->execute();
+
+            $assinaturas = [];
+            $dados = [];
+
+            while ($d = $query_assinatura_geral->fetch()) {
+                $assinaturas[$d['codigo']] = [
+                    'mes' => $d['mes'],
+                    'ano' => $d['ano'],
+                    'assinaturas' => json_decode($d['assinaturas'], true)
+                ];
+            }
+
+            foreach ($assinaturas as $assinatura) {
+                foreach ($assinatura['assinaturas'] as $ass) {
+                    if ($ass['chave'] === $chave) {
+                        $dados = $ass;
+                        $dados['mes'] = $assinatura['mes'];
+                        $dados['ano'] = $assinatura['ano'];
+                        break;
+                    }
+                }
+            }
+            
+            if (!$dados) { ?>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Chave de assinatura não encontrada
+                </div>
+            <?php } else { ?>
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check" aria-hidden="true"></i> Assinatura valida
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h5>Informações do usuário</h5>
+                            <div class="row">
+                                <div class="col-md-4 fw-600">Usuário</div>
+                                <div class="col-md-8"><?= $dados['usuario']; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 fw-600">Cargo</div>
+                                <div class="col-md-8"><?= $dados['cargo']; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 fw-600">Data da Assinatura</div>
+                                <div class="col-md-8"><?= date('d/m/Y H:i', strtotime($dados['data_hora'])) ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 fw-600">Chave da autenticação</div>
+                                <div class="col-md-8"><?= $dados['chave'] ?></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 fw-600">Mês/Ano da Avaliação</div>
+                                <div class="col-md-8"><?= $dados['mes'] . '/' . $dados['ano'] ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
         <?php endif; ?>
     </div>
 </div>
