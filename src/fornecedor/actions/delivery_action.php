@@ -70,6 +70,9 @@
                     data: {
                         codigo_fornecedor,
                         data
+                    },
+                    success:function(dados){
+                        $.alert(dados);
                     }
                 })
 

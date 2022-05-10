@@ -43,6 +43,14 @@
         $update = $pdo->prepare("UPDATE avaliacao_mensal SET status = '1' WHERE codigo = {$mes['codigo']}");
         $update->execute();
 
+        echo $comando = "SELECT
+        AVG(eficiencia) as eficiencia,
+        AVG(100 - total_demerito_delivery) as delivery,
+        AVG(100 - total_demerito_quality) as quality,
+        (AVG(eficiencia) + AVG(100 - total_demerito_delivery) + AVG(100 - total_demerito_quality))/3 as classificacao
+FROM registros_diarios
+WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND status = 1 AND data_registro between '{$btw1}' AND '{$btw2}'";
+
         $medias = $pdo->prepare("SELECT
                                         AVG(eficiencia) as eficiencia,
                                         AVG(100 - total_demerito_delivery) as delivery,
