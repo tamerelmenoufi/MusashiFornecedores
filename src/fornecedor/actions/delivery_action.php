@@ -72,7 +72,7 @@
                         data
                     },
                     success:function(dados){
-                        $.alert(dados);
+                        // $.alert(dados);
                     }
                 })
 
