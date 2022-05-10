@@ -289,7 +289,7 @@ if (isset($_POST['mes'])) {
                     if ($assinaturas_json) {
                         foreach ($assinaturas_json as $assinatura) {
                             #print_r($assinaturas_json);
-                            $url_qrcode = "http://musashi.mohatron.com/validacao-de-assinatura.php?chave={$assinatura['chave']}"
+                            $url_qrcode = "http://musashi.mohatron.com/validacao-de-assinatura.php?v={$assinatura['chave']}-rg"
                             ?>
 
                             <div class="col-md-6 mb-2 assinaturas-item">

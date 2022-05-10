@@ -464,7 +464,7 @@ function mesExtenso($mes)
             if ($pontuacao['codigo']) { ?>
                 <?php if ($assinaturas_data) { ?>
                     <?php foreach ($assinaturas_data as $ass) {
-                        $url_qrcode = "http://musashi.mohatron.com/validacao-de-assinatura.php?chave={$ass['chave']}"
+                        $url_qrcode = "http://musashi.mohatron.com/validacao-de-assinatura.php?v={$ass['chave']}"
                         ?>
                         <div class="col-4 mb-2 assinaturas-item">
                             <div class="rounded border h-100 px-3 py-2 position-relative">
