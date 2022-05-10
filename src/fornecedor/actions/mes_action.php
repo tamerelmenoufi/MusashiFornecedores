@@ -57,7 +57,7 @@ WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND status = 1 AND data_
                                         AVG(100 - total_demerito_quality) as quality,
                                         (AVG(eficiencia) + AVG(100 - total_demerito_delivery) + AVG(100 - total_demerito_quality))/3 as classificacao
                                 FROM registros_diarios
-        WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND status = 1 AND data_registro between '{$btw1}' AND '{$btw2}'");
+        WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND status = 1 AND data_registro between '{$btw2}' AND '{$btw1}'");
 
         $medias->execute();
 
