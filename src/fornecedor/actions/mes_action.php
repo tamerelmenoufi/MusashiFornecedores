@@ -7,7 +7,7 @@
     $Y = date("Y", strtotime($_POST["data"]));
 
     $btw1 = date("Y-m-d", mktime(0, 0, 0, $m, 1, $Y));
-    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-11, 1, $Y));
+    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-12, 1, $Y));
 
     $verify = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}
     AND mes = {$m} AND ano = {$Y}");
