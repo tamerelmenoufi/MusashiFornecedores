@@ -7,7 +7,7 @@
     $Y = date("Y", strtotime($_POST["data"]));
 
     $btw1 = date("Y-m-d", mktime(0, 0, 0, $m, 1, $Y));
-    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-12, 1, $Y));
+    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-11, 1, $Y));
     //Dados do intervalo das datas
 
     $verify = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}
@@ -44,7 +44,7 @@
         $update = $pdo->prepare("UPDATE avaliacao_mensal SET status = '1' WHERE codigo = {$mes['codigo']}");
         $update->execute();
 
-        echo $comando = "SELECT
+        echo $comando = "ATUAL <br> SELECT
         AVG(eficiencia) as eficiencia,
         AVG(100 - total_demerito_delivery) as delivery,
         AVG(100 - total_demerito_quality) as quality,
