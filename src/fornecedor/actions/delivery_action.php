@@ -10,7 +10,7 @@
         $eficiencia = ($_POST['qnt_recebida']/$_POST['qnt_requerida'])*100;
     }
 
-    $sql = $pdo->prepare("SELECT SUM(idm_emitidos.demerito + idm_reincidente.demerito + atraso_resposta.demerito + atraso_entrega.demerito + atendimento.demerito + parada_linha.demerito + comunicacao.demerito) as demeritos 
+    $sql = $pdo->prepare("SELECT SUM(idm_emitidos.demerito + idm_reincidente.demerito + atraso_resposta.demerito + atraso_entrega.demerito + atendimento.demerito + parada_linha.demerito + comunicacao.demerito) as demeritos
     FROM aux_idm_emitidos idm_emitidos
     JOIN aux_idm_reincidente idm_reincidente ON idm_reincidente.codigo = {$_POST['delivery_idm_reincidente']}
     JOIN aux_idm_atraso_resposta atraso_resposta ON atraso_resposta.codigo = {$_POST['delivery_atraso_resposta']}
@@ -24,7 +24,7 @@
 
     $demeritos += $d['demeritos'];
 
-    $sql = $pdo->prepare("UPDATE registros_diarios SET 
+    $sql = $pdo->prepare("UPDATE registros_diarios SET
     eficiencia = {$eficiencia},
     qnt_requerida = {$_POST['qnt_requerida']},
     qnt_recebida = {$_POST['qnt_recebida']},
@@ -40,7 +40,7 @@
     WHERE codigo = {$_POST['codigo']}");
 
     $sql->execute();
-    ?>  
+    ?>
     <div class="container-fluid">
         <h4 class="text-success">Concluido <i class="fa fa-check-square-o" aria-hidden="true"></i></h4>
         <p>Avaliação foi registrada com sucesso.</p>
@@ -72,7 +72,7 @@
                         data
                     }
                 })
-                
+
                 $.ajax({
                     url: "src/fornecedor/actions/ano_action.php",
                     method: "POST",

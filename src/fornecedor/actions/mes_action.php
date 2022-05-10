@@ -6,6 +6,9 @@
     $m = date("m", strtotime($_POST["data"]));
     $Y = date("Y", strtotime($_POST["data"]));
 
+    $btw1 = date("Y-m-d", mktime(0, 0, 0, $m, 1, $Y));
+    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-11, 1, $Y));
+
     $verify = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}
     AND mes = {$m} AND ano = {$Y}");
     $verify->execute();
@@ -26,10 +29,16 @@
         qualificacao_iqf = 'OTIMO'");
 
         $create_month->execute();
-    }else{
 
+
+        $verify->execute();
 
         $mes = $verify->fetch();
+
+    }else{
+
+        $mes = $verify->fetch();
+    }
 
         $update = $pdo->prepare("UPDATE avaliacao_mensal SET status = '1' WHERE codigo = {$mes['codigo']}");
         $update->execute();
@@ -40,7 +49,7 @@
                                         AVG(100 - total_demerito_quality) as quality,
                                         (AVG(eficiencia) + AVG(100 - total_demerito_delivery) + AVG(100 - total_demerito_quality))/3 as classificacao
                                 FROM registros_diarios
-        WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND year(data_registro) = {$Y} AND status = 1");
+        WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND status = 1 AND data_registro between '{$btw1}' AND '{$btw2}'");
 
         $medias->execute();
 
@@ -168,8 +177,4 @@
             $pD++;
         }
 
-
-
-
-    }
 ?>
