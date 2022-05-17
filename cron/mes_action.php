@@ -102,18 +102,18 @@
         echo "<hr>";
 
         echo $v  = "UPDATE avaliacao_mensal SET
-        codigo_fornecedor = {$dCron['codigo_fornecedor']},
-        mes = {$m},
-        ano = {$Y},
-        eficiencia = {$result['eficiencia']},
-        quality = {$result['quality']},
+        codigo_fornecedor = '{$dCron['codigo_fornecedor']}',
+        mes = '{$m}',
+        ano = '{$Y}',
+        eficiencia = '{$result['eficiencia']}',
+        quality = '{$result['quality']}',
         delivery = {$result['delivery']},
-        classificacao = {$result['classificacao']},
+        classificacao = '{$result['classificacao']}',
         qualificacao_ipf = '{$q_ipf}',
         qualificacao_iqf = '{$q_iqf}',
         qualificacao_iaf = '{$q_iaf}'
-        WHERE codigo_fornecedor = {$dCron['codigo_fornecedor']}
-        AND mes = {$m} AND ano = {$Y}";
+        WHERE codigo_fornecedor = '{$dCron['codigo_fornecedor']}'
+        AND mes = '{$m}' AND ano = '{$Y}'";
 
         $update = $pdo->prepare($v);
 
