@@ -2,9 +2,10 @@
 
     $m = date("m", strtotime($dCron['data_registro']));
     $Y = date("Y", strtotime($dCron['data_registro']));
+    $d = date("d", strtotime($dCron['data_registro']));
 
-    $btw1 = date("Y-m-d", mktime(0, 0, 0, $m, 1, $Y));
-    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-11, 1, $Y));
+    $btw1 = date("Y-m-d", mktime(0, 0, 0, $m, $d, $Y));
+    $btw2 =  date("Y-m-d", mktime(0, 0, 0, $m-11, $d, $Y));
     //Dados do intervalo das datas
 
     echo "<hr>";
