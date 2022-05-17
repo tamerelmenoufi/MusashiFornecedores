@@ -107,7 +107,7 @@
         ano = '{$Y}',
         eficiencia = '{$result['eficiencia']}',
         quality = '{$result['quality']}',
-        delivery = {$result['delivery']},
+        delivery = '{$result['delivery']}',
         classificacao = '{$result['classificacao']}',
         qualificacao_ipf = '{$q_ipf}',
         qualificacao_iqf = '{$q_iqf}',
