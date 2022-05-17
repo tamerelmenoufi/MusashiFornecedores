@@ -70,31 +70,31 @@
 
         $result = $medias->fetch();
 
-        if($result['classificacao'] < 84.99){
+        if($result['classificacao'] <= 84.99){
             $q_ipf = 'DEFICIENTE';
-        }elseif($result['classificacao'] > 84.99 && $result['classificacao'] < 93.99){
+        }elseif($result['classificacao'] > 84.99 && $result['classificacao'] <= 93.99){
             $q_ipf = 'REGULAR';
-        }elseif($result['classificacao'] > 93.99 && $result['classificacao'] < 98.99){
+        }elseif($result['classificacao'] > 93.99 && $result['classificacao'] <= 98.99){
             $q_ipf = 'BOM';
         }elseif($result['classificacao'] > 98.99 && $result['classificacao'] <= 100.00){
             $q_ipf = 'OTIMO';
         }
 
-        if($result['quality'] < 77.99){
+        if($result['quality'] <= 77.99){
             $q_iqf = 'DEFICIENTE';
-        }elseif($result['quality'] > 77.99 && $result['quality'] < 91.99){
+        }elseif($result['quality'] > 77.99 && $result['quality'] <= 91.99){
             $q_iqf = 'REGULAR';
-        }elseif($result['quality'] > 91.99 && $result['quality'] < 98.99){
+        }elseif($result['quality'] > 91.99 && $result['quality'] <= 98.99){
             $q_iqf = 'BOM';
         }elseif($result['quality'] > 98.99 && $result['quality'] <= 100.00){
             $q_iqf = 'OTIMO';
         }
 
-        if($result['delivery'] < 91.99){
+        if($result['delivery'] <= 91.99){
             $q_iaf = 'DEFICIENTE';
-        }elseif($result['delivery'] > 91.99 && $result['delivery'] < 95.99){
+        }elseif($result['delivery'] > 91.99 && $result['delivery'] <= 95.99){
             $q_iaf = 'REGULAR';
-        }elseif($result['delivery'] > 95.99 && $result['delivery'] < 98.99){
+        }elseif($result['delivery'] > 95.99 && $result['delivery'] <= 98.99){
             $q_iaf = 'BOM';
         }elseif($result['delivery'] > 98.99 && $result['delivery'] <= 100.00){
             $q_iaf = 'OTIMO';
