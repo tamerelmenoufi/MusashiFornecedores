@@ -190,7 +190,7 @@
 
         echo $v  = "UPDATE avaliacao_mensal SET posicao_quality = 1 WHERE codigo = {$d['codigo']}";
 
-                $update = $pdo->prepare();
+                $update = $pdo->prepare($v);
                 $update->execute();
             }else{
 
