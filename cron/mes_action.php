@@ -9,7 +9,7 @@
 
     echo "<hr>";
 
-    $v = "SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = {$dCron['codigo_fornecedor']}
+    echo $v = "SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = {$dCron['codigo_fornecedor']}
     AND mes = {$m} AND ano = {$Y}";
 
     $verify = $pdo->prepare($v);
@@ -19,7 +19,7 @@
 
     echo "<hr>";
 
-        $v  = "INSERT INTO avaliacao_mensal SET
+        echo $v  = "INSERT INTO avaliacao_mensal SET
         codigo_fornecedor = {$dCron['codigo_fornecedor']},
         mes = {$m},
         ano = {$Y},
@@ -49,13 +49,13 @@
 
         echo "<hr>";
 
-        $v = "UPDATE avaliacao_mensal SET status = '1' WHERE codigo = {$mes['codigo']}";
+        echo $v = "UPDATE avaliacao_mensal SET status = '1' WHERE codigo = {$mes['codigo']}";
         $update = $pdo->prepare($v);
         $update->execute();
 
         echo "<hr>";
 
-        $v = "SELECT
+        echo $v = "SELECT
                 AVG(eficiencia) as eficiencia,
                 AVG(100 - total_demerito_delivery) as delivery,
                 AVG(100 - total_demerito_quality) as quality,
@@ -101,7 +101,7 @@
 
         echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET
+        echo $v  = "UPDATE avaliacao_mensal SET
         codigo_fornecedor = {$dCron['codigo_fornecedor']},
         mes = {$m},
         ano = {$Y},
@@ -123,7 +123,7 @@
 
         echo "<hr>";
 
-        $v  = "SELECT codigo, classificacao, ano, mes, posicao FROM avaliacao_mensal
+        echo $v  = "SELECT codigo, classificacao, ano, mes, posicao FROM avaliacao_mensal
         WHERE mes = {$m} AND ano = {$Y} ORDER BY classificacao DESC";
 
         $max = $pdo->prepare($v);
@@ -136,7 +136,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao = 1 WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao = 1 WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -148,7 +148,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao = 1 WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao = 1 WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -156,7 +156,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao = {$p} WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao = {$p} WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -176,7 +176,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao_quality = 1 WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao_quality = 1 WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -188,7 +188,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao_quality = 1 WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao_quality = 1 WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare();
                 $update->execute();
@@ -196,7 +196,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao_quality = {$pQ} WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao_quality = {$pQ} WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -209,7 +209,7 @@
 
         echo "<hr>";
 
-        $v  = "SELECT codigo, delivery, ano, mes, posicao_delivery FROM avaliacao_mensal
+        echo $v  = "SELECT codigo, delivery, ano, mes, posicao_delivery FROM avaliacao_mensal
         WHERE mes = {$m} AND ano = {$Y} ORDER BY delivery DESC";
 
         $max = $pdo->prepare($v);
@@ -222,7 +222,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao_delivery = 1 WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao_delivery = 1 WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -234,7 +234,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao_delivery = 1 WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao_delivery = 1 WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
@@ -242,7 +242,7 @@
 
                 echo "<hr>";
 
-        $v  = "UPDATE avaliacao_mensal SET posicao_delivery = {$pD} WHERE codigo = {$d['codigo']}";
+        echo $v  = "UPDATE avaliacao_mensal SET posicao_delivery = {$pD} WHERE codigo = {$d['codigo']}";
 
                 $update = $pdo->prepare($v);
                 $update->execute();
