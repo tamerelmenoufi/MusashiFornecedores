@@ -179,7 +179,7 @@ for ($i = 11; $i >= 0; $i--) {
                     backgroundColor: [<?=@implode(",", $array_cor)?>],
                     borderColor: [<?=@implode(",", $array_border)?>],
                     borderWidth: 2,
-                    data: [<?=@implode(",", $array_delivery)?>],
+                    data: [<?=@implode(",", $array_quality)?>],
                     stack: 'combined',
                     barThickness: 50,
                     type: 'bar'

@@ -360,7 +360,7 @@ function mesExtenso($mes)
                         // faz comparação da data selecionada com os 12 meses anteriores
 
 
-                        echo $q = "SELECT f.nome,
+                        $q = "SELECT f.nome,
                         am.mes,
                         am.ano,
                         am.eficiencia,
