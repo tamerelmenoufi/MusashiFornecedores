@@ -359,7 +359,7 @@ function mesExtenso($mes)
 
                         // faz comparação da data selecionada com os 12 meses anteriores
 
-                        $query = $pdo->prepare("SELECT f.nome,
+                        echo $query = $pdo->prepare("SELECT f.nome,
                             am.mes,
                             am.ano,
                             am.eficiencia,
