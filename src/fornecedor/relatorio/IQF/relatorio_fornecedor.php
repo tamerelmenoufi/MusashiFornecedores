@@ -359,18 +359,20 @@ function mesExtenso($mes)
 
                         // faz comparação da data selecionada com os 12 meses anteriores
 
-                        echo $query = $pdo->prepare("SELECT f.nome,
-                            am.mes,
-                            am.ano,
-                            am.eficiencia,
-                            am.quality,
-                            am.delivery,
-                            am.classificacao,
-                            am.posicao,
-                            am.*
-                            FROM `avaliacao_mensal` am
-                            LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-                            where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'");
+
+                        echo $q = "SELECT f.nome,
+                        am.mes,
+                        am.ano,
+                        am.eficiencia,
+                        am.quality,
+                        am.delivery,
+                        am.classificacao,
+                        am.posicao,
+                        am.*
+                        FROM `avaliacao_mensal` am
+                        LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
+                        where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}'";
+                        $query = $pdo->prepare($q);
                         $query->execute();
                         $d = $query->fetch();
 
