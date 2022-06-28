@@ -6,9 +6,14 @@ function Blq(){
         <style>
             .blq{
                 position:fixed;
+                top:0;
+                bottom:0;
+                background:#eee;
                 width:100%;
                 text-align:center;
-                margin-tpo:40%;
+            }
+            .blq h1{
+                margin-top:40%;
             }
         </style>
         <div class="blq"><h1>SISTEMA EM MANUTENÇÃO</h1></div>
