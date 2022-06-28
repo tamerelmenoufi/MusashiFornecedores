@@ -1,6 +1,24 @@
 <?php
 session_start();
 
+function Blq(){
+    echo '
+        <style>
+            .blq{
+                position:fixed;
+                width:100%;
+                height:100%;
+                text-align:center;
+                padding-tpo:40%;
+            }
+        </style>
+        <div class="blq"><h1>SISTEMA EM MANUTENÇÃO</h1></div>
+    ';
+
+}
+
+Blq(); exit();
+
 global $pdo;
 
 date_default_timezone_set('America/Manaus');
@@ -31,5 +49,6 @@ if (isset($_SESSION['musashi_cod_usu'])) {
 
     $ConfForn = $sql->fetch();
 }
+
 
 ?>
