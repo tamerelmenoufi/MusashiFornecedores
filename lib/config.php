@@ -13,7 +13,7 @@ function Blq(){
                 text-align:center;
             }
             .blq h1{
-                margin-top:40%;
+                margin-top:10%;
             }
         </style>
         <div class="blq"><h1>SISTEMA EM MANUTENÇÃO</h1></div>
