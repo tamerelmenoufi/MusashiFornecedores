@@ -7,9 +7,8 @@ function Blq(){
             .blq{
                 position:fixed;
                 width:100%;
-                height:100%;
                 text-align:center;
-                padding-tpo:40%;
+                margin-tpo:40%;
             }
         </style>
         <div class="blq"><h1>SISTEMA EM MANUTENÇÃO</h1></div>
