@@ -21,7 +21,7 @@ function Blq(){
 
 }
 
-Blq(); exit();
+// Blq(); exit();
 
 global $pdo;
 
