@@ -376,7 +376,7 @@ function mesExtenso($mes)
                         $query->execute();
                         $d = $query->fetch();
 
-                        $Vetor[][number_format($d['classificacao'], 2)] = mesExtenso($Mes)."-".$Ano."|".
+                        $Vetor[number_format($d['classificacao'], 2)][] = mesExtenso($Mes)."-".$Ano."|".
                                    number_format($d['quality'], 2)."|".
                                    number_format($d['delivery'], 2)."|".
                                    number_format($d['classificacao'], 2);
@@ -385,7 +385,7 @@ function mesExtenso($mes)
                     $ordem = 0;
                     $p = 1;
                     foreach($Vetor as $indice => $valor){
-                        $Campos = explode("|",$valor);
+                        $Campos = explode("|",$valor[0]);
                         if($ordem == 0) $ordem = $Campos[3];
 
                         if($ordem != $Campos[3]) $p++;
