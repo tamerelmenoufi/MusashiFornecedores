@@ -345,6 +345,7 @@ function mesExtenso($mes)
                     <tr>
                         <th scope="col">MÊS</th>
                         <th scope="col">QUALITY</th>
+                        <th scope="col">DELIVERY</th>
                         <th scope="col">IQF</th>
                         <th scope="col">POSIÇÃO</th>
                     </tr>
@@ -366,6 +367,7 @@ function mesExtenso($mes)
                         am.eficiencia,
                         am.quality,
                         am.delivery,
+                        ((am.quality+am.delivery)/2) as  media_q_d,
                         am.classificacao,
                         am.posicao,
                         am.*
@@ -381,6 +383,7 @@ function mesExtenso($mes)
                             <td><?= mesExtenso($Mes) ?>-<?= $Ano ?></td>
                             <td><?= number_format($d['quality'], 2) ?></td>
                             <td><?= number_format($d['delivery'], 2) ?></td>
+                            <td><?= number_format($d['media_q_d'], 2) ?></td>
                             <td><?= $d['posicao_quality'] ?></td>
                         </tr>
                         <?php
