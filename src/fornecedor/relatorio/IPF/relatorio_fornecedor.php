@@ -287,7 +287,7 @@ function mesExtenso($mes)
                                         WHERE codigo_fornecedor = :cf
                                             AND DATE(concat(am.ano, '-', am.mes, '-01')) <= DATE(LAST_DAY(DATE(concat(:y2, '-', :m2, '-01'))))
                                             AND DATE(concat(am.ano, '-', am.mes, '-01')) >= DATE_SUB(concat(:y3, '-', :m3, '-01'), INTERVAL 11 MONTH)
-                                        ORDER BY am.ano, am.mes";
+                                        ORDER BY am.posicao";
             $sql = $pdo->prepare($query);
             $sql->bindValue(":cf", $_POST['codigo_fornecedor']);
             $sql->bindValue(":y2", $Y);
