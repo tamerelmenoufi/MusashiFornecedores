@@ -376,29 +376,15 @@ function mesExtenso($mes)
                         $query->execute();
                         $d = $query->fetch();
 
-                        $Vetor[number_format($d['classificacao'], 2)][] = mesExtenso($Mes)."-".$Ano."|".
-                                   number_format($d['quality'], 2)."|".
-                                   number_format($d['delivery'], 2)."|".
-                                   number_format($d['classificacao'], 2);
-                    }
-                    asort($Vetor);
-                    $ordem = 0;
-                    $p = 1;
-                    foreach($Vetor as $indice => $valor){
-                        $Campos = explode("|",$valor[0]);
-                        if($ordem == 0) $ordem = $Campos[3];
-
-                        if($ordem != $Campos[3]) $p++;
                         ?>
                         <tr>
-                            <td><?= $Campos[0] ?></td>
-                            <td><?= $Campos[1] ?></td>
-                            <td><?= $Campos[2] ?></td>
-                            <td><?= $Campos[3] ?></td>
-                            <td><?= $p ?></td>
+                            <td><?= mesExtenso($Mes) ?>-<?= $Ano ?></td>
+                            <td><?= number_format($d['quality'], 2) ?></td>
+                            <td><?= number_format($d['delivery'], 2) ?></td>
+                            <td><?= number_format($d['classificacao'], 2) ?></td>
 
-                            <!-- <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td>
-                            <td><?= $d['posicao_quality'] ?></td> -->
+                            <!-- <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td> -->
+                            <td><?= $d['posicao_quality'] ?></td>
                         </tr>
                         <?php
                     }
