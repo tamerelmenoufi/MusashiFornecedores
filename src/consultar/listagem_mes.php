@@ -83,7 +83,8 @@ require "../../lib/config.php";
             let ano = $(this).attr('ano');
 
             $.ajax({
-                url: 'src/consultar/relatorio_fornecedor.php',
+                // url: 'src/consultar/relatorio_fornecedor.php',
+                url: 'src/fornecedor/relatorio_fornecedor.php',
                 method: 'POST',
                 data: {
                     codigo_fornecedor,
