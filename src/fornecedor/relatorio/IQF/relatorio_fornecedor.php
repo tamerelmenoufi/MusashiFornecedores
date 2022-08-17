@@ -361,19 +361,18 @@ function mesExtenso($mes)
                         // faz comparação da data selecionada com os 12 meses anteriores
 
 
-                        echo $q = "SELECT f.nome,
+                        $q = "SELECT f.nome,
                         am.mes,
                         am.ano,
                         am.eficiencia,
                         am.quality,
                         am.delivery,
-                        ((am.quality+am.delivery)/2) as  media_q_d,
                         am.classificacao,
                         am.posicao,
                         am.*
                         FROM `avaliacao_mensal` am
                         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-                        where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}' order by media_q_d desc";
+                        where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}' order by am.eficiencia asc";
                         $query = $pdo->prepare($q);
                         $query->execute();
                         $d = $query->fetch();
@@ -383,7 +382,9 @@ function mesExtenso($mes)
                             <td><?= mesExtenso($Mes) ?>-<?= $Ano ?></td>
                             <td><?= number_format($d['quality'], 2) ?></td>
                             <td><?= number_format($d['delivery'], 2) ?></td>
-                            <td><?= number_format($d['media_q_d'], 2) ?></td>
+                            <td><?= number_format($d['eficiencia'], 2) ?></td>
+
+                            <!-- <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td> -->
                             <td><?= $d['posicao_quality'] ?></td>
                         </tr>
                         <?php
