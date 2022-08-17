@@ -376,7 +376,7 @@ function mesExtenso($mes)
                         $query->execute();
                         $d = $query->fetch();
 
-                        $Vetor[number_format($d['classificacao'], 2)] = mesExtenso($Mes)."-".$Ano."|".
+                        $Vetor[][number_format($d['classificacao'], 2)] = mesExtenso($Mes)."-".$Ano."|".
                                    number_format($d['quality'], 2)."|".
                                    number_format($d['delivery'], 2)."|".
                                    number_format($d['classificacao'], 2);
