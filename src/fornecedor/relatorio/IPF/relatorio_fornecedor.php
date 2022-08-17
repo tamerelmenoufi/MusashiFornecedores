@@ -398,7 +398,7 @@ function mesExtenso($mes)
                     <h6>NOTA QAV-1</h6>
                     <div class="input-group">
                         <?php
-                        if ($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0){
+                        if (($pontuacao['qav'] == NULL || $pontuacao['qav'] == 0) and !$_SESSION['musashi_cod_forn']){
                             ?>
                             <input type="number" qav class="form-control">
                             <div class="input-group-text p-0">
@@ -443,7 +443,7 @@ function mesExtenso($mes)
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> ASSINATURAS
                 </h3>
 
-                <?php if ($ConfUsu['assinante_documento'] === 'S' and $pontuacao['codigo']) { ?>
+                <?php if ($ConfUsu['assinante_documento'] === 'S' and $pontuacao['codigo'] and !$_SESSION['musashi_cod_forn']) { ?>
                     <button
                             assinar
                             type="button"
@@ -468,6 +468,9 @@ function mesExtenso($mes)
                         ?>
                         <div class="col-4 mb-2 assinaturas-item">
                             <div class="rounded border h-100 px-3 py-2 position-relative">
+                                <?php
+                                if(!$_SESSION['musashi_cod_forn']){
+                                ?>
                                 <a
                                         href="#"
                                         class="position-absolute text-danger noprint"
@@ -478,7 +481,9 @@ function mesExtenso($mes)
                                 >
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
-
+                                <?php
+                                }
+                                ?>
                                 <div class="d-flex flex-row justify-content-between">
                                     <div style="flex:1">
                                         <div title="Usuário">
