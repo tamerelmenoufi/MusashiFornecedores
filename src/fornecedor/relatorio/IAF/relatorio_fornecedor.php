@@ -737,7 +737,7 @@ function mesExtenso($mes)
 
         $('button[voltar]').click(function () {
             $.ajax({
-                url: <?=(($_SESSION['musashi_cod_forn'])?'src/consultar/listagem_mes.php':'src/fornecedor/fornecedor_lista.php')?>,
+                url: '<?=(($_SESSION['musashi_cod_forn'])?'src/consultar/listagem_mes.php':'src/fornecedor/fornecedor_lista.php')?>',
                 success: function (retorno) {
                     $('div#home').html(retorno)
                 }
