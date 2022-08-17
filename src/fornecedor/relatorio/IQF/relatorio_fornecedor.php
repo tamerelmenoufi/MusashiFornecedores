@@ -373,7 +373,7 @@ function mesExtenso($mes)
                         am.*
                         FROM `avaliacao_mensal` am
                         LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
-                        where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}' order by am.eficiencia asc";
+                        where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}' order by media_q_d asc";
                         $query = $pdo->prepare($q);
                         $query->execute();
                         $d = $query->fetch();
