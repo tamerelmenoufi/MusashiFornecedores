@@ -270,7 +270,7 @@ if (isset($_POST['mes'])) {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i> Assinaturas
                 </h5>
 
-                <?php if ($ConfUsu['assinante_documento'] === 'S' and $ConfUsu['tipo'] == '1') { ?>
+                <?php if ($ConfUsu['assinante_documento'] === 'S'/* and $ConfUsu['tipo'] == '1'*/) { ?>
                     <button
                             assinar
                             class="btn btn-success btn-sm"
