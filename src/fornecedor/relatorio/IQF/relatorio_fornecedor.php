@@ -383,8 +383,8 @@ function mesExtenso($mes)
                             <td><?= number_format($d['delivery'], 2) ?></td>
                             <td><?= number_format($d['classificacao'], 2) ?></td>
 
-                            <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td>
-                            <!-- <td><?= $d['posicao_quality'] ?></td> -->
+                            <!-- <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td> -->
+                            <td><?= $d['posicao_quality'] ?></td>
                         </tr>
                         <?php
                     }
