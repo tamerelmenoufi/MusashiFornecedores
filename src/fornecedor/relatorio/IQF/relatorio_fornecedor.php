@@ -382,7 +382,7 @@ function mesExtenso($mes)
                             <td><?= mesExtenso($Mes) ?>-<?= $Ano ?></td>
                             <td><?= number_format($d['quality'], 2) ?></td>
                             <td><?= number_format($d['delivery'], 2) ?></td>
-                            <td><?= number_format($d['eficiencia'], 2) ?></td>
+                            <td><?= number_format($d['classificacao'], 2) ?></td>
 
                             <!-- <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td> -->
                             <td><?= $d['posicao_quality'] ?></td>
