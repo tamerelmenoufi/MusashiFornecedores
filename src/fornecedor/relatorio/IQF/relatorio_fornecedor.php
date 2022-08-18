@@ -695,7 +695,7 @@ function mesExtenso($mes)
             $g++;
             if($pos == 0) $pos = $val;
             if($pos == $val and $p == 0) {$p = 1;}
-            if($pos != $val) {$pos = $val; $p++;}
+            if($pos != $val) {$pos = $val; $p = ($g-1);}
             if($p > 2) $p = $g;
         ?>
         $("td[posicao<?=$ind?>]").html('<?=(($val == '0.00')?'-':$p)?>');
