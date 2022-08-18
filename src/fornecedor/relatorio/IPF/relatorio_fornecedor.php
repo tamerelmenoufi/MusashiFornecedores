@@ -307,6 +307,7 @@ function mesExtenso($mes)
                 </tr>
                 <?php
             }
+            arsort($posicao);
             ?>
             </tbody>
         </table>
