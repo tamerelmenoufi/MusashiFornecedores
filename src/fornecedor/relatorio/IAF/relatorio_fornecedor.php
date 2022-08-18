@@ -233,8 +233,21 @@ function mesExtenso($mes)
             <h3><i class="fa fa-bar-chart" aria-hidden="true"></i> Relatório de Desempenho</h3>
         </div>
 
-        <div class="col-1 noprint"></div>
+        <div class="col-1 noprint">
+            <select ano class="form-select">
+                <option value="<?= $Y ?>" selected><?= $Y ?></option>
+                <?php
+                $query = $pdo->prepare("SELECT ano FROM avaliacao_anual WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}");
+                $query->execute();
 
+                while ($options = $query->fetch()) {
+                    ?>
+                    <option value="<?= $options['ano'] ?>"><?= $options['ano'] ?></option>
+                    <?php
+                }
+                ?>
+            </select>
+        </div>
         <div class="col-1 noprint">
             <select mes class="form-select">
                 <option value="<?= $M ?>" selected><?= $M ?></option>
