@@ -692,8 +692,10 @@ function mesExtenso($mes)
         $pos = 0;
         foreach($posicao as $ind => $val){
             if($pos == 0) $pos = $val;
-            if($pos != $val and $p == 0) $p++;
-            if($p > 0) $p++;
+            if($pos == $val and $p == 0) {$p = 1;}
+            else{ $pos = $val; }
+            if($pos != $val) $p++;
+            if($p > 1) $p++;
         ?>
         $("td[posicao<?=$ind?>]").html('<?=$p?>');
         <?php
