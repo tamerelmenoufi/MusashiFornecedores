@@ -364,16 +364,17 @@ function mesExtenso($mes)
                             where am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}' and am.codigo_fornecedor = '{$_POST['codigo_fornecedor']}' order by am.posicao_delivery");
                         $query->execute();
                         $d = $query->fetch();
-
+                        $posicao[$d['codigo']] = (number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2));
                         ?>
                         <tr>
                             <td><?= mesExtenso($Mes) ?>-<?= $Ano ?></td>
                             <td><?= number_format($d['delivery'], 2) ?></td>
                             <td><?= ((number_format(deliver_iaf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td>
-                            <td><?= $d['posicao_delivery'] ?></td>
+                            <td posicao<?=$d['codigo']?>></td>
                         </tr>
                         <?php
                     }
+                    arsort($posicao);
                     ?>
                     </tbody>
                 </table>
@@ -690,6 +691,22 @@ function mesExtenso($mes)
 <script>
 
     $(function () {
+
+        <?php
+        $p = 0;
+        $pos = 0;
+        $g = 0;
+        foreach($posicao as $ind => $val){
+            $g++;
+            if($pos == 0) $pos = $val;
+            if($pos == $val and $p == 0) {$p = 1;}
+            if($pos != $val) {$pos = $val; $p = ($g-1);}
+            if($p > 2) $p = $g;
+        ?>
+        $("td[posicao<?=$ind?>]").html('<?=(($val == '0.00')?'-':$p)?>');
+        <?php
+        }
+        ?>
 
         $('button[imprimir]').click(function () {
             window.print();
