@@ -375,7 +375,7 @@ function mesExtenso($mes)
                         $query = $pdo->prepare($q);
                         $query->execute();
                         $d = $query->fetch();
-
+                        $posicao[$d['codigo']] = number_format($d['classificacao'], 2);
                         ?>
                         <tr>
                             <td><?= mesExtenso($Mes) ?>-<?= $Ano ?></td>
@@ -384,10 +384,11 @@ function mesExtenso($mes)
                             <td><?= number_format($d['classificacao'], 2) ?></td>
 
                             <!-- <td><?= ((number_format(quality_iqf($Mes, $Ano, $_POST['codigo_fornecedor']), 2)) ?: false) ?></td> -->
-                            <td><?= $d['posicao_quality'] ?></td>
+                            <td posicao<?=$d['codigo']?>></td>
                         </tr>
                         <?php
                     }
+                    asort($posicao);
                     ?>
                     </tbody>
                 </table>
@@ -685,6 +686,19 @@ function mesExtenso($mes)
 <script>
 
     $(function () {
+
+        <?php
+        $p = 0;
+        $pos = 0;
+        foreach($posicao as $ind => $val){
+            if($pos == 0) $pos = $val;
+            if($pos != $val and $p == 0) $p++;
+            if($p > 0) $p++;
+        ?>
+        $("td[posicao<?=$ind?>]").html('<?=$p?>');
+        <?php
+        }
+        ?>
 
         $('button[imprimir]').click(function () {
             window.print();
