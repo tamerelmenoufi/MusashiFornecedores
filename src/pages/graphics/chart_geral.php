@@ -85,7 +85,7 @@
         }
     }
 
-    arsort($array_codigo);
+    arsort($array_valores);
 ?>
 
 
