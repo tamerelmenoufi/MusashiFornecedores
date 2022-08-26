@@ -29,16 +29,6 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-echo "SELECT f.nome,
-f.codigo as fornecedor_codigo,
-ava.ano,
-(sum(ava.delivery)) as delivery,
-ava.posicao
-FROM avaliacao_mensal ava
-LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor";
-echo "<hr>";
-
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
@@ -75,7 +65,7 @@ echo "<hr>";
                 //     $array_border[$d['fornecedor_codigo']] = '"#198754"';
                 // }
 
-                $valor = number_format($valor/12,2);
+                $valor = number_format(($valor/12),2);
                 $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
                 $array_valores1[$ind] = $valor;
 
