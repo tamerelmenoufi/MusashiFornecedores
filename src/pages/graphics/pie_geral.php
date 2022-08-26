@@ -65,7 +65,7 @@
 
         echo $n =  $nome[$ind];
         echo " - - ";
-        $classificacao = ($valor/12);
+        echo $classificacao = ($valor/12);
         echo "<hr>";
         if($classificacao < 84.99){
             $array_valores[3]++;
