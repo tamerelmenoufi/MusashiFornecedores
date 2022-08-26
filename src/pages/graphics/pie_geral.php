@@ -69,10 +69,9 @@
     ];
     foreach($fornecedor as $ind => $valor){
 
-        echo $n =  $nome[$ind];
-        echo " - - ";
-        echo $classificacao = ($valor/12);
-        echo "<hr>";
+        $n =  $nome[$ind];
+        $classificacao = ($valor/12);
+
         if($classificacao < 84.99){
             $array_valores[3]++;
         }elseif($classificacao > 84.99 && $classificacao < 93.99){ ///// REGULAR
