@@ -44,7 +44,7 @@
                 $nome[$d['fornecedor_codigo']] = $d['nome'];
             }
 
-            usort($fornecedor);
+            // usort($fornecedor);
             foreach($fornecedor as $ind => $valor){
 
                 // $array_codigo[$d['fornecedor_codigo']] =  "'".$d['nome']/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
