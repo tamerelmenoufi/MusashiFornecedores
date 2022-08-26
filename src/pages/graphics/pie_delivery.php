@@ -31,17 +31,58 @@
         count(CASE WHEN ava.qualificacao_iaf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
         FROM avaliacao_mensal ava
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
+
+    $query = $pdo->prepare("SELECT f.nome,
+        f.codigo as fornecedor_codigo,
+        ava.ano,
+        /*ava.classificacao,*/
+        ava.quality,
+        ava.delivery,
+        ((ava.quality+ava.delivery)/2) as classificacao,
+        ava.posicao
+        FROM avaliacao_mensal ava
+        LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' group by ava.codigo_fornecedor");
         $query->execute();
 
-        if($query->rowCount() > 0){
-            $d = $query->fetch();
+        while($d = $query->fetch()) {
 
-            $array_valores[0] = $array_valores[0] + $d['otimo'];
-            $array_valores[1] = $array_valores[1] + $d['bom'];
-            $array_valores[2] = $array_valores[2] + $d['regular'];
-            $array_valores[3] = $array_valores[3] + $d['deficiente'];
+            $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['delivery'];
+            $nome[$d['fornecedor_codigo']] = $d['nome'];
+            // echo "<hr>";
+            // $d = $query->fetch();
+            // $array_valores[0] = $array_valores[0] + $d['otimo'];
+            // $array_valores[1] = $array_valores[1] + $d['bom'];
+            // $array_valores[2] = $array_valores[2] + $d['regular'];
+            // $array_valores[3] = $array_valores[3] + $d['deficiente'];
+
         }
     }
+
+    $array_valores = [
+        0 => 0,
+        1 => 0,
+        2 => 0,
+        3 => 0,
+    ];
+    foreach($fornecedor as $ind => $valor){
+
+        $n =  $nome[$ind];
+        $classificacao = number_format($valor/12,2);
+
+        if($classificacao < 84.99){
+            $array_valores[3]++;
+        }elseif($classificacao > 84.99 && $classificacao < 93.99){ ///// REGULAR
+            $array_valores[2]++;
+        }elseif($classificacao > 93.99 && $classificacao < 98.99){ //// BOM
+            $array_valores[1]++;
+        }elseif($classificacao > 98.99 && $classificacao <= 100.00){ /// OTIMO
+            $array_valores[0]++;
+        }
+
+
+    }
+
 ?>
 
 
