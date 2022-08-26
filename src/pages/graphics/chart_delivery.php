@@ -32,7 +32,7 @@
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
-        sum(ava.delivery) as delivery,
+        (sum(ava.delivery)/12) as delivery,
         ava.posicao
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
@@ -42,7 +42,7 @@
         if($query->rowCount() > 0){
             while($d = $query->fetch()) {
 
-                $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
+                $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['delivery'];
                 $nome[$d['fornecedor_codigo']] = $d['nome'];
             }
 
