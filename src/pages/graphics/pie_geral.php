@@ -61,7 +61,12 @@
         }
     }
 
-    $array_valores = [];
+    $array_valores = [
+        0 => 0,
+        1 => 0,
+        2 => 0,
+        3 => 0,
+    ];
     foreach($fornecedor as $ind => $valor){
 
         echo $n =  $nome[$ind];
