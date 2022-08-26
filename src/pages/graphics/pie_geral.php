@@ -84,8 +84,8 @@
 
 
     }
-    var_dump($array_valores);
-?>
+
+    ?>
 
 
 <canvas can style="" id="pie_geral"></canvas>
