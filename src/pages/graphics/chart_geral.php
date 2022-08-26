@@ -19,6 +19,11 @@
     $array_cor = [];
     $array_border = [];
 
+    $array_valores1 = [];
+    $array_codigo1 = [];
+    $array_cor1 = [];
+    $array_border1 = [];
+
     for($i=11; $i>=0; $i--){
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
