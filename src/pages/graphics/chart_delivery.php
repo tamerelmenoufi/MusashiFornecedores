@@ -32,7 +32,7 @@
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
-        (sum(ava.delivery)/12) as delivery,
+        (sum(ava.delivery)) as delivery,
         ava.posicao
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
