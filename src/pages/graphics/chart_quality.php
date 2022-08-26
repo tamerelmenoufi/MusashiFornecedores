@@ -37,25 +37,58 @@
         if($query->rowCount() > 0){
             while($d = $query->fetch()) {
 
-                $array_codigo[$d['fornecedor_codigo']] =  "'".$d['nome']/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
-                $array_valores[$d['fornecedor_codigo']] = "'".$d['quality']."'";
-
-                if($d['quality'] < 77.99){
-                    $array_cor[$d['fornecedor_codigo']] = '"#dc3545"'; /// DEFICIENTE
-                    $array_border[$d['fornecedor_codigo']] = '"#dc3545"';
-                }elseif($d['quality'] > 78.00 && $d['quality'] < 91.99){ ///// REGULAR
-                    $array_cor[$d['fornecedor_codigo']] = '"#ffc107"';
-                    $array_border[$d['fornecedor_codigo']] = '"#ffc107"';
-                }elseif($d['quality'] > 92.00 && $d['quality'] < 98.99){ //// BOM
-                    $array_cor[$d['fornecedor_codigo']] = '"#007bff"';
-                    $array_border[$d['fornecedor_codigo']] = '"#6610f2"';
-                }elseif($d['quality'] > 98.99 && $d['quality'] <= 100.00){ ///OTIMO
-                    $array_cor[$d['fornecedor_codigo']] = '"#28a745"';
-                    $array_border[$d['fornecedor_codigo']] = '"#198754"';
-                }
+                $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['quality'];
+                $nome[$d['fornecedor_codigo']] = $d['nome'];
             }
 
+            foreach($fornecedor as $ind => $valor){
+
+                // $array_codigo[$d['fornecedor_codigo']] =  "'".$d['nome']/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
+                // $array_valores[$d['fornecedor_codigo']] = "'".$d['classificacao']."'";
+
+                // if($d['classificacao'] < 84.99){
+                //     $array_cor[$d['fornecedor_codigo']] = '"#dc3545"'; /// DEFICIENTE
+                //     $array_border[$d['fornecedor_codigo']] = '"#dc3545"';
+                // }elseif($d['classificacao'] > 84.99 && $d['classificacao'] < 93.99){///// REGULAR
+                //     $array_cor[$d['fornecedor_codigo']] = '"#ffc107"';
+                //     $array_border[$d['fornecedor_codigo']] = '"#ffc107"';
+                // }elseif($d['classificacao'] > 93.99 && $d['classificacao'] < 98.99){ //// BOM
+                //     $array_cor[$d['fornecedor_codigo']] = '"#007bff"';
+                //     $array_border[$d['fornecedor_codigo']] = '"#6610f2"';
+                // }elseif($d['classificacao'] > 98.99 && $d['classificacao'] <= 100.00){ ///OTIMO
+                //     $array_cor[$d['fornecedor_codigo']] = '"#28a745"';
+                //     $array_border[$d['fornecedor_codigo']] = '"#198754"';
+                // }
+
+                $valor = number_format($valor/12,2);
+                $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
+                $array_valores1[$ind] = $valor;
+
+                if($valor < 84.99){
+                    $array_cor1[$ind] = '"#dc3545"'; /// DEFICIENTE
+                    $array_border1[$ind] = '"#dc3545"';
+                }elseif($valor > 84.99 && $valor < 93.99){///// REGULAR
+                    $array_cor1[$ind] = '"#ffc107"';
+                    $array_border1[$ind] = '"#ffc107"';
+                }elseif($valor > 93.99 && $valor < 98.99){ //// BOM
+                    $array_cor1[$ind] = '"#007bff"';
+                    $array_border1[$ind] = '"#6610f2"';
+                }elseif($valor > 98.99 && $valor <= 100.00){ ///OTIMO
+                    $array_cor1[$ind] = '"#28a745"';
+                    $array_border1[$ind] = '"#198754"';
+                }
+
+            }
         }
+    }
+
+    arsort($array_valores1);
+
+    foreach($array_valores1 as $ind => $val){
+        $array_valores[] = $array_valores1[$ind];
+        $array_codigo[] =  $array_codigo1[$ind];
+        $array_cor[] = $array_cor1[$ind];
+        $array_border[] = $array_border1[$ind];
     }
 ?>
 
