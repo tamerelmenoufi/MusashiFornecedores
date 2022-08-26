@@ -47,8 +47,8 @@
                 WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
         $query->execute();
 
-        if($query->rowCount() > 0){
-            $d = $query->fetch();
+        while($d = $query->fetch()) {
+            // $d = $query->fetch();
 
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
             // $array_valores[1] = $array_valores[1] + $d['bom'];
