@@ -61,6 +61,7 @@
         }
     }
 
+    $array_valores = [];
     foreach($fornecedor as $ind => $valor){
 
         echo $n =  $nome[$ind];
@@ -79,7 +80,7 @@
 
 
     }
-
+    var_dump($array_valores);
 ?>
 
 
