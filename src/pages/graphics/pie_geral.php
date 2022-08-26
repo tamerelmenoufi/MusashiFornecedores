@@ -49,9 +49,9 @@
 
         while($d = $query->fetch()) {
 
-            echo $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
-            echo $nome[$d['fornecedor_codigo']] = $d['nome'];
-            echo "<hr>";
+            $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
+            $nome[$d['fornecedor_codigo']] = $d['nome'];
+            // echo "<hr>";
             // $d = $query->fetch();
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
             // $array_valores[1] = $array_valores[1] + $d['bom'];
@@ -63,8 +63,10 @@
 
     foreach($fornecedor as $ind => $valor){
 
+        echo $n =  $nome[$ind];
+        echo " - - ";
         $classificacao = ($valor/12);
-
+        echo "<hr>";
         if($classificacao < 84.99){
             $array_valores[3]++;
         }elseif($classificacao > 84.99 && $classificacao < 93.99){ ///// REGULAR
