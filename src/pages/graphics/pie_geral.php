@@ -49,26 +49,30 @@
 
         while($d = $query->fetch()) {
 
+            $fornecedor[$d['fornecedor_codigo']] +=  $d['classificacao'];
+            $nome[$d['fornecedor_codigo']] = $d['nome'];
+
             // $d = $query->fetch();
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
             // $array_valores[1] = $array_valores[1] + $d['bom'];
             // $array_valores[2] = $array_valores[2] + $d['regular'];
             // $array_valores[3] = $array_valores[3] + $d['deficiente'];
 
-            $array_valores[0]++;
-            $array_valores[1]++;
-            $array_valores[2]++;
-            $array_valores[3]++;
+        }
 
-            // if($d['classificacao'] < 84.99){
-            //     $array_valores[3]++;
-            // }elseif($d['classificacao'] > 84.99 && $d['classificacao'] < 93.99){ ///// REGULAR
-            //     $array_valores[2]++;
-            // }elseif($d['classificacao'] > 93.99 && $d['classificacao'] < 98.99){ //// BOM
-            //     $array_valores[1]++;
-            // }elseif($d['classificacao'] > 98.99 && $d['classificacao'] <= 100.00){ /// OTIMO
-            //     $array_valores[0]++;
-            // }
+        foreach($fornecedor as $ind => $valor){
+
+            $classificacao = ($valor/12);
+
+            if($classificacao < 84.99){
+                $array_valores[3]++;
+            }elseif($classificacao > 84.99 && $classificacao < 93.99){ ///// REGULAR
+                $array_valores[2]++;
+            }elseif($classificacao > 93.99 && $classificacao < 98.99){ //// BOM
+                $array_valores[1]++;
+            }elseif($classificacao > 98.99 && $classificacao <= 100.00){ /// OTIMO
+                $array_valores[0]++;
+            }
 
 
         }
