@@ -70,7 +70,7 @@
     foreach($fornecedor as $ind => $valor){
 
         $n =  $nome[$ind];
-        $classificacao = ($valor/12);
+        $classificacao = number_format($valor/12,2);
 
         if($classificacao < 84.99){
             $array_valores[3]++;
