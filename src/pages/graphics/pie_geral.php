@@ -40,11 +40,11 @@
                 /*ava.classificacao,*/
                 ava.quality,
                 ava.delivery,
-                ((ava.quality+ava.delivery)/2) as classificacao,
+                AVG((ava.quality+ava.delivery)/2) as classificacao,
                 ava.posicao
                 FROM avaliacao_mensal ava
                 LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-                WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor");
+                WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
         $query->execute();
 
         while($d = $query->fetch()) {
