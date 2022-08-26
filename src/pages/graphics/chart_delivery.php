@@ -37,7 +37,7 @@ ava.posicao
 FROM avaliacao_mensal ava
 LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
 WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor";
-
+echo "<hr>";
 
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
