@@ -19,6 +19,11 @@
     $array_cor = [];
     $array_border = [];
 
+    $array_valores1 = [];
+    $array_codigo1 = [];
+    $array_cor1 = [];
+    $array_border1 = [];
+
     for($i=11; $i>=0; $i--){
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
@@ -27,34 +32,48 @@
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
-        ava.delivery,
+        sum(ava.delivery) as delivery,
         ava.posicao
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.delivery DESC");
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor");
         $query->execute();
 
         if($query->rowCount() > 0){
             while($d = $query->fetch()) {
-                $array_codigo[$d['fornecedor_codigo']] =  "'".$d['nome']/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
-                $array_valores[$d['fornecedor_codigo']] = "'".$d['delivery']."'";
+                $valor = ($d['delivery']/12);
+
+                $array_codigo1[$d['fornecedor_codigo']] =  "'".$d['nome']/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
+                $array_valores1[$d['fornecedor_codigo']] = number_format($valor,2);
 
 
-                if($d['delivery'] < 91.99){
-                    $array_cor[$d['fornecedor_codigo']] = '"#dc3545"'; /// DEFICIENTE
-                    $array_border[$d['fornecedor_codigo']] = '"#dc3545"';
-                }elseif($d['delivery'] > 92.00 && $d['delivery'] < 95.99){///// REGULAR
-                    $array_cor[$d['fornecedor_codigo']] = '"#ffc107"';
-                    $array_border[$d['fornecedor_codigo']] = '"#ffc107"';
-                }elseif($d['delivery'] > 96.00  && $d['delivery'] < 98.99){ //// BOM
-                    $array_cor[$d['fornecedor_codigo']] = '"#007bff"';
-                    $array_border[$d['fornecedor_codigo']] = '"#6610f2"';
-                }elseif($d['delivery'] > 98.99 && $d['delivery'] <= 100.00){ ///OTIMO
-                    $array_cor[$d['fornecedor_codigo']] = '"#28a745"';
-                    $array_border[$d['fornecedor_codigo']] = '"#198754"';
+                if($valor < 91.99){
+                    $array_cor1[$d['fornecedor_codigo']] = '"#dc3545"'; /// DEFICIENTE
+                    $array_border1[$d['fornecedor_codigo']] = '"#dc3545"';
+                }elseif($valor > 92.00 && $valor < 95.99){///// REGULAR
+                    $array_cor1[$d['fornecedor_codigo']] = '"#ffc107"';
+                    $array_border1[$d['fornecedor_codigo']] = '"#ffc107"';
+                }elseif($valor > 96.00  && $valor < 98.99){ //// BOM
+                    $array_cor1[$d['fornecedor_codigo']] = '"#007bff"';
+                    $array_border1[$d['fornecedor_codigo']] = '"#6610f2"';
+                }elseif($valor > 98.99 && $valor <= 100.00){ ///OTIMO
+                    $array_cor1[$d['fornecedor_codigo']] = '"#28a745"';
+                    $array_border1[$d['fornecedor_codigo']] = '"#198754"';
                 }
 
             }
+
+
+            arsort($array_valores1);
+
+            foreach($array_valores1 as $ind => $val){
+                $array_valores[] = $array_valores1[$ind];
+                $array_codigo[] =  $array_codigo1[$ind];
+                $array_cor[] = $array_cor1[$ind];
+                $array_border[] = $array_border1[$ind];
+            }
+
+
         }
     }
 ?>
