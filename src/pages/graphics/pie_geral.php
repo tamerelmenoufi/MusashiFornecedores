@@ -49,7 +49,7 @@
 
         while($d = $query->fetch()) {
 
-            $fornecedor[$d['fornecedor_codigo']] =+  $d['classificacao'];
+            $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
             $nome[$d['fornecedor_codigo']] = $d['nome'];
 
             // $d = $query->fetch();
