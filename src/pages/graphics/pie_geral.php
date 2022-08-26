@@ -49,9 +49,9 @@
 
         while($d = $query->fetch()) {
 
-            $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
-            $nome[$d['fornecedor_codigo']] = $d['nome'];
-
+            echo $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
+            echo $nome[$d['fornecedor_codigo']] = $d['nome'];
+            echo "<hr>";
             // $d = $query->fetch();
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
             // $array_valores[1] = $array_valores[1] + $d['bom'];
