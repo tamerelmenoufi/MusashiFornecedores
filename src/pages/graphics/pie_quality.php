@@ -75,7 +75,7 @@ $array_valores = [
 foreach($fornecedor as $ind => $valor){
 
     $n =  $nome[$ind];
-    $classificacao = number_format($valor/11,2);
+    $classificacao = number_format($valor/12,2);
 
     if($classificacao < 84.99){
         $array_valores[3]++;
