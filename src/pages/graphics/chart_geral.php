@@ -27,9 +27,10 @@
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
-        ava.classificacao,
+        /*ava.classificacao,*/
         ava.quality,
         ava.delivery,
+        ((ava.quality+ava.delivery)/2) as classificacao,
         ava.posicao
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
