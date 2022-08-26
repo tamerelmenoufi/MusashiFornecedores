@@ -29,6 +29,16 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
+echo "SELECT f.nome,
+f.codigo as fornecedor_codigo,
+ava.ano,
+(sum(ava.delivery)) as delivery,
+ava.posicao
+FROM avaliacao_mensal ava
+LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
+WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor";
+
+
         $query = $pdo->prepare("SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
