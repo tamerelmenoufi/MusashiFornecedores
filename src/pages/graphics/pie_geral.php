@@ -59,24 +59,25 @@
             // $array_valores[3] = $array_valores[3] + $d['deficiente'];
 
         }
-
-        foreach($fornecedor as $ind => $valor){
-
-            $classificacao = ($valor/12);
-
-            if($classificacao < 84.99){
-                $array_valores[3]++;
-            }elseif($classificacao > 84.99 && $classificacao < 93.99){ ///// REGULAR
-                $array_valores[2]++;
-            }elseif($classificacao > 93.99 && $classificacao < 98.99){ //// BOM
-                $array_valores[1]++;
-            }elseif($classificacao > 98.99 && $classificacao <= 100.00){ /// OTIMO
-                $array_valores[0]++;
-            }
-
-
-        }
     }
+
+    foreach($fornecedor as $ind => $valor){
+
+        $classificacao = ($valor/12);
+
+        if($classificacao < 84.99){
+            $array_valores[3]++;
+        }elseif($classificacao > 84.99 && $classificacao < 93.99){ ///// REGULAR
+            $array_valores[2]++;
+        }elseif($classificacao > 93.99 && $classificacao < 98.99){ //// BOM
+            $array_valores[1]++;
+        }elseif($classificacao > 98.99 && $classificacao <= 100.00){ /// OTIMO
+            $array_valores[0]++;
+        }
+
+
+    }
+
 ?>
 
 
