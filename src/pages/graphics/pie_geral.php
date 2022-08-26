@@ -44,24 +44,25 @@
                 ava.posicao
                 FROM avaliacao_mensal ava
                 LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-                WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
+                WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor");
         $query->execute();
 
         while($d = $query->fetch()) {
-            // $d = $query->fetch();
 
+            // $d = $query->fetch();
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
             // $array_valores[1] = $array_valores[1] + $d['bom'];
             // $array_valores[2] = $array_valores[2] + $d['regular'];
             // $array_valores[3] = $array_valores[3] + $d['deficiente'];
+
             if($d['classificacao'] < 84.99){
-                $array_valores[3] = $array_valores[3] + 1;
-            }elseif($d['classificacao'] > 84.99 && $d['classificacao'] < 93.99){///// REGULAR
-                $array_valores[2] = $array_valores[2] + 1;
+                $array_valores[3]++;
+            }elseif($d['classificacao'] > 84.99 && $d['classificacao'] < 93.99){ ///// REGULAR
+                $array_valores[2]++;
             }elseif($d['classificacao'] > 93.99 && $d['classificacao'] < 98.99){ //// BOM
-                $array_valores[1] = $array_valores[1] + 1;
-            }elseif($d['classificacao'] > 98.99 && $d['classificacao'] <= 100.00){ ///OTIMO
-                $array_valores[0] = $array_valores[0] + 1;
+                $array_valores[1]++;
+            }elseif($d['classificacao'] > 98.99 && $d['classificacao'] <= 100.00){ /// OTIMO
+                $array_valores[0]++;
             }
 
 
