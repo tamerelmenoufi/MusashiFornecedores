@@ -1,6 +1,6 @@
 <?php
     require_once "../../lib/config.php";
-    
+
     global $pdo;
 
     $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE codigo = :c");
@@ -10,7 +10,7 @@
     $d = $sql->fetch();
 
     //Essa query só vai retornar um resultado dps que for feita a analise!!!!
-    $rd = $pdo->prepare("SELECT * FROM registros_diarios rd 
+    $rd = $pdo->prepare("SELECT * FROM registros_diarios rd
     JOIN aux_ip_oficial_emissao aioe ON aioe.codigo = rd.quality_ip_emitido
     JOIN aux_ip_reincidente air ON air.codigo = rd.quality_ip_reincidente
     JOIN aux_ip_atraso_resposta iap ON iap.codigo = rd.quality_atraso_resposta
@@ -199,13 +199,14 @@
             let ppm = (qnt_devolvida/qnt_recebida)*1000000;
             $('input#ppm').val(ppm.toFixed(0))
         }
-            
+
     })
 
     $("button[concluir]").click(function(){
         let codigo = $(this).attr('codigo')
         let data = $(this).attr('data')
         let qnt_devolvida = $('input#qnt_devolvida').val()
+        let qnt_recebida = $('input#qnt_recebida').val()
         let ppm = $('input#ppm').val() == ''? 0:$('input#ppm').val()
         let fornecedor = $('input[fornecedor]').attr('fornecedor')
         let tipo_fornecedor = $('input[tipo]').attr('tipo')
@@ -232,6 +233,7 @@
                     data,
                     fornecedor,
                     qnt_devolvida,
+                    qnt_recebida,
                     tipo_fornecedor,
                     ppm,
                     quality_ip_emitido,
