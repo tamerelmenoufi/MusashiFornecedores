@@ -232,10 +232,10 @@ for($i=11; $i>=0; $i--){
     // $quality_ip_reincidente = 0;
     // $quality_atraso_resposta = 0;
 
-    $emitido[$ind] = (($retorno['quality_ip_emitido'])?:'');
-    $reincidente[$ind] = (($retorno['quality_ip_reincidente'])?:'');
-    $atraso[$ind] = (($retorno['quality_atraso_resposta'])?:'');
-    $dias_atrso[$ind] = (($retorno['quality_ppm']?:''));
+    $emitido[$ind] = (($retorno['quality_ip_emitido'])?:'0');
+    $reincidente[$ind] = (($retorno['quality_ip_reincidente'])?:'0');
+    $atraso[$ind] = (($retorno['quality_atraso_resposta'])?:'0');
+    $dias_atrso[$ind] = (($retorno['quality_ppm']?:'0'));
 }
 
 
