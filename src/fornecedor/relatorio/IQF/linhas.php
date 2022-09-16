@@ -68,7 +68,7 @@
 
         $p =  0;
 
-        for($i=11; $i>=0; $i--){
+        // for($i=11; $i>=0; $i--){
 
             $Mes = $m; //date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
             $Ano = $a; //date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
@@ -105,7 +105,7 @@
                 $quality_ppm = $quality_ppm + $d['quality_ppm'];
 
             }
-        }
+        // }
 
         return [
             'quality_ip_emitido' => $quality_ip_emitido,
