@@ -72,16 +72,16 @@
                 $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
                 $array_valores1[$ind] = $valor;
 
-                if($valor < 84.99){
+                if($valor <= 91.99){
                     $array_cor1[$ind] = '"#dc3545"'; /// DEFICIENTE
                     $array_border1[$ind] = '"#dc3545"';
-                }elseif($valor > 84.99 && $valor < 93.99){///// REGULAR
+                }elseif($valor >= 92.00 && $valor <= 95.99){///// REGULAR
                     $array_cor1[$ind] = '"#ffc107"';
                     $array_border1[$ind] = '"#ffc107"';
-                }elseif($valor > 93.99 && $valor < 98.99){ //// BOM
+                }elseif($valor >= 96.00 && $valor <= 98.99){ //// BOM
                     $array_cor1[$ind] = '"#007bff"';
                     $array_border1[$ind] = '"#6610f2"';
-                }elseif($valor > 98.99 && $valor <= 100.00){ ///OTIMO
+                }elseif($valor >= 99.00 && $valor <= 100.00){ ///OTIMO
                     $array_cor1[$ind] = '"#28a745"';
                     $array_border1[$ind] = '"#198754"';
                 }

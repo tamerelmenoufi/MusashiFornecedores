@@ -62,23 +62,24 @@ function dias_atrasos_tabela($m, $a, $f)
 
     $p = 0;
 
-    for ($i = 11; $i >= 0; $i--) {
+    // for ($i = 11; $i >= 0; $i--) {
 
-        $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-        $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+        $Mes = $m; //date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+        $Ano = $a; //date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
-        $query = $pdo->prepare("SELECT
-                                        sum(quality_ip_emitido) as quality_ip_emitido,
-                                        sum(quality_ip_reincidente) as quality_ip_reincidente,
-                                        sum(quality_atraso_resposta) as quality_atraso_resposta,
-                                        sum(quality_ppm) as quality_ppm
+        $q = "SELECT
+        sum(quality_ip_emitido) as quality_ip_emitido,
+        sum(quality_ip_reincidente) as quality_ip_reincidente,
+        sum(quality_atraso_resposta) as quality_atraso_resposta,
+        sum(quality_ppm) as quality_ppm
 
-                                    FROM registros_diarios WHERE
+    FROM registros_diarios WHERE
 
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
-                                ");
+        codigo_fornecedor = '{$f}' AND
+        month(data_registro) = '{$Mes}' AND
+        year(data_registro) = '{$Ano}'";
+
+        $query = $pdo->prepare($q);
         $query->execute();
         $d = $query->fetch();
         $n = $query->rowCount();
@@ -95,7 +96,7 @@ function dias_atrasos_tabela($m, $a, $f)
 
 
         }
-    }
+    // }
 
 
     $query = $pdo->prepare("SELECT f.nome,
