@@ -70,21 +70,30 @@
 
         for($i=11; $i>=0; $i--){
 
-            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Mes = $m; //date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+            $Ano = $a; //date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
-            $query = $pdo->prepare("SELECT
-                                        sum(quality_ip_emitido) as quality_ip_emitido,
-                                        sum(quality_ip_reincidente) as quality_ip_reincidente,
-                                        sum(quality_atraso_resposta) as quality_atraso_resposta,
-                                        sum(quality_ppm) as quality_ppm
 
-                                    FROM registros_diarios WHERE
+            $q = "SELECT
 
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
-                                ");
+                    sum(b.demerito) as quality_ip_emitido,
+                    sum(c.demerito) as quality_ip_reincidente,
+                    sum(d.demerito) as quality_atraso_resposta,
+                    sum(e.demerito) as quality_ppm
+
+                FROM registros_diarios a
+                    left join aux_idm_emitidos b on a.quality_ip_emitido = b.codigo
+                    left join aux_idm_reincidente c on a.quality_ip_reincidente = c.codigo
+                    left join aux_idm_atraso_resposta d on a.quality_atraso_resposta = d.codigo
+                    left join aux_ppm e on a.quality_ppm = e.codigo
+
+                WHERE
+
+                    a.codigo_fornecedor = '{$f}' AND
+                    month(a.data_registro) = '{$Mes}' AND
+                    year(a.data_registro) = '{$Ano}'";
+
+            $query = $pdo->prepare($q);
             $query->execute();
             $d = $query->fetch();
             $n = $query->rowCount();
