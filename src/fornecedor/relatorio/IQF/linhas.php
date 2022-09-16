@@ -235,7 +235,7 @@ for($i=11; $i>=0; $i--){
     $emitido[$ind] = (($retorno['quality_ip_emitido'])?:'');
     $reincidente[$ind] = (($retorno['quality_ip_reincidente'])?:'');
     $atraso[$ind] = (($retorno['quality_atraso_resposta'])?:'');
-
+    $dias_atrso[$ind] = (($retorno['quality_ppm']?:''));
 }
 
 
@@ -259,7 +259,7 @@ for($i=11; $i>=0; $i--){
                 backgroundColor: 'rgb(255,255,255,.5)',
                 borderColor: 'red',
                 borderWidth: 2,
-                data: [<?=@implode(",", $atraso)?>],
+                data: [<?=@implode(",", $dias_atrso)?>],
                 stack: 'combined',
                 barThickness: 50,
                 type: 'bar'
