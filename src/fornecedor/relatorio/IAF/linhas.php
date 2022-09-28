@@ -224,12 +224,12 @@ for($i=11; $i>=0; $i--){
             datasets: [{
                 label: 'Dias de Atraso',
                 backgroundColor: 'rgb(73,116,165,0.5)',
-                borderColor: 'red',
+                borderColor: 'rgb(73,116,165,0.5)',
                 borderWidth: 2,
                 data: [<?=@implode(",", $atraso)?>],
                 stack: 'combined',
-                barThickness: 50,
-                type: 'bar'
+                // barThickness: 50,
+                // type: 'bar'
             },
             {
                 label: '% Atendimento',
