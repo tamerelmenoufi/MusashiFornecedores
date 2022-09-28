@@ -261,14 +261,13 @@ for($i=11; $i>=0; $i--){
                 borderWidth: 2,
                 data: [<?=@implode(",", $dias_atrso)?>],
                 stack: 'combined',
-                barThickness: 50,
+                // barThickness: 50,
                 // type: 'bar'
             },
             {
                 label: 'IPEmitido',
                 backgroundColor: 'rgb(255,191,1)',
                 borderColor: 'rgb(255,191,1)',
-                borderWidth: 1,
                 data: [<?=@implode(",", $emitido)?>],
                 stack: 'combined',
                 borderWidth: 2
@@ -277,7 +276,6 @@ for($i=11; $i>=0; $i--){
                 label: 'IPOficial"R"',
                 backgroundColor: 'rgb(1,67,255)',
                 borderColor: 'rgb(1,67,255)',
-                borderWidth: 1,
                 data: [<?=@implode(",", $reincidente)?>],
                 stack: 'combined',
                 borderWidth: 2
@@ -286,7 +284,6 @@ for($i=11; $i>=0; $i--){
                 label: 'Atraso Resp.',
                 backgroundColor: 'rgb(7,146,0)',
                 borderColor: 'rgb(7,146,0)',
-                borderWidth: 1,
                 data: [<?=@implode(",", $atraso)?>],
                 stack: 'combined',
                 borderWidth: 2
