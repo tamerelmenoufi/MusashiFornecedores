@@ -68,8 +68,6 @@
             $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
             $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
-            $query = $pdo->prepare(
-
                 // "SELECT sum(delivery_atraso_resposta) as atrasos
 
                 //                     FROM registros_diarios WHERE
@@ -79,7 +77,7 @@
                 //                         year(data_registro) = '{$Ano}'
                 //                 "
 
-                                "SELECT
+            $query = $pdo->prepare("SELECT
                                 a.delivery,
                                 sum(b.demerito) as delivery_idm_emitidos,
                                 sum(c.demerito) as delivery_idm_reincidente,
@@ -97,11 +95,7 @@
 
                                 a.codigo_fornecedor = '{$f}' AND
                                 month(a.data_registro) = '{$Mes}' AND
-                                year(a.data_registro) = '{$Ano}'
-                        "
-
-
-                            );
+                                year(a.data_registro) = '{$Ano}'");
             $query->execute();
             $d = $query->fetch();
             $n = $query->rowCount();
