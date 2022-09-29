@@ -87,14 +87,14 @@
                                         sum(e.demerito) as delivery_comunicacao,
                                         sum(f.demerito) as delivery_parada_linha
 
-                                    FROM registros_diarios a WHERE
+                                    FROM registros_diarios a
 
                                     left join aux_idm_emitidos b on a.delivery_idm_emitidos = b.codigo
                                     left join aux_idm_reincidente c on a.delivery_idm_reincidente = c.codigo
                                     left join aux_ip_atraso_resposta d on a.delivery_atraso_resposta = d.codigo
                                     left join aux_comunicacao e on a.delivery_comunicacao = e.codigo
                                     left join aux_parada_linha f on a.delivery_parada_linha = f.codigo
-
+                                    WHERE
                                         a.codigo_fornecedor = '{$f}' AND
                                         month(a.data_registro) = '{$Mes}' AND
                                         year(a.data_registro) = '{$Ano}'
