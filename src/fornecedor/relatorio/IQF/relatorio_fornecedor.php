@@ -69,10 +69,10 @@ function dias_atrasos_tabela($m, $a, $f)
 
         $q = "SELECT
 
-        sum(b.demerito) as quality_ip_emitido,
-        sum(c.demerito) as quality_ip_reincidente,
-        sum(d.demerito) as quality_atraso_resposta,
-        sum(e.demerito) as quality_ppm
+        (b.idm_emitidos) as quality_ip_emitido,
+        (c.idm_reincidente) as quality_ip_reincidente,
+        (d.demerito) as quality_atraso_resposta,
+        (e.demerito) as quality_ppm
 
     FROM registros_diarios a
         left join aux_idm_emitidos b on a.quality_ip_emitido = b.codigo
