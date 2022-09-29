@@ -68,21 +68,47 @@
             $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
             $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
-            $query = $pdo->prepare("SELECT sum(delivery_atraso_resposta) as atrasos
+            $query = $pdo->prepare(
 
-                                    FROM registros_diarios WHERE
+                // "SELECT sum(delivery_atraso_resposta) as atrasos
 
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
-                                ");
+                //                     FROM registros_diarios WHERE
+
+                //                         codigo_fornecedor = '{$f}' AND
+                //                         month(data_registro) = '{$Mes}' AND
+                //                         year(data_registro) = '{$Ano}'
+                //                 "
+
+                                "SELECT
+                                a.delivery,
+                                sum(b.demerito) as delivery_idm_emitidos,
+                                sum(c.demerito) as delivery_idm_reincidente,
+                                sum(d.demerito) as delivery_atraso_resposta,
+                                sum(e.demerito) as delivery_comunicacao,
+                                sum(f.demerito) as delivery_parada_linha
+
+                            FROM registros_diarios a WHERE
+
+                            left join aux_idm_emitidos b on a.delivery_idm_emitidos = b.codigo
+                            left join aux_idm_reincidente c on a.delivery_idm_reincidente = c.codigo
+                            left join aux_ip_atraso_resposta d on a.delivery_atraso_resposta = d.codigo
+                            left join aux_comunicacao e on a.delivery_comunicacao = e.codigo
+                            left join aux_parada_linha f on a.delivery_parada_linha = f.codigo
+
+                                a.codigo_fornecedor = '{$f}' AND
+                                month(a.data_registro) = '{$Mes}' AND
+                                year(a.data_registro) = '{$Ano}'
+                        "
+
+
+                            );
             $query->execute();
             $d = $query->fetch();
             $n = $query->rowCount();
             if($n){
                 $p++;
-                $dias_atrasos = $dias_atrasos + $d['atrasos'];
-                $entregas = $entregas + $d['entregas'];
+                $dias_atrasos = $dias_atrasos + $d['delivery_atraso_resposta'];
+                $entregas = $entregas + $d['delivery'];
             }
         }
 
