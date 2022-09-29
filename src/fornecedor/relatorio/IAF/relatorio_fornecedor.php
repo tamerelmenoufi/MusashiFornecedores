@@ -68,18 +68,30 @@ function dias_atrasos_tabela($m, $a, $f)
         $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
         $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
+        // aux_idm_emitidos - demerito
+        // aux_idm_reincidente - demerito
+        // aux_ip_atraso_resposta - demetrito
+        // aux_comunicacao - demerito
+        // aux_parada_linha - demerito
+
         $query = $pdo->prepare("SELECT
-                                        sum(delivery_idm_emitidos) as delivery_idm_emitidos,
-                                        sum(delivery_idm_reincidente) as delivery_idm_reincidente,
-                                        sum(delivery_atraso_resposta) as delivery_atraso_resposta,
-                                        sum(delivery_comunicacao) as delivery_comunicacao,
-                                        sum(delivery_parada_linha) as delivery_parada_linha
+                                        sum(b.demerito) as delivery_idm_emitidos,
+                                        sum(c.demerito) as delivery_idm_reincidente,
+                                        sum(d.demerito) as delivery_atraso_resposta,
+                                        sum(e.demerito) as delivery_comunicacao,
+                                        sum(f.demerito) as delivery_parada_linha
 
-                                    FROM registros_diarios WHERE
+                                    FROM registros_diarios a WHERE
 
-                                        codigo_fornecedor = '{$f}' AND
-                                        month(data_registro) = '{$Mes}' AND
-                                        year(data_registro) = '{$Ano}'
+                                    left join aux_idm_emitidos b on a.delivery_idm_emitidos = b.codigo
+                                    left join aux_idm_reincidente c on a.delivery_idm_reincidente = c.codigo
+                                    left join aux_ip_atraso_resposta d on a.delivery_atraso_resposta = d.codigo
+                                    left join aux_comunicacao e on a.delivery_comunicacao = e.codigo
+                                    left join aux_parada_linha f on a.delivery_parada_linha = f.codigo
+
+                                        a.codigo_fornecedor = '{$f}' AND
+                                        month(a.data_registro) = '{$Mes}' AND
+                                        year(a.data_registro) = '{$Ano}'
                                 ");
         $query->execute();
         $d = $query->fetch();
