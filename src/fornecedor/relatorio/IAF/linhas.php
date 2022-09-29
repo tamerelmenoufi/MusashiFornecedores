@@ -138,14 +138,14 @@
 
 
     return [
-        'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : '-'),
-        'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : '-'),
-        'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : '-'),
-        'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : '-'),
-        'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : '-'),
-        'pct_atendimento' => (($n) ? ($d['eficiencia']) : '-'),
-        'delivery' => (($n) ? ($d['delivery']) : '-'),
-        'delivery_entrega' => (($n) ? ($d['delivery_entrega']) : '-'),
+        'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : '0'),
+        'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : '0'),
+        'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : '0'),
+        'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : '0'),
+        'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : '0'),
+        'pct_atendimento' => (($n) ? ($d['eficiencia']) : '0'),
+        'delivery' => (($n) ? ($d['delivery']) : '0'),
+        'delivery_entrega' => (($n) ? ($d['delivery_entrega']) : '0'),
     ];
 
 }
@@ -262,8 +262,8 @@ for($i=11; $i>=0; $i--){
     $ind = ($Mes*1);
     $retorno = dias_atrasos($Mes, $Ano, $_POST['codigo_fornecedor']);
     $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
-    $entrega[$ind] = (($retorno['delivery'])?:'0');
-    $atraso[$ind] = (($retorno['delivery_atraso_resposta'])?:'0');
+    $entrega[$ind] = $retorno['delivery'];
+    $atraso[$ind] = $retorno['delivery_atraso_resposta'];
 
 
 }
