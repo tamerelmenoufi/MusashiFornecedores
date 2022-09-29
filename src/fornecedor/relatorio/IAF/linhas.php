@@ -263,7 +263,7 @@ for($i=11; $i>=0; $i--){
     $retorno = dias_atrasos($Mes, $Ano, $_POST['codigo']);
     $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
     $entrega[$ind] = $retorno['delivery'];
-    $atraso[$ind] = $retorno['pct_atendimento'];
+    $atendimento[$ind] = $retorno['pct_atendimento'];
 
 
 }
@@ -284,11 +284,11 @@ for($i=11; $i>=0; $i--){
                 <?=@implode(",", $array_meses)?>
             ],
             datasets: [{
-                label: 'Dias de Atraso',
+                label: 'Delivery',
                 backgroundColor: 'rgb(255,25,0)',
                 borderColor: 'rgb(255,25,0)',
                 borderWidth: 2,
-                data: [<?=@implode(",", $atraso)?>],
+                data: [<?=@implode(",", $entrega)?>],
                 stack: 'combined',
                 // barThickness: 50,
                 // type: 'bar'
@@ -298,7 +298,7 @@ for($i=11; $i>=0; $i--){
                 backgroundColor: 'rgb(73,116,165)',
                 borderColor: 'rgb(73,116,165)',
                 borderWidth: 1,
-                data: [<?=@implode(",", $entrega)?>],
+                data: [<?=@implode(",", $atendimento)?>],
                 stack: 'combined',
                 borderWidth: 2
             }
