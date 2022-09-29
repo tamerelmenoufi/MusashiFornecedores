@@ -260,7 +260,7 @@ for($i=11; $i>=0; $i--){
     $d = $query->fetch();
 
     $ind = ($Mes*1);
-    $retorno = dias_atrasos($Mes, $Ano, $_POST['codigo_fornecedor']);
+    $retorno = dias_atrasos($Mes, $Ano, $_POST['codigo']);
     $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
     $entrega[$ind] = $retorno['delivery'];
     $atraso[$ind] = $retorno['pct_atendimento'];
