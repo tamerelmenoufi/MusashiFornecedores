@@ -57,60 +57,98 @@
 
 
 
-    function dias_atrasos($m, $a, $f){
-        global $pdo;
+    function dias_atrasos($m, $a, $f)
+{
+    global $pdo;
 
-        $dias_atrasos = 0;
-        $entregas = 0;
-        $p =  0;
-        for($i=11; $i>=0; $i--){
+    $delivery_idm_emitidos = 0;
+    $delivery_idm_reincidente = 0;
+    $delivery_atraso_resposta = 0;
+    $delivery_comunicacao = 0;
+    $delivery_parada_linha = 0;
 
-            $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
-            $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
+    $p = 0;
 
-                // "SELECT sum(delivery_atraso_resposta) as atrasos
+    for ($i = 11; $i >= 0; $i--) {
 
-                //                     FROM registros_diarios WHERE
+        $Mes = date("m", mktime(0, 0, 0, ($m - $i), 1, $a));
+        $Ano = date("Y", mktime(0, 0, 0, ($m - $i), 1, $a));
 
-                //                         codigo_fornecedor = '{$f}' AND
-                //                         month(data_registro) = '{$Mes}' AND
-                //                         year(data_registro) = '{$Ano}'
-                //                 "
+        // aux_idm_emitidos - demerito
+        // aux_idm_reincidente - demerito
+        // aux_ip_atraso_resposta - demetrito
+        // aux_comunicacao - demerito
+        // aux_parada_linha - demerito
 
-        echo $q = "SELECT
-            a.delivery,
-            sum(b.demerito) as delivery_idm_emitidos,
-            sum(c.demerito) as delivery_idm_reincidente,
-            sum(d.demerito) as delivery_atraso_resposta,
-            sum(e.demerito) as delivery_comunicacao,
-            sum(f.demerito) as delivery_parada_linha
+        $query = $pdo->prepare("SELECT
+                                        sum(b.demerito) as delivery_idm_emitidos,
+                                        sum(c.demerito) as delivery_idm_reincidente,
+                                        sum(d.demerito) as delivery_atraso_resposta,
+                                        sum(e.demerito) as delivery_comunicacao,
+                                        sum(f.demerito) as delivery_parada_linha
 
-        FROM registros_diarios a WHERE
+                                    FROM registros_diarios a WHERE
 
-        left join aux_idm_emitidos b on a.delivery_idm_emitidos = b.codigo
-        left join aux_idm_reincidente c on a.delivery_idm_reincidente = c.codigo
-        left join aux_ip_atraso_resposta d on a.delivery_atraso_resposta = d.codigo
-        left join aux_comunicacao e on a.delivery_comunicacao = e.codigo
-        left join aux_parada_linha f on a.delivery_parada_linha = f.codigo
+                                    left join aux_idm_emitidos b on a.delivery_idm_emitidos = b.codigo
+                                    left join aux_idm_reincidente c on a.delivery_idm_reincidente = c.codigo
+                                    left join aux_ip_atraso_resposta d on a.delivery_atraso_resposta = d.codigo
+                                    left join aux_comunicacao e on a.delivery_comunicacao = e.codigo
+                                    left join aux_parada_linha f on a.delivery_parada_linha = f.codigo
 
-            a.codigo_fornecedor = '{$f}' AND
-            month(a.data_registro) = '{$Mes}' AND
-            year(a.data_registro) = '{$Ano}'";
+                                        a.codigo_fornecedor = '{$f}' AND
+                                        month(a.data_registro) = '{$Mes}' AND
+                                        year(a.data_registro) = '{$Ano}'
+                                ");
+        $query->execute();
+        $d = $query->fetch();
+        $n = $query->rowCount();
+        if ($n) {
+            // $p++;
+            // $dias_atrasos = $dias_atrasos + $d['atrasos'];
+            // $entregas = $entregas + $d['entregas'];
 
-            $query = $pdo->prepare($q);
-            $query->execute();
-            $d = $query->fetch();
-            $n = $query->rowCount();
-            if($n){
-                $p++;
-                $dias_atrasos = $dias_atrasos + $d['delivery_atraso_resposta'];
-                $entregas = $entregas + $d['delivery'];
-            }
+
+            $delivery_idm_emitidos = $delivery_idm_emitidos + $d['delivery_idm_emitidos'];
+            $delivery_idm_reincidente = $delivery_idm_reincidente + $d['delivery_idm_reincidente'];
+            $delivery_atraso_resposta = $delivery_atraso_resposta + $d['delivery_atraso_resposta'];
+            $delivery_comunicacao = $delivery_comunicacao + $d['delivery_comunicacao'];
+            $delivery_parada_linha = $delivery_parada_linha + $d['delivery_parada_linha'];
+
+
         }
-
-        return (($n) ? ($dias_atrasos) : 0);
-
     }
+
+
+    $query = $pdo->prepare("SELECT f.nome,
+        am.mes,
+        am.ano,
+        am.eficiencia,
+        am.quality,
+        am.delivery,
+        am.classificacao,
+        am.posicao,
+        am.*
+        FROM `avaliacao_mensal` am
+        LEFT JOIN fornecedores f ON am.codigo_fornecedor = f.codigo
+        where f.codigo = {$f} AND am.mes = '" . ($Mes * 1) . "' AND am.ano = '{$Ano}'");
+
+    $query->execute();
+    $n = $query->rowCount();
+    $d = $query->fetch();
+
+
+    return [
+        'delivery_idm_emitidos' => (($n) ? ($delivery_idm_emitidos) : '-'),
+        'delivery_idm_reincidente' => (($n) ? ($delivery_idm_reincidente) : '-'),
+        'delivery_atraso_resposta' => (($n) ? ($delivery_atraso_resposta) : '-'),
+        'delivery_comunicacao' => (($n) ? ($delivery_comunicacao) : '-'),
+        'delivery_parada_linha' => (($n) ? ($delivery_parada_linha) : '-'),
+        'pct_atendimento' => (($n) ? ($d['eficiencia']) : '-'),
+        'delivery' => (($n) ? ($d['delivery']) : '-'),
+        'delivery_entrega' => (($n) ? ($d['delivery_entrega']) : '-'),
+    ];
+
+}
 
 
 
@@ -222,9 +260,11 @@ for($i=11; $i>=0; $i--){
     $d = $query->fetch();
 
     $ind = ($Mes*1);
+    // $retorno = dias_atrasos($Mes, $Ano, $_POST['codigo_fornecedor']);
     $array_meses[$ind] =  '"'.mesExtenso($ind).'/'.substr($Ano,-2).'"';
-    $entrega[$ind] = (($d['eficiencia'])?:'');
-    $atraso[$ind] = ((dias_atrasos($Mes, $Ano, $_POST['codigo']))?:'');
+    $entrega[$ind] = (($retorno['delivery'])?:'0');
+    $atraso[$ind] = (($retorno['delivery_atraso_resposta'])?:'0');
+
 
 }
 
