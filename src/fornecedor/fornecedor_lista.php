@@ -77,7 +77,7 @@
                                     }
                                     if($ConfUsu['tipo'] == 1 and $d['situacao'] == '0'){
                                     ?>
-                                    <button restaurar cod="<?=$d['codigo']?>" type="button" class="btn btn-warner btn-sm" title="Restaurar">
+                                    <button restaurar cod="<?=$d['codigo']?>" type="button" class="btn btn-warning btn-sm" title="Restaurar">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Restaurar
                                     </button>
