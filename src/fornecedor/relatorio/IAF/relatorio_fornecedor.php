@@ -717,6 +717,7 @@ function mesExtenso($mes)
     $(function () {
 
         <?php
+        if($posicao){
         $p = 0;
         $pos = 0;
         $g = 0;
@@ -729,6 +730,7 @@ function mesExtenso($mes)
         ?>
         $("td[posicao<?=$ind?>]").html('<?=(($val == '0.00')?'-':$p)?>');
         <?php
+        }
         }
         ?>
 
