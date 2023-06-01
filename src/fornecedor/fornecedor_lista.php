@@ -8,6 +8,11 @@
         $update->execute();
     }
 
+    if($_POST['acao'] == 'restaurar'){
+        $update = $pdo->prepare("UPDATE fornecedores set situacao = '1' WHERE codigo = {$_POST['codigo_fornecedor']}");
+        $update->execute();
+    }
+
 ?>
 <div class="container-fluid" >
     <div class="row justify-content-center align-items-center g-3 m-3">
@@ -29,7 +34,7 @@
                         <?php
                             $data_atual = date("Y-m-d");
 
-                            $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim AND situacao = '1' ORDER BY nome;");
+                            $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim /*AND situacao = '1'*/ ORDER BY nome;");
                             $sql->execute();
                             $count = 1;
                             while($d = $sql->fetch()){
@@ -43,6 +48,9 @@
                                 <td><?=date('d/m/Y', strtotime($d['data_inicio']))?></td>
                                 <td><?=date('d/m/Y', strtotime($d['data_fim']))?></td>
                                 <td class="d-flex justify-content-center align-items-center" style="gap: 8px;">
+                                    <?php
+                                    if($d['situacao'] == '1'){
+                                    ?>
                                     <button semanas cod="<?=$d['codigo']?>" type="button" class="btn btn-success btn-sm" title="Semanas">
                                         <!-- <i class="fa fa-calendar" aria-hidden="true"></i> -->
                                         Registros
@@ -51,16 +59,27 @@
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Editar
                                     </button>
+                                    <?php
+                                    }
+                                    ?>
                                     <button relatorio cod="<?=$d['codigo']?>" type="button" class="btn btn-dark btn-sm" title="Relatório">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Relatorio
                                     </button>
                                     <?php
-                                    if($ConfUsu['tipo'] == 1){
+                                    if($ConfUsu['tipo'] == 1 and $d['situacao'] == '1'){
                                     ?>
                                     <button excluir cod="<?=$d['codigo']?>" type="button" class="btn btn-danger btn-sm" title="Excluir">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Excluir
+                                    </button>
+                                    <?php
+                                    }
+                                    if($ConfUsu['tipo'] == 1 and $d['situacao'] == '0'){
+                                    ?>
+                                    <button restaurar cod="<?=$d['codigo']?>" type="button" class="btn btn-warner btn-sm" title="Restaurar">
+                                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
+                                        Restaurar
                                     </button>
                                     <?php
                                     }
@@ -126,6 +145,35 @@
                         data: {
                             codigo_fornecedor,
                             acao:'excluir'
+                        },success: function(retorno){
+                            $('div#home').html(retorno)
+                        }
+                    })
+                },
+                'NÃO':function(){
+
+                }
+            }
+        });
+
+
+    })
+
+
+    $('button[restaurar]').click(function(){
+        let codigo_fornecedor = $(this).attr('cod')
+
+        $.confirm({
+            content:"Deseja realmente restaurar o Fornecedor?",
+            title:false,
+            buttons:{
+                'SIM':function(){
+                    $.ajax({
+                        url: 'src/fornecedor/fornecedor_lista.php',
+                        method: 'POST',
+                        data: {
+                            codigo_fornecedor,
+                            acao:'restaurar'
                         },success: function(retorno){
                             $('div#home').html(retorno)
                         }
