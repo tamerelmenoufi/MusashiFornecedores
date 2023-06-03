@@ -112,9 +112,9 @@
                                     }
                                     }else{
                                     ?>
-                                    <button restaurarDelete cod="<?=$d['codigo']?>" type="button" class="btn btn-warning btn-sm" title="Restaurar" style="text-decoration:normal;">
+                                    <button restaurarDelete cod="<?=$d['codigo']?>" type="button" class="btn btn-warning btn-sm" title="Restaurar">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
-                                        Restaurar
+                                        <span style="text-decoration: normal;">Restaurar</span>
                                     </button>
                                     <?php
                                     }
