@@ -33,6 +33,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">LEG.</th>
                             <th scope="col">Fornecedor</th>
                             <th scope="col">CNPJ</th>
                             <th scope="col">Inicio</th>
@@ -52,6 +53,18 @@
                         ?>
                             <tr <?=(($d['deletado'] == '1')?'style="text-decoration: line-through"':false)?>>
                                 <th scope="row"><?=$count?></th>
+                                <th scope="row">
+                                    <?php
+                                    if($d['deletado'] == '1'){
+                                        $cor = 'red';
+                                    }elseif($d['situacao'] == '0'){
+                                        $cor = 'orange';
+                                    }else{
+                                        $cor = 'green';
+                                    }
+                                    ?>
+                                    <i class="fa-solid fa-circle" style="color:<?=$cor?>"></i>
+                                </th>
                                 <td ><?=utf8_encode($d['nome'])?></td>
                                 <td><?=$d['cnpj']?></td>
                                 <td><?=date('d/m/Y', strtotime($d['data_inicio']))?></td>
