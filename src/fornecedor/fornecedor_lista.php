@@ -3,13 +3,23 @@
 
     global $pdo;
 
-    if($_POST['acao'] == 'excluir'){
+    if($_POST['acao'] == 'desativar'){
         $update = $pdo->prepare("UPDATE fornecedores set situacao = '0' WHERE codigo = {$_POST['codigo_fornecedor']}");
         $update->execute();
     }
 
     if($_POST['acao'] == 'restaurar'){
         $update = $pdo->prepare("UPDATE fornecedores set situacao = '1' WHERE codigo = {$_POST['codigo_fornecedor']}");
+        $update->execute();
+    }
+
+    if($_POST['acao'] == 'excluir'){
+        $update = $pdo->prepare("UPDATE fornecedores set deletado = '1' WHERE codigo = {$_POST['codigo_fornecedor']}");
+        $update->execute();
+    }
+
+    if($_POST['acao'] == 'restaurarDelete'){
+        $update = $pdo->prepare("UPDATE fornecedores set deletado = '0' WHERE codigo = {$_POST['codigo_fornecedor']}");
         $update->execute();
     }
 
@@ -34,14 +44,14 @@
                         <?php
                             $data_atual = date("Y-m-d");
 
-                            $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim /*AND situacao = '1'*/ ORDER BY nome;");
+                            $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim /*AND deletado != '1'*/ ORDER BY deletado asc nome desc;");
                             $sql->execute();
                             $count = 1;
                             while($d = $sql->fetch()){
 
                                 // if(date("Y-m-d") > date('d/m/Y', strtotime($d['data_fim']))){
                         ?>
-                            <tr>
+                            <tr <?=(($d['deletado'] == '1')?'style="text-decoration: line-through"':false)?>>
                                 <th scope="row"><?=$count?></th>
                                 <td ><?=utf8_encode($d['nome'])?></td>
                                 <td><?=$d['cnpj']?></td>
@@ -49,6 +59,7 @@
                                 <td><?=date('d/m/Y', strtotime($d['data_fim']))?></td>
                                 <td class="d-flex justify-content-center align-items-center" style="gap: 8px;">
                                     <?php
+                                    if($d['deletado'] != '1'){
                                     if($d['situacao'] == '1'){
                                     ?>
                                     <button semanas cod="<?=$d['codigo']?>" type="button" class="btn btn-success btn-sm" title="Semanas">
@@ -69,15 +80,27 @@
                                     <?php
                                     if($ConfUsu['tipo'] == 1 and $d['situacao'] == '1'){
                                     ?>
-                                    <button excluir cod="<?=$d['codigo']?>" type="button" class="btn btn-danger btn-sm" title="Excluir">
+                                    <button desativar cod="<?=$d['codigo']?>" type="button" class="btn btn-danger btn-sm" title="Desativar">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
-                                        Excluir
+                                        Desativar
                                     </button>
                                     <?php
                                     }
                                     if($ConfUsu['tipo'] == 1 and $d['situacao'] == '0'){
                                     ?>
                                     <button restaurar cod="<?=$d['codigo']?>" type="button" class="btn btn-warning btn-sm" title="Restaurar">
+                                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
+                                        Restaurar
+                                    </button>
+                                    <button excluir cod="<?=$d['codigo']?>" type="button" class="btn btn-danger btn-sm" title="Excluir">
+                                        <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
+                                        Excluir
+                                    </button>
+                                    <?php
+                                    }
+                                    }else{
+                                    ?>
+                                    <button restaurarDelete cod="<?=$d['codigo']?>" type="button" class="btn btn-warning btn-sm" title="Restaurar">
                                         <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
                                         Restaurar
                                     </button>
@@ -131,11 +154,39 @@
         })
     })
 
-    $('button[excluir]').click(function(){
+    $('button[desativar]').click(function(){
         let codigo_fornecedor = $(this).attr('cod')
 
         $.confirm({
             content:"Deseja realmente desativar o Fornecedor?",
+            title:false,
+            buttons:{
+                'SIM':function(){
+                    $.ajax({
+                        url: 'src/fornecedor/fornecedor_lista.php',
+                        method: 'POST',
+                        data: {
+                            codigo_fornecedor,
+                            acao:'desativar'
+                        },success: function(retorno){
+                            $('div#home').html(retorno)
+                        }
+                    })
+                },
+                'NÃO':function(){
+
+                }
+            }
+        });
+
+
+    })
+
+    $('button[excluir]').click(function(){
+        let codigo_fornecedor = $(this).attr('cod')
+
+        $.confirm({
+            content:"Deseja realmente excluir o Fornecedor?",
             title:false,
             buttons:{
                 'SIM':function(){
@@ -185,6 +236,34 @@
             }
         });
 
+
+    })
+
+
+    $('button[restaurarDelete]').click(function(){
+        let codigo_fornecedor = $(this).attr('cod')
+
+        $.confirm({
+            content:"Deseja realmente restaurar o Fornecedor?",
+            title:false,
+            buttons:{
+                'SIM':function(){
+                    $.ajax({
+                        url: 'src/fornecedor/fornecedor_lista.php',
+                        method: 'POST',
+                        data: {
+                            codigo_fornecedor,
+                            acao:'restaurarDelete'
+                        },success: function(retorno){
+                            $('div#home').html(retorno)
+                        }
+                    })
+                },
+                'NÃO':function(){
+
+                }
+            }
+        });
 
     })
 
