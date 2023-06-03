@@ -63,7 +63,7 @@
                                         $cor = 'green';
                                     }
                                     ?>
-                                    <i class="fa-solid fa-circle" style="color:<?=$cor?>; text-decoration: normal;"></i>
+                                    <i class="fa fa-circle" style="color:<?=$cor?>; text-decoration: normal;"></i>
                                 </th>
                                 <td ><?=utf8_encode($d['nome'])?></td>
                                 <td><?=$d['cnpj']?></td>
