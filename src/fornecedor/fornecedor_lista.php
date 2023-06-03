@@ -44,7 +44,8 @@
                         <?php
                             $data_atual = date("Y-m-d");
 
-                            echo $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim /*AND deletado != '1'*/ ORDER BY deletado asc, nome desc;");
+                            echo "SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim /*AND deletado != '1'*/ ORDER BY deletado asc, nome desc;";
+                            $sql = $pdo->prepare("SELECT * FROM fornecedores WHERE '{$data_atual}' BETWEEN data_inicio AND data_fim /*AND deletado != '1'*/ ORDER BY deletado asc, nome desc;");
                             $sql->execute();
                             $count = 1;
                             while($d = $sql->fetch()){
