@@ -47,7 +47,7 @@
         ava.delivery,
         ((ava.quality+ava.delivery)/2) as classificacao,
         ava.posicao,
-        (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor and data_registro >= '{$Y}-{$M}-01') as qt_meses
+        (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) + 1 as qt_meses
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' group by ava.codigo_fornecedor";
