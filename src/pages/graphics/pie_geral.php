@@ -56,8 +56,7 @@
 
         while($d = $query->fetch()) {
 
-            echo $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
-            echo "<br>";
+            $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
             $nome[$d['fornecedor_codigo']] = $d['nome'];
             $qt_meses[$d['fornecedor_codigo']] = $d['qt_meses'];
             // echo "<hr>";
@@ -70,6 +69,9 @@
         }
     }
 
+    echo "<pre>";
+    print_r($fornecedor);
+    echo "</pre>";
 
     foreach($fornecedor as $ind => $valor){
 
