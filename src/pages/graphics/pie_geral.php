@@ -24,17 +24,16 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        $query = $pdo->prepare("SELECT
-        count(CASE WHEN ava.qualificacao_ipf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,
-        count(CASE WHEN ava.qualificacao_ipf = 'BOM' THEN 1 ELSE NULL END) as bom,
-        count(CASE WHEN ava.qualificacao_ipf = 'REGULAR' THEN 1 ELSE NULL END) as regular,
-        count(CASE WHEN ava.qualificacao_ipf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
-        FROM avaliacao_mensal ava
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
+        // $query = $pdo->prepare("SELECT
+        // count(CASE WHEN ava.qualificacao_ipf = 'OTIMO' THEN 1 ELSE NULL END) as otimo,
+        // count(CASE WHEN ava.qualificacao_ipf = 'BOM' THEN 1 ELSE NULL END) as bom,
+        // count(CASE WHEN ava.qualificacao_ipf = 'REGULAR' THEN 1 ELSE NULL END) as regular,
+        // count(CASE WHEN ava.qualificacao_ipf = 'DEFICIENTE' THEN 1 ELSE NULL END) as deficiente
+        // FROM avaliacao_mensal ava
+        // WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
 
 
-
-        $query = $pdo->prepare("SELECT f.nome,
+        echo $q = "SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
         /*ava.classificacao,*/
@@ -45,7 +44,8 @@
         (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' group by ava.codigo_fornecedor");
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' group by ava.codigo_fornecedor";
+        $query = $pdo->prepare($q);
         $query->execute();
 
         while($d = $query->fetch()) {
