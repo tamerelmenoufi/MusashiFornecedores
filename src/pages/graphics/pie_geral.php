@@ -113,7 +113,7 @@
                 backgroundColor: ['#198754', '#007bff', '#ffc107', '#dc3545'],
                 borderColor: ['#198754', '#007bff', '#ffc107', '#dc3545'],
                 borderWidth: 1,
-                data: [<?="{$array_valores[0]},{$array_valores[1]},{$array_valores[2]},{$array_valores[3]}"?>],
+                data: [<?="{$array_valores[3]},{$array_valores[2]},{$array_valores[1]},{$array_valores[0]}"?>],
                 type: 'pie'
             }]
         },
