@@ -33,7 +33,7 @@
         // WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
 
 
-        echo $q = "SELECT f.nome,
+        $q = "SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
         /*ava.classificacao,*/
@@ -113,7 +113,7 @@
                 backgroundColor: ['#198754', '#007bff', '#ffc107', '#dc3545'],
                 borderColor: ['#198754', '#007bff', '#ffc107', '#dc3545'],
                 borderWidth: 1,
-                data: [<?=@implode(",", $array_valores)?>],
+                data: [<?="{$array_valores[0]},{$array_valores[1]},{$array_valores[2]},{$array_valores[3]}"?>],
                 type: 'pie'
             }]
         },
