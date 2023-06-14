@@ -29,7 +29,7 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        echo $query = $pdo->prepare("SELECT f.nome,
+        echo $q = "SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
         /*ava.classificacao,*/
@@ -41,7 +41,9 @@
 
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC");
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC";
+
+        $query = $pdo->prepare($q);
         $query->execute();
 
         if($query->rowCount() > 0){
