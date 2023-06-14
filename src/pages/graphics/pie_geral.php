@@ -71,6 +71,7 @@
 
     echo "<pre>";
     print_r($fornecedor);
+    print_r($qt_meses);
     echo "</pre>";
 
     foreach($fornecedor as $ind => $valor){
