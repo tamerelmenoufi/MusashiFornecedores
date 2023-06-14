@@ -14,10 +14,16 @@
         $M = $_POST['mes'];
     }
 
-    $array_valores = [];
     $array_codigo = [];
     $array_cor = [];
     $array_border = [];
+
+    $array_valores = [
+        0 => 0,
+        1 => 0,
+        2 => 0,
+        3 => 0,
+    ];
 
     for($i=11; $i>=0; $i--){
 
@@ -63,12 +69,7 @@
         }
     }
 
-    $array_valores = [
-        0 => 0,
-        1 => 0,
-        2 => 0,
-        3 => 0,
-    ];
+
     foreach($fornecedor as $ind => $valor){
 
         $n =  $nome[$ind];
