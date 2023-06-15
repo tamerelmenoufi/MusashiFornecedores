@@ -64,7 +64,7 @@
 
                 $valor = number_format(($valor/(($qt_meses[$ind] >= 12)?12:$qt_meses[$ind])),2);
                 $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
-                $array_valores1[$ind] = $valor;
+                $array_valores1[$ind] = (($valor <= 100)?:100.00);
 
                 if($valor <= 77.99){
                     $array_cor1[$ind] = '"#dc3545"'; /// DEFICIENTE
