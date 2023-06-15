@@ -33,7 +33,8 @@
         f.codigo as fornecedor_codigo,
         ava.ano,
         (sum(ava.delivery)) as delivery,
-        ava.posicao
+        ava.posicao,
+        (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' GROUP BY ava.codigo_fornecedor");
@@ -44,6 +45,7 @@
 
                 $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['delivery'];
                 $nome[$d['fornecedor_codigo']] = $d['nome'];
+                $qt_meses[$d['fornecedor_codigo']] = ($d['qt_meses'] + 1);
             }
 
             foreach($fornecedor as $ind => $valor){
@@ -65,7 +67,7 @@
                 //     $array_border[$d['fornecedor_codigo']] = '"#198754"';
                 // }
 
-                $valor = number_format(($valor/12),2);
+                $valor = number_format(($valor/(($qt_meses[$ind] >= 12)?12:$qt_meses[$ind])),2);
                 $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
                 $array_valores1[$ind] = $valor;
 

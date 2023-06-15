@@ -14,11 +14,15 @@
         $M = $_POST['mes'];
     }
 
-    $array_valores = [];
     $array_codigo = [];
     $array_cor = [];
     $array_border = [];
-
+    $array_valores = [
+        0 => 0,
+        1 => 0,
+        2 => 0,
+        3 => 0,
+    ];
     for($i=11; $i>=0; $i--){
 
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
@@ -39,7 +43,8 @@
         ava.quality,
         ava.delivery,
         ((ava.quality+ava.delivery)/2) as classificacao,
-        ava.posicao
+        ava.posicao,
+        (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' group by ava.codigo_fornecedor");
@@ -49,6 +54,7 @@
 
             $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['delivery'];
             $nome[$d['fornecedor_codigo']] = $d['nome'];
+            $qt_meses[$d['fornecedor_codigo']] = ($d['qt_meses'] + 1);
             // echo "<hr>";
             // $d = $query->fetch();
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
@@ -59,12 +65,7 @@
         }
     }
 
-    $array_valores = [
-        0 => 0,
-        1 => 0,
-        2 => 0,
-        3 => 0,
-    ];
+
     foreach($fornecedor as $ind => $valor){
 
         $n =  $nome[$ind];
