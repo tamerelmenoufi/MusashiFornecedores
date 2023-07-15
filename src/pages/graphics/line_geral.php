@@ -70,7 +70,7 @@
         $ListaMeses[] = mesExtenso($Mes*1)."/{$a}";
 
         $query_classificacao = $pdo->prepare("SELECT  f.nome, codigo_fornecedor, classificacao, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
-        AND mes ='{$Mes}' AND f.situacao != '1' AND f.deletado != '1' ORDER BY nome, mes");
+        AND mes ='{$Mes}' AND f.situacao = '1' AND f.deletado != '1' ORDER BY nome, mes");
         $query_classificacao->execute();
 
         if($query_classificacao->rowCount() > 0){
