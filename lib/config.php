@@ -41,7 +41,7 @@ try {
 
 
 if (!$_SESSION['musashi_cod_forn'] and !$_SESSION['musashi_cod_usu'] and !$home) {
-    echo "FOR: !{$_SESSION['musashi_cod_forn']} and !{$home}<script>window.location.href='./'</script>";
+    echo "<script>window.location.href='./'</script>";
     exit();
 }
 
