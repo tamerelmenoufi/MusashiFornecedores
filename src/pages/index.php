@@ -1,4 +1,5 @@
 <?php
+$home = true;
 require "../../lib/config.php";
 
 if (isset($_SESSION['musashi_cod_usu'])) {
