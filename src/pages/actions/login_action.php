@@ -1,4 +1,5 @@
 <?php
+$home = true;
 require "../../../lib/config.php";
 
 global $pdo;
@@ -10,7 +11,7 @@ if ($_POST['acao'] == 'logar') {
     $query   = "";
     $sql     = "";
     #@formatter:off
-    
+
     if ($tipo === "administrador") {
 
         $senha = md5($_POST['senha']);

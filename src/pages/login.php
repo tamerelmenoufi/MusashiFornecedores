@@ -1,4 +1,5 @@
 <?php
+$home = true;
 require "../../lib/config.php";
 session_destroy();
 ?>
