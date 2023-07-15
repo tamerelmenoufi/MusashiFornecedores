@@ -39,6 +39,16 @@ try {
     exit;
 }
 
+
+if (!$_SESSION['musashi_cod_usu'] and !$home) {
+    echo "<script>window.location.href='./'</script>";
+    exit();
+} elseif (!$_SESSION['musashi_cod_forn'] and !$home) {
+    echo "<script>window.location.href='./'</script>";
+    exit();
+}
+
+
 if (isset($_SESSION['musashi_cod_usu'])) {
     $sql = $pdo->prepare("SELECT * FROM login WHERE codigo = :u");
     $sql->bindValue(":u", $_SESSION['musashi_cod_usu']);
