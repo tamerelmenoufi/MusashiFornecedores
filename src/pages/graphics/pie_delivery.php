@@ -47,7 +47,7 @@
         (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' group by ava.codigo_fornecedor");
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' AND f.situacao != '1' AND f.deletado != '1' group by ava.codigo_fornecedor");
         $query->execute();
 
         while($d = $query->fetch()) {

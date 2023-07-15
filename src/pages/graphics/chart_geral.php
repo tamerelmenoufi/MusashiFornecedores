@@ -41,7 +41,7 @@
 
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
-        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' ORDER BY ava.classificacao DESC";
+        WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' AND f.situacao != '1' AND f.deletado != '1' ORDER BY ava.classificacao DESC";
 
         $query = $pdo->prepare($q);
         $query->execute();

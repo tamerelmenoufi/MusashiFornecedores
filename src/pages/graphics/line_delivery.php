@@ -73,7 +73,7 @@
 
 
         $query_delivery = $pdo->prepare("SELECT f.nome, codigo_fornecedor, delivery, mes FROM avaliacao_mensal avm LEFT JOIN fornecedores f ON f.codigo = avm.codigo_fornecedor WHERE ano = '{$Ano}'
-        AND mes ='{$Mes}' ORDER BY nome, mes");
+        AND mes ='{$Mes}' AND f.situacao != '1' AND f.deletado != '1' ORDER BY nome, mes");
         $query_delivery->execute();
 
         if($query_delivery->rowCount() > 0){
