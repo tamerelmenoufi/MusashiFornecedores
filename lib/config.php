@@ -41,10 +41,10 @@ try {
 
 
 if (!$_SESSION['musashi_cod_usu'] and !$home) {
-    echo "<script>window.location.href='./'</script>";
+    echo "!{$_SESSION['musashi_cod_usu']} and !{$home}<script>window.location.href='./'</script>";
     exit();
 } elseif (!$_SESSION['musashi_cod_forn'] and !$home) {
-    echo "<script>window.location.href='./'</script>";
+    echo "!{$_SESSION['musashi_cod_forn']} and !{$home}<script>window.location.href='./'</script>";
     exit();
 }
 
