@@ -79,11 +79,11 @@ foreach($fornecedor as $ind => $valor){
     $n =  $nome[$ind];
     $classificacao = number_format($valor/(($qt_meses[$ind] >= 12)?12:$qt_meses[$ind]),2);
 
-    if($classificacao <= 77.99){
+    if($classificacao <= 84.99){
         $array_valores[3]++;
-    }elseif($classificacao >= 78.00 && $classificacao <= 91.99){ ///// REGULAR
+    }elseif($classificacao >= 85.00 && $classificacao <= 93.99){ ///// REGULAR
         $array_valores[2]++;
-    }elseif($classificacao >= 92.00 && $classificacao <= 98.99){ //// BOM
+    }elseif($classificacao >= 94.00 && $classificacao <= 98.99){ //// BOM
         $array_valores[1]++;
     }elseif($classificacao >= 99.00 && $classificacao <= 100.00){ /// OTIMO
         $array_valores[0]++;
