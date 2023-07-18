@@ -318,21 +318,21 @@ function mesExtenso($mes)
 
             <div class="col-md-12 d-flex justify-content-center p-0 mb-3 ">
                 <div class="col-3 p-3 text-white bg-danger d-flex flex-column align-items-center justify-content-between">
-                    0.00 - 84.99
+                    0.00 - 77.99
                     <i class="fa fa-arrow-right fa-3x" aria-hidden="true"></i>
                     <footer>
                         DEFICIENTE
                     </footer>
                 </div>
                 <div class="col-3 p-3 text-white bg-warning d-flex flex-column align-items-center justify-content-between">
-                    85.00 - 93.99
+                    78.00 - 91.99
                     <i class="fa fa-arrow-right fa-3x" aria-hidden="true"></i>
                     <footer>
                         REGULAR
                     </footer>
                 </div>
                 <div class="col-3 p-3 text-white bg-primary d-flex flex-column align-items-center justify-content-between">
-                    94.00 - 98.99
+                    92.00 - 98.99
                     <i class="fa fa-arrow-right fa-3x" aria-hidden="true"></i>
                     <footer>
                         BOM

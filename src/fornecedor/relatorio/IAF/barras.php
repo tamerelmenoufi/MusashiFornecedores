@@ -117,16 +117,16 @@ for ($i = 11; $i >= 0; $i--) {
         $array_quality[$ind]  = (($d['quality']) ?: '');
         $array_delivery[$ind] = (($d['delivery']) ?: '');
 
-        if ($d['delivery'] < 91.99) {
+        if ($d['delivery'] <= 91.99) {
             $array_cor[$ind]    = '"#dc3545"'; /// DEFICIENTE
             $array_border[$ind] = '"#dc3545"';
-        } elseif ($d['delivery'] > 92.99 && $d['delivery'] < 95.99) {///// REGULAR
+        } elseif ($d['delivery'] >= 92.99 && $d['delivery'] <= 95.99) {///// REGULAR
             $array_cor[$ind]    = '"#ffc107"';
             $array_border[$ind] = '"#ffc107"';
-        } elseif ($d['delivery'] > 96.00 && $d['delivery'] < 98.99) { //// BOM
+        } elseif ($d['delivery'] >= 96.00 && $d['delivery'] <= 98.99) { //// BOM
             $array_cor[$ind]    = '"#007bff"';
             $array_border[$ind] = '"#6610f2"';
-        } elseif ($d['delivery'] > 99.00 && $d['delivery'] <= 100.00) { ///OTIMO
+        } elseif ($d['delivery'] >= 99.00 && $d['delivery'] <= 100.00) { ///OTIMO
             $array_cor[$ind]    = '"#28a745"';
             $array_border[$ind] = '"#198754"';
         }
