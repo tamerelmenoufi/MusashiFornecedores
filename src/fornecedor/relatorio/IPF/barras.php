@@ -167,13 +167,13 @@ for ($i = 11; $i >= 0; $i--) {
         if ($d['classificacao'] <= 84.99) {
             $array_cor[$ind]    = '"#dc3545"'; /// DEFICIENTE
             $array_border[$ind] = '"#dc3545"';
-        } elseif ($d['classificacao'] >= 84.99 && $d['classificacao'] <= 93.99) {///// REGULAR
+        } elseif ($d['classificacao'] >= 85.00 && $d['classificacao'] <= 93.99) {///// REGULAR
             $array_cor[$ind]    = '"#ffc107"';
             $array_border[$ind] = '"#ffc107"';
-        } elseif ($d['classificacao'] >= 93.99 && $d['classificacao'] <= 98.99) { //// BOM
+        } elseif ($d['classificacao'] >= 94.00 && $d['classificacao'] <= 98.99) { //// BOM
             $array_cor[$ind]    = '"#007bff"';
             $array_border[$ind] = '"#6610f2"';
-        } elseif ($d['classificacao'] >= 98.99 && $d['classificacao'] <= 100.00) { ///OTIMO
+        } elseif ($d['classificacao'] >= 99.00 && $d['classificacao'] <= 100.00) { ///OTIMO
             $array_cor[$ind]    = '"#28a745"';
             $array_border[$ind] = '"#198754"';
         }
