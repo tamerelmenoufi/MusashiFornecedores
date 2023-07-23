@@ -120,7 +120,7 @@ for ($i = 11; $i >= 0; $i--) {
         if ($d['quality'] <= 77.99) {
             $array_cor[$ind]    = '"#dc3545"'; /// DEFICIENTE
             $array_border[$ind] = '"#dc3545"';
-        } elseif ($d['quality'] <= 78.00 && $d['quality'] <= 91.99) {///// REGULAR
+        } elseif ($d['quality'] >= 78.00 && $d['quality'] <= 91.99) {///// REGULAR
             $array_cor[$ind]    = '"#ffc107"';
             $array_border[$ind] = '"#ffc107"';
         } elseif ($d['quality'] >= 92.00 && $d['quality'] <= 98.99) { //// BOM
