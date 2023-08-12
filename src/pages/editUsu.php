@@ -161,10 +161,10 @@ if ($_POST['tipo'] == "editar") {
         let assinante_documento = $("#assinante_documento").is(':checked') ? 'S' : 'N'
 
         let perfil_assinaturas = [];
-        perfil_assinaturas.push({name:'doc_ipf', value:$("#doc_ipf").is(':checked') ? true : false})
-        perfil_assinaturas.push({name:'doc_iqf', value:$("#doc_iqf").is(':checked') ? true : false})
-        perfil_assinaturas.push({name:'doc_iaf', value:$("#doc_iaf").is(':checked') ? true : false})
-        perfil_assinaturas.push({name:'doc_geral', value:$("#doc_geral").is(':checked') ? true : false})
+        perfil_assinaturas.push({doc_ipf:$("#doc_ipf").is(':checked') ? true : false})
+        perfil_assinaturas.push({doc_iqf:$("#doc_iqf").is(':checked') ? true : false})
+        perfil_assinaturas.push({doc_iaf:$("#doc_iaf").is(':checked') ? true : false})
+        perfil_assinaturas.push({doc_geral:$("#doc_geral").is(':checked') ? true : false})
 
         $.ajax({
             url: local,
