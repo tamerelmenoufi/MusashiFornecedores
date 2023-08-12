@@ -13,8 +13,6 @@ if ($_POST['tipo'] == "editar") {
 
     $pa = json_decode($user["perfil_assinaturas"]);
 
-    print_r($pa);
-
     ?>
     <div class="container-fluid">
         <div class="row g-4">
