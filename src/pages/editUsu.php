@@ -83,6 +83,26 @@ if ($_POST['tipo'] == "editar") {
                 <label class="form-check-label" for="assinante_documento">Assinante de documento?</label>
             </div>
 
+            <div class="col-md-12 form-switch">
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="doc_ipf">
+                    <label class="form-check-label" for="doc_ipf">Assina relatório IPF</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="doc_iqpf">
+                    <label class="form-check-label" for="doc_iqf">Assina relatório IQF</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="doc_iaf">
+                    <label class="form-check-label" for="doc_iaf">Assina relatório IAF</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="doc_geral">
+                    <label class="form-check-label" for="doc_geral">Assina Resumo Geral</label>
+                </div>
+                
+            </div>
+            
             <div class="col-nd-12 p-0 d-flex justify-content-between">
                 <button class="btn btn-danger" fechar>Fechar</button>
                 <button
