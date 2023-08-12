@@ -15,7 +15,7 @@ if ($_POST["acao"] == "atualizar") {
     $update->bindValue(":c", $_POST["codigo"]);
     $update->bindValue(':cg', $_POST['cargo']);
     $update->bindValue(':ad', $_POST['assinante_documento']);
-    $update->bindValue(':pa', json_encode($_POST['perfil_assinaturas']));
+    $update->bindValue(':pa', ($_POST['perfil_assinaturas']));
     $update->execute();
 }
 
