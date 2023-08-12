@@ -160,7 +160,7 @@ if ($_POST['tipo'] == "editar") {
         let cargo = $("input[cargo]").val()
         let assinante_documento = $("#assinante_documento").is(':checked') ? 'S' : 'N'
 
-        let perfil_assinaturas = {};
+        let perfil_assinaturas = [];
         perfil_assinaturas.push(is(':checked') ? true : false)
         perfil_assinaturas.push(is(':checked') ? true : false)
         perfil_assinaturas.push(is(':checked') ? true : false)
