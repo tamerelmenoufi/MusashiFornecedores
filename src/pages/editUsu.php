@@ -165,7 +165,7 @@ if ($_POST['tipo'] == "editar") {
         perfil_assinaturas.push({'doc_geral':$("#doc_geral").is(':checked') ? true : false})
 
 
-        console.log(perfil_assinaturas)
+        // console.log(perfil_assinaturas)
         $.ajax({
             url: local,
             method: "POST",
