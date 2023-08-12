@@ -91,19 +91,19 @@ if ($_POST['tipo'] == "editar") {
 
             <div class="col-md-12">
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_ipf" <?=(($pa[0]->doc_ipf)?'checked':false)?>>
+                    <input type="checkbox" class="form-check-input" id="doc_ipf" <?=(($pa[0]->doc_ipf == 'true')?'checked':false)?>>
                     <label class="form-check-label" for="doc_ipf">Assina relatório IPF</label>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_iqf" <?=(($pa[1]->doc_iqf)?'checked':false)?>>
+                    <input type="checkbox" class="form-check-input" id="doc_iqf" <?=(($pa[1]->doc_iqf == 'true')?'checked':false)?>>
                     <label class="form-check-label" for="doc_iqf">Assina relatório IQF</label>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_iaf" <?=(($pa[2]->doc_iaf)?'checked':false)?>>
+                    <input type="checkbox" class="form-check-input" id="doc_iaf" <?=(($pa[2]->doc_iaf == 'true')?'checked':false)?>>
                     <label class="form-check-label" for="doc_iaf">Assina relatório IAF</label>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_geral" <?=(($pa[3]->doc_geral)?'checked':false)?>>
+                    <input type="checkbox" class="form-check-input" id="doc_geral" <?=(($pa[3]->doc_geral == 'true')?'checked':false)?>>
                     <label class="form-check-label" for="doc_geral">Assina Resumo Geral</label>
                 </div>
                 
