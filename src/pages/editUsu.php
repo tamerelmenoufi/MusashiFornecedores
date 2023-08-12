@@ -13,7 +13,7 @@ if ($_POST['tipo'] == "editar") {
 
     $pa = json_decode($user["perfil_assinaturas"]);
 
-    echo $pa;
+    print_r($pa);
 
     ?>
     <div class="container-fluid">
@@ -91,19 +91,19 @@ if ($_POST['tipo'] == "editar") {
 
             <div class="col-md-12">
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_ipf">
+                    <input type="checkbox" class="form-check-input" id="doc_ipf" <?=(($pa['doc_ipf'])?'checked':false)?>>
                     <label class="form-check-label" for="doc_ipf">Assina relatório IPF</label>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_iqf">
+                    <input type="checkbox" class="form-check-input" id="doc_iqf" <?=(($pa['doc_iqf'])?'checked':false)?>>
                     <label class="form-check-label" for="doc_iqf">Assina relatório IQF</label>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_iaf">
+                    <input type="checkbox" class="form-check-input" id="doc_iaf" <?=(($pa['doc_iaf'])?'checked':false)?>>
                     <label class="form-check-label" for="doc_iaf">Assina relatório IAF</label>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="doc_geral">
+                    <input type="checkbox" class="form-check-input" id="doc_geral" <?=(($pa['doc_geral'])?'checked':false)?>>
                     <label class="form-check-label" for="doc_geral">Assina Resumo Geral</label>
                 </div>
                 
