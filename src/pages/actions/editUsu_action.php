@@ -4,7 +4,7 @@ require "../../../lib/config.php";
 global $pdo;
 
 if ($_POST["acao"] == "atualizar") {
-    $query = "UPDATE login SET nome = :n, email = :e, usuario = :u, tipo = :t, cargo = :cg, assinante_documento = :ad "
+    $query = "UPDATE login SET nome = :n, email = :e, usuario = :u, tipo = :t, cargo = :cg, assinante_documento = :ad, perfil_assinaturas = :pa "
         . "WHERE codigo = :c";
 
     $update = $pdo->prepare($query);
@@ -15,6 +15,7 @@ if ($_POST["acao"] == "atualizar") {
     $update->bindValue(":c", $_POST["codigo"]);
     $update->bindValue(':cg', $_POST['cargo']);
     $update->bindValue(':ad', $_POST['assinante_documento']);
+    $update->bindValue(':pa', json_encode($_POST['perfil_assinaturas']));
     $update->execute();
 }
 

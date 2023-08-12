@@ -9,6 +9,12 @@ if ($_POST['tipo'] == "editar") {
     $sql->execute();
 
     $user = $sql->fetch();
+
+
+    $pa = json_decode($user["perfil_assinaturas"]);
+
+    echo $pa;
+
     ?>
     <div class="container-fluid">
         <div class="row g-4">
@@ -154,6 +160,12 @@ if ($_POST['tipo'] == "editar") {
         let cargo = $("input[cargo]").val()
         let assinante_documento = $("#assinante_documento").is(':checked') ? 'S' : 'N'
 
+        let perfil_assinaturas = [];
+        perfil_assinaturas.push({name:'doc_ipf', value:$("#doc_ipf").is(':checked') ? true : false})
+        perfil_assinaturas.push({name:'doc_iqf', value:$("#doc_iqf").is(':checked') ? true : false})
+        perfil_assinaturas.push({name:'doc_iaf', value:$("#doc_iaf").is(':checked') ? true : false})
+        perfil_assinaturas.push({name:'doc_geral', value:$("#doc_geral").is(':checked') ? true : false})
+
         $.ajax({
             url: local,
             method: "POST",
@@ -165,6 +177,7 @@ if ($_POST['tipo'] == "editar") {
                 tipo,
                 cargo,
                 assinante_documento,
+                perfil_assinaturas,
                 acao: "atualizar"
             }, success: function (retorno) {
                 popup.close();
