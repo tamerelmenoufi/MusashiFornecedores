@@ -13,6 +13,7 @@ global $pdo;
         <option value="doc_iaf">Relatório IAF</option>
         <option value="doc_geral">Relatório Geral</option>
     </select>
+    <div class="assinaturas"></div>
 </div>
 
 <script>
