@@ -20,12 +20,15 @@ global $pdo;
     $(function(){
         $("#documentos").change(function(){
             opc = $(this).val();
-            $.ajax({
-                url:`src/pages/assinaturas/${opc}.php`,
-                success:function(dados){
-                    $(".assinaturas").html(dados);
-                }
-            })
+            $(".assinaturas").html('');
+            if(opc){
+                $.ajax({
+                    url:`src/pages/assinaturas/${opc}.php`,
+                    success:function(dados){
+                        $(".assinaturas").html(dados);
+                    }
+                })
+            }
         })
     })
 </script>
