@@ -75,6 +75,7 @@
                 ?>
                   <li><a abrir local="src/pages/cadastro.php" class="dropdown-item">Cadastrar Usuário</a></li>
                   <li><a abrir local="src/pages/usuarios.php" class="dropdown-item">Gestão de Usuários</a></li>
+                  <li><a abrir local="src/pages/assinaturas.php" class="dropdown-item">Gestão de Assinaturas</a></li>
                 <?php
                   }
                 ?>
