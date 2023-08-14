@@ -68,7 +68,7 @@ $rotulo = [
                         acao:"novo_nivel"
                     },
                     success:function(dados){
-                        $('div#home').html(dados)
+                        $(".assinaturas").html(dados);
                     }
                 });
             })
