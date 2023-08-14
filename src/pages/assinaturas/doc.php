@@ -47,7 +47,7 @@ $rotulo = [
                         nivel,
                         acao:"novo_nivel"
                     },
-                    success:funciton(dados){
+                    success:function(dados){
                         $('div#home').html(dados)
                     }
                 });
