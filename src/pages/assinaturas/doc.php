@@ -6,7 +6,7 @@ global $pdo;
 
 if($_POST['acao'] == 'novo_nivel'){
 
-    $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['documento']}', nivel = '{$_POST['nivel']}'";
+    $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['doc']}', nivel = '{$_POST['nivel']}'";
     $sql = $pdo->prepare($query);
     $sql->execute();
 
@@ -57,13 +57,13 @@ $rotulo = [
     <script>
         $(function(){
             $("#novo_grupo").click(function(){
-                documento = $("#doc").val();
+                doc = $("#doc").val();
                 nivel = $("#nivel").val();
                 $.ajax({
                     url:"src/pages/assinaturas/doc.php",
                     type:"POST",
                     data:{
-                        documento,
+                        doc,
                         nivel,
                         acao:"novo_nivel"
                     },
