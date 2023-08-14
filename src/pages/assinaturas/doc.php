@@ -6,7 +6,10 @@ global $pdo;
 
 if($_POST['acao'] == 'novo_nivel'){
 
-    $sql = $pdo->prepare("INSERT INTO assinatura_nivel SET documento = '{$_POST['documento']}', nivel = '{$_POST['nivel']}'");
+    echo $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['documento']}', nivel = '{$_POST['nivel']}'";
+
+    $sql = $pdo->prepare($query);
+    // $sql->bindValue(":c", $_POST["codigo"]);
     $sql->execute();
 
 }
