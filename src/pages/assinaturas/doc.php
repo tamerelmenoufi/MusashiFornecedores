@@ -32,7 +32,6 @@ while($d = $sql->fetch()){
     $ass[$_POST['doc']][] = $d;
 }
 
-print_r($ass[$_POST['doc']]);
 ?>
     <h6>Reratório novo <?=$rotulo[$_POST['doc']]?></h6>
     <div class="row">
@@ -60,10 +59,12 @@ print_r($ass[$_POST['doc']]);
             <div class="card-body">
                 <div class="list-group">
                 <?php
+                if($ass){
                 foreach($ass[$_POST['doc']] as $i => $a){
                 ?>
                 <a href="#" class="list-group-item list-group-item-action"><?=$a['nome']?></a>
                 <?php
+                }
                 }
                 ?>
                 </div>
