@@ -54,7 +54,7 @@ while($d = $sql->fetch()){
             <div class="card-body">
                 <div class="list-group">
                 <?php
-                foreach($ass[$_POST['doc']] as $i => $a){
+                foreach($ass[$_POST['doc']] => $i as $a){
                 ?>
                 <a href="#" class="list-group-item list-group-item-action"><?=$a['nome']?></a>
                 <?php
