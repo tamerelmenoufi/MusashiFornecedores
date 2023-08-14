@@ -6,7 +6,7 @@ global $pdo;
 if($_POST['acao'] == 'add_ass'){
 
     $ass = @implode(",", $_POST['ass']);
-    echo $query = "UPDATE assinatura_nivel SET assinantes = '{$ass}' where codigo = '{$_POST['nivel']}'";
+    $query = "UPDATE assinatura_nivel SET assinantes = '{$ass}' where codigo = '{$_POST['nivel']}'";
     $sql = $pdo->prepare($query);
     $sql->execute();
 
@@ -141,7 +141,7 @@ while($d = $sql->fetch()){
                     },
                     success:function(dados){
                         // $(".assinaturas").html(dados);
-                        console.log(dados)
+                        // console.log(dados)
                     }
                 });
             });
