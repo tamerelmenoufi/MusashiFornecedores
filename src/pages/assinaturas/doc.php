@@ -6,7 +6,7 @@ global $pdo;
 if($_POST['acao'] == 'add_ass'){
 
     $ass = @implode(",", $ass);
-    $query = "INSERT INTO assinatura_nivel SET assinantes = '{$ass}', codigo = '{$_POST['nivel']}'";
+    echo $query = "INSERT INTO assinatura_nivel SET assinantes = '{$ass}', codigo = '{$_POST['nivel']}'";
     $sql = $pdo->prepare($query);
     $sql->execute();
 
@@ -140,6 +140,7 @@ while($d = $sql->fetch()){
                     },
                     success:function(dados){
                         // $(".assinaturas").html(dados);
+                        console.log(dados)
                     }
                 });
             });
