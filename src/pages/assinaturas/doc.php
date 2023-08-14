@@ -117,7 +117,7 @@ while($d = $sql->fetch()){
                 ass = [];
                 $(`#assinatura_nivel${cod}`).each(function(){
                     if($(this).prop("checked") == true){
-                        ass[] = usuario;
+                        ass.push(usuario);
                     }
                 })
                 console.log(ass)
