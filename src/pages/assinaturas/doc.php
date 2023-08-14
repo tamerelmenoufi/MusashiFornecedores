@@ -164,7 +164,8 @@ while($d = $sql->fetch()){
                                 url:"src/pages/assinaturas/doc.php",
                                 type:"POST",
                                 data:{
-                                    excluir
+                                    excluir,
+                                    doc:"<?=$_POST['doc']?>"
                                 },
                                 success:function(dados){
                                     $(".assinaturas").html(dados);
