@@ -18,8 +18,14 @@ $rotulo = [
     'doc_iaf' => 'IAF',
     'doc_geral' => 'GERAL',
 ];
+$indice = [
+    'doc_ipf' => '0',
+    'doc_iqf' => '1',
+    'doc_iaf' => '2',
+    'doc_geral' => '3',
+];
 
-$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[0].{$_POST['doc']}' = 'true'");
+$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[{$indice[$_POST['doc']]}].{$_POST['doc']}' = 'true'");
 $sql->execute();
 $ass = [];
 while($d = $sql->fetch()){
