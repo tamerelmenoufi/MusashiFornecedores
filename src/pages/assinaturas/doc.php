@@ -171,7 +171,7 @@ while($d = $sql->fetch()){
                                 type:"POST",
                                 data:{
                                     excluir,
-                                    doc:"<?=$_POST['docy']?>"
+                                    doc:"<?=$_POST['doc']?>"
                                 },
                                 success:function(dados){
                                     $(".assinaturas").html(dados);
