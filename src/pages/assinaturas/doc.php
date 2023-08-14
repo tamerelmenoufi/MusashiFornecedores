@@ -62,7 +62,7 @@ while($d = $sql->fetch()){
                     $sql->execute();
                     while($d = $sql->fetch()){
 
-                        $assinantes = @implode(",", $d['assinantes']);
+                        $assinantes = explode(",", $d['assinantes']);
 
 
             ?>
