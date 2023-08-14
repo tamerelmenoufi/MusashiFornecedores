@@ -6,10 +6,8 @@ global $pdo;
 
 if($_POST['acao'] == 'novo_nivel'){
 
-    echo $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['documento']}', nivel = '{$_POST['nivel']}'";
-
+    $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['documento']}', nivel = '{$_POST['nivel']}'";
     $sql = $pdo->prepare($query);
-    // $sql->bindValue(":c", $_POST["codigo"]);
     $sql->execute();
 
 }
@@ -33,7 +31,29 @@ $rotulo = [
             </div>
         </div>
     </div>
-
+    
+    <div class="row">
+        <div class="col">
+            <?php
+                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '$_POST['doc']'");
+                    $sql->execute();
+                    while($d = $sql->fetch()){
+            ?>
+            <div class="card">
+            <div class="card-header">
+                Featured
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+            </div>
+            <?php
+                    }
+            ?>
+        </div>
+    </div>
     <script>
         $(function(){
             $("#novo_grupo").click(function(){
