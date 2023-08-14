@@ -19,11 +19,15 @@ global $pdo;
 <script>
     $(function(){
         $("#documentos").change(function(){
-            opc = $(this).val();
+            doc = $(this).val();
             $(".assinaturas").html('');
             if(opc){
                 $.ajax({
-                    url:`src/pages/assinaturas/${opc}.php`,
+                    url:`src/pages/assinaturas/doc.php`,
+                    data:{
+                        doc
+                    },
+                    type:"POST",
                     success:function(dados){
                         $(".assinaturas").html(dados);
                     }
