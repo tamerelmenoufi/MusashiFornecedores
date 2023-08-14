@@ -35,7 +35,7 @@ $rotulo = [
     <div class="row">
         <div class="col">
             <?php
-                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '$_POST['doc']'");
+                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '{$_POST['doc']}'");
                     $sql->execute();
                     while($d = $sql->fetch()){
             ?>
