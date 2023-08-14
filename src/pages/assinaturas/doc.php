@@ -14,7 +14,13 @@ if($_POST['acao'] == 'add_ass'){
 
 }
 
+if($_POST['acao'] == 'novo_nivel'){
 
+    $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['doc']}', nivel = '{$_POST['nivel']}'";
+    $sql = $pdo->prepare($query);
+    $sql->execute();
+
+}
 
 if($_POST['excluir']){
 
@@ -165,7 +171,7 @@ while($d = $sql->fetch()){
                                 type:"POST",
                                 data:{
                                     excluir,
-                                    doc:"<?=$_POST['doc']?>"
+                                    doc:"<?=$_POST['docy']?>"
                                 },
                                 success:function(dados){
                                     $(".assinaturas").html(dados);
