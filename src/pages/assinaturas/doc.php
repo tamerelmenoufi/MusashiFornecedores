@@ -26,7 +26,7 @@ while($d = $sql->fetch()){
     $ass[$_POST['doc']][] = $d;
 }
 
-
+print_r($ass[$_POST['doc']]);
 ?>
     <h6>Reratório novo <?=$rotulo[$_POST['doc']]?></h6>
     <div class="row">
