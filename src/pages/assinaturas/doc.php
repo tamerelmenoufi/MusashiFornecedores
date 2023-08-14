@@ -39,7 +39,7 @@ $rotulo = [
                     $sql->execute();
                     while($d = $sql->fetch()){
             ?>
-            <div class="card">
+            <div class="card mb-2">
             <div class="card-header">
                 Featured
             </div>
@@ -59,6 +59,10 @@ $rotulo = [
             $("#novo_grupo").click(function(){
                 doc = $("#doc").val();
                 nivel = $("#nivel").val();
+                if(!doc || !nivel){
+                    $.alert('Favor informe a descrição do grupo de assinaturas!');
+                    return false;
+                }
                 $.ajax({
                     url:"src/pages/assinaturas/doc.php",
                     type:"POST",
