@@ -72,7 +72,7 @@ while($d = $sql->fetch()){
                             class="form-check-input"
                             type="checkbox"
                             id="assinatura_nivel<?=$d['codigo']?>"
-                        <?= (in_array($a['codigo'], $assinantes) ? 'checked' : '') ?>
+                        <?= (@in_array($a['codigo'], $assinantes) ? 'checked' : '') ?>
                     >
                     <label class="form-check-label" for="assinatura_nivel<?=$d['codigo']?>"><?=$a['nome']?></label>
                 </div>
