@@ -19,6 +19,14 @@ $rotulo = [
     'doc_geral' => 'GERAL',
 ];
 
+$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[0].{$_POST['doc']}' = 'true'");
+$sql->execute();
+$ass = [];
+while($d = $sql->fetch()){
+    $ass[$_POST['doc']][] = $d;
+}
+
+
 ?>
     <h6>Reratório novo <?=$rotulo[$_POST['doc']]?></h6>
     <div class="row">
@@ -44,9 +52,15 @@ $rotulo = [
                 Featured
             </div>
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="list-group">
+                <?php
+                foreach($ass[$_POST['doc']] as $i => $d){
+                ?>
+                <a href="#" class="list-group-item list-group-item-action"><?=$d['nome']?></a>
+                <?php
+                }
+                ?>
+                </div>
             </div>
             </div>
             <?php
