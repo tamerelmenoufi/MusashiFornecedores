@@ -139,7 +139,7 @@ while($d = $sql->fetch()){
                         acao:"add_ass"
                     },
                     success:function(dados){
-                        $(".assinaturas").html(dados);
+                        // $(".assinaturas").html(dados);
                     }
                 });
             });
