@@ -47,7 +47,7 @@ while($d = $sql->fetch()){
     <div class="row">
         <div class="col">
             <div class="input-group mb-3">
-                <span class="input-group-text">Inserir Grupo de Assinaturas</span>
+                <span class="input-group-text">Inserir Sequência de Assinaturas</span>
                 <input type="text"  id="nivel" class="form-control" placeholder="Nome do grupo de assinaturas" aria-label="Nome do grupo de assinaturas" aria-describedby="novo_grupo">
                 <button class="btn btn-outline-secondary" type="button" id="novo_grupo">Adicionar</button>
                 <input type="hidden" id="doc" value="<?=$_POST['doc']?>" >
