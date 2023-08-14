@@ -49,14 +49,14 @@ while($d = $sql->fetch()){
             ?>
             <div class="card mb-2">
             <div class="card-header">
-                Featured
+                <?=$d['nivel']?>
             </div>
             <div class="card-body">
                 <div class="list-group">
                 <?php
-                foreach($ass[$_POST['doc']] as $i => $d){
+                foreach($ass[$_POST['doc']] as $i => $a){
                 ?>
-                <a href="#" class="list-group-item list-group-item-action"><?=$d['nome']?></a>
+                <a href="#" class="list-group-item list-group-item-action"><?=$a['nome']?></a>
                 <?php
                 }
                 ?>
