@@ -80,8 +80,9 @@ while($d = $sql->fetch()){
                             acao="<?=$d['codigo']?>"
                             usuario="<?=$a['codigo']?>"
                             class="form-check-input"
-                            type="checkbox"
+                            type="radio"
                             assinatura_nivel<?=$d['codigo']?>
+                            name="assinatura_nivel<?=$d['codigo']?>"
                             id="assinatura_nivel<?=$d['codigo']?>_<?=$a['codigo']?>"
                         <?= (@in_array($a['codigo'], $assinantes) ? 'checked' : '') ?>
                     >
