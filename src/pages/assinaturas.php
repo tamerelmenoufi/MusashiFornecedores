@@ -21,7 +21,7 @@ global $pdo;
         $("#documentos").change(function(){
             doc = $(this).val();
             $(".assinaturas").html('');
-            if(opc){
+            if(doc){
                 $.ajax({
                     url:`src/pages/assinaturas/doc.php`,
                     data:{
