@@ -81,6 +81,7 @@ while($d = $sql->fetch()){
                             usuario="<?=$a['codigo']?>"
                             class="form-check-input"
                             type="checkbox"
+                            assinatura_nivel<?=$d['codigo']?>
                             id="assinatura_nivel<?=$d['codigo']?>_<?=$a['codigo']?>"
                         <?= (@in_array($a['codigo'], $assinantes) ? 'checked' : '') ?>
                     >
@@ -125,7 +126,7 @@ while($d = $sql->fetch()){
                 nivel = $(this).attr("acao");
                 usuario = $(this).attr("usuario");
                 ass = [];
-                $(`#assinatura_nivel${nivel}_${usuario}`).each(function(){
+                $(`input[assinatura_nivel${nivel}]`).each(function(){
                     if($(this).prop("checked") == true){
                         ass.push(usuario);
                     }
