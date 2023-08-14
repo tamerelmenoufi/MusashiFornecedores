@@ -14,9 +14,11 @@ if($_POST['acao'] == 'add_ass'){
 
 }
 
-if($_POST['acao'] == 'novo_nivel'){
 
-    $query = "INSERT INTO assinatura_nivel SET documento = '{$_POST['doc']}', nivel = '{$_POST['nivel']}'";
+
+if($_POST['excluir']){
+
+    $query = "DELETE FROM assinatura_nivel WHERE codigo = '{$_POST['excluir']}'";
     $sql = $pdo->prepare($query);
     $sql->execute();
 
@@ -68,6 +70,9 @@ while($d = $sql->fetch()){
             ?>
             <div class="card mb-2">
             <div class="card-header">
+                <button excluir="<?=$d['codigo']?>" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                </button>
                 <?=$d['nivel']?>
             </div>
             <div class="card-body">
@@ -145,6 +150,33 @@ while($d = $sql->fetch()){
                         // console.log(dados)
                     }
                 });
+            });
+
+            $("button[excluir]").click(function(){
+                excluir = $(this).attr("excluir");
+
+                $.confirm({
+                    content:"Seja realmente exlcuir a sequência de assinatura?",
+                    title:"Alerta de exclusão",
+                    buttons:{
+                        'SIM':function(){
+                            $.ajax({
+                                url:"src/pages/assinaturas/doc.php",
+                                type:"POST",
+                                data:{
+                                    excluir
+                                },
+                                success:function(dados){
+                                    $(".assinaturas").html(dados);
+                                }
+                            });
+                        },
+                        'NÃO':function(){
+
+                        }
+                    }
+                })
+
             });
         })
     </script>
