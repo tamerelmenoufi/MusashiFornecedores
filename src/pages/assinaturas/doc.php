@@ -51,23 +51,35 @@ while($d = $sql->fetch()){
                     $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '{$_POST['doc']}'");
                     $sql->execute();
                     while($d = $sql->fetch()){
+
+                        $assinantes = @implode(",", $d['assinantes']);
+
+
             ?>
             <div class="card mb-2">
             <div class="card-header">
                 <?=$d['nivel']?>
             </div>
             <div class="card-body">
-                <div class="list-group">
                 <?php
                 if($ass){
                 foreach($ass[$_POST['doc']] as $i => $a){
                 ?>
-                <a href="#" class="list-group-item list-group-item-action"><?=$a['nome']?></a>
+                <div class="col-md-12 form-switch">
+                    <input
+                            acao="<?=$d['codigo']?>"
+                            usuario="<?=$a['codigo']?>"
+                            class="form-check-input"
+                            type="checkbox"
+                            id="assinatura_nivel<?=$d['codigo']?>"
+                        <?= (in_array($a['codigo'], $assinantes) ? 'checked' : '') ?>
+                    >
+                    <label class="form-check-label" for="assinatura_nivel<?=$d['codigo']?>"><?=$a['nome']?></label>
+                </div>
                 <?php
                 }
                 }
                 ?>
-                </div>
             </div>
             </div>
             <?php
@@ -97,5 +109,18 @@ while($d = $sql->fetch()){
                     }
                 });
             })
+
+
+            $("input[acao]").click(function(){
+                cod = $(this).attr("acao");
+                usuario = $(this).attr("usuario");
+                ass = [];
+                $(`#assinatura_nivel${cod}`).each(function(){
+                    if($(this).prop("checked") == true){
+                        ass[] = usuario;
+                    }
+                })
+                console.log(ass)
+            });
         })
     </script>
