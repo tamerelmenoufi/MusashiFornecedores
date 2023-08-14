@@ -3,6 +3,16 @@ require "../../../lib/config.php";
 
 global $pdo;
 
+if($_POST['acao'] == 'add_ass'){
+
+    $ass = @implode(",", $ass);
+    $query = "INSERT INTO assinatura_nivel SET assinantes = '{$ass}', codigo = '{$_POST['nivel']}'";
+    $sql = $pdo->prepare($query);
+    $sql->execute();
+
+    exit();
+
+}
 
 if($_POST['acao'] == 'novo_nivel'){
 
@@ -112,15 +122,26 @@ while($d = $sql->fetch()){
 
 
             $("input[acao]").click(function(){
-                cod = $(this).attr("acao");
+                nivel = $(this).attr("acao");
                 usuario = $(this).attr("usuario");
                 ass = [];
-                $(`#assinatura_nivel${cod}`).each(function(){
+                $(`#assinatura_nivel${nivel}`).each(function(){
                     if($(this).prop("checked") == true){
                         ass.push(usuario);
                     }
                 })
-                console.log(ass)
+                $.ajax({
+                    url:"src/pages/assinaturas/doc.php",
+                    type:"POST",
+                    data:{
+                        ass,
+                        nivel,
+                        acao:"add_ass"
+                    },
+                    success:function(dados){
+                        $(".assinaturas").html(dados);
+                    }
+                });
             });
         })
     </script>
