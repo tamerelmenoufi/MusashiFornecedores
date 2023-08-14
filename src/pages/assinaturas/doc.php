@@ -124,9 +124,9 @@ while($d = $sql->fetch()){
 
             $("input[acao]").click(function(){
                 nivel = $(this).attr("acao");
-                usuario = $(this).attr("usuario");
                 ass = [];
                 $(`input[assinatura_nivel${nivel}]`).each(function(){
+                    usuario = $(this).attr("usuario");
                     if($(this).prop("checked") == true){
                         ass.push(usuario);
                     }
