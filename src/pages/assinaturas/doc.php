@@ -5,8 +5,8 @@ global $pdo;
 
 if($_POST['acao'] == 'add_ass'){
 
-    $ass = @implode(",", $ass);
-    echo $query = "INSERT INTO assinatura_nivel SET assinantes = '{$ass}', codigo = '{$_POST['nivel']}'";
+    $ass = @implode(",", $_POST['ass']);
+    echo $query = "UPDATE assinatura_nivel SET assinantes = '{$ass}' where codigo = '{$_POST['nivel']}'";
     $sql = $pdo->prepare($query);
     $sql->execute();
 
