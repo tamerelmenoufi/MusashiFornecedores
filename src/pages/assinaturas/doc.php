@@ -66,7 +66,7 @@ while($d = $sql->fetch()){
     <div class="row">
         <div class="col">
             <?php
-                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '{$_POST['doc']}'");
+                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '{$_POST['doc']}' order by codigo asc");
                     $sql->execute();
                     while($d = $sql->fetch()){
 
