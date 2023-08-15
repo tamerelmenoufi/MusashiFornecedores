@@ -43,7 +43,7 @@ $indice = [
     'doc_geral' => '3',
 ];
 
-$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[{$indice[$_POST['doc']]}].{$_POST['doc']}' = 'true' and situacao = '1'");
+$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[{$indice[$_POST['doc']]}].{$_POST['doc']}' = 'true' and assinante_documento = 'S'");
 $sql->execute();
 $ass = [];
 while($d = $sql->fetch()){
