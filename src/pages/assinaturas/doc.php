@@ -43,7 +43,7 @@ $indice = [
     'doc_geral' => '3',
 ];
 
-$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[{$indice[$_POST['doc']]}].{$_POST['doc']}' = 'true'");
+$sql = $pdo->prepare("SELECT * FROM login WHERE perfil_assinaturas->>'$[{$indice[$_POST['doc']]}].{$_POST['doc']}' = 'true' and situacao = '1'");
 $sql->execute();
 $ass = [];
 while($d = $sql->fetch()){
@@ -66,7 +66,7 @@ while($d = $sql->fetch()){
     <div class="row">
         <div class="col">
             <?php
-                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '{$_POST['doc']}' and situacao = '1'");
+                    $sql = $pdo->prepare("SELECT * FROM assinatura_nivel  WHERE documento = '{$_POST['doc']}'");
                     $sql->execute();
                     while($d = $sql->fetch()){
 
