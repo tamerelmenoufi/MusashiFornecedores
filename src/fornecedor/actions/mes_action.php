@@ -57,6 +57,9 @@
     }elseif($_POST['excluir']){
         $mes = $verify->fetch();
 
+        $update = $pdo->prepare("DELETE FROM avaliacao_mensal WHERE codigo = {$cod}");
+        $update->execute();
+
         $update = $pdo->prepare("DELETE FROM assinaturas WHERE codigo_avaliacao_mensal = {$cod}");
         $update->execute();
 
