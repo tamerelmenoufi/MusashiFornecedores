@@ -12,8 +12,27 @@
         $insert = $pdo->prepare("INSERT INTO registros_diarios SET codigo_fornecedor = :cf, data_registro = :dr");
         $insert->bindValue(":cf", $_POST['codigo_fornecedor']);
         $insert->bindValue(":dr", $_POST['data']);
-
         $insert->execute();
+        $cod = $pdo->lastInsertId();
+
+        //Aqui a entrada das assinaturas com a nova data de registro
+        
+        // codigo_avaliacao_mensal	usuario	doc	ordem	status	chave
+        $sql1 = $pdo->prepare("SELECT * FROM assinatura_nivel ORDER BY documento ASC, codigo ASC");
+        $sql->execute();
+        $count = 1;
+        while($d = $sql->fetch()){
+            $insert = $pdo->prepare("REPLACE INTO assinaturas SET 
+                                                    codigo_avaliacao_mensal = '{$cod}',
+                                                    usuario = '{$d['assinantes']}',
+                                                    doc = '{$d['documento']}',
+                                                    ordem = '{$count}',
+                                                    status = '0',
+                                                    chave = '".md5($cod.$d['assinantes'].$d['documento'])."'");
+            $insert->execute();
+            $count++;
+        }
+
     ?>
         <div class="container-fluid p-0">
             <h4 class="text-success mb-3">Sucesso  <i class="fa fa-check-square-o" aria-hidden="true"></i></h4>
