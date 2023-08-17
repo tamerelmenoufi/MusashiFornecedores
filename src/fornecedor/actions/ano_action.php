@@ -9,7 +9,7 @@
     $verify = $pdo->prepare("SELECT * FROM avaliacao_anual WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']} AND ano = {$Y}");
     $verify->execute();
 
-    if($verify->rowCount() == 0){
+    if($verify->rowCount() == 0 and !$_POST['excluir']){
         $create_year = $pdo->prepare("INSERT INTO avaliacao_anual SET
         codigo_fornecedor = {$_POST['codigo_fornecedor']},
         ano = {$Y},
