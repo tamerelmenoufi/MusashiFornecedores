@@ -6,6 +6,10 @@
         //$update = $pdo->prepare("UPDATE registros_diarios SET status = '0', visivel = '0' WHERE codigo = {$_POST['codigo_registro']}");
         $update = $pdo->prepare("DELETE FROM registros_diarios WHERE codigo = {$_POST['codigo_registro']}");
         $update->execute();
+
+        $update = $pdo->prepare("DELETE FROM assinaturas WHERE codigo_avaliacao_mensal = {$_POST['codigo_registro']}");
+        $update->execute();
+        
         echo "ok";
         exit;
     }else{
