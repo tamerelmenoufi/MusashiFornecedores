@@ -15,6 +15,7 @@
     $verify->execute();
 
     if($verify->rowCount() == 0 and !$_POST['excluir']){
+
         $create_month = $pdo->prepare("INSERT INTO avaliacao_mensal SET
         codigo_fornecedor = {$_POST['codigo_fornecedor']},
         mes = {$m},
@@ -31,10 +32,6 @@
 
         $create_month->execute();
         $cod = $pdo->lastInsertId();
-
-        $verify->execute()
-        
-        $mes = $verify->fetch();
 
         //Aqui a entrada das assinaturas com a nova data de registro
         // codigo_avaliacao_mensal	usuario	doc	ordem	status	chave
