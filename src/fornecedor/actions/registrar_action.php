@@ -19,9 +19,9 @@
         
         // codigo_avaliacao_mensal	usuario	doc	ordem	status	chave
         $sql1 = $pdo->prepare("SELECT * FROM assinatura_nivel ORDER BY documento ASC, codigo ASC");
-        $sql->execute();
+        $sql1->execute();
         $count = 1;
-        while($d = $sql->fetch()){
+        while($d = $sql1->fetch()){
             $insert = $pdo->prepare("REPLACE INTO assinaturas SET 
                                                     codigo_avaliacao_mensal = '{$cod}',
                                                     usuario = '{$d['assinantes']}',
