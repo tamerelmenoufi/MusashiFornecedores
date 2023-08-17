@@ -13,7 +13,6 @@
     $verify = $pdo->prepare("SELECT * FROM avaliacao_mensal WHERE codigo_fornecedor = {$_POST['codigo_fornecedor']}
     AND mes = {$m} AND ano = {$Y}");
     $verify->execute();
-    $cod = $pdo->lastInsertId();
 
     if($verify->rowCount() == 0 and !$_POST['excluir']){
         $create_month = $pdo->prepare("INSERT INTO avaliacao_mensal SET
@@ -31,12 +30,12 @@
         qualificacao_iqf = 'OTIMO'");
 
         $create_month->execute();
+        $cod = $pdo->lastInsertId();
 
-
-        $verify->execute();
+        $verify->execute()
+        
         $mes = $verify->fetch();
 
-        $cod = $pdo->lastInsertId();
         //Aqui a entrada das assinaturas com a nova data de registro
         // codigo_avaliacao_mensal	usuario	doc	ordem	status	chave
         $sql1 = $pdo->prepare("SELECT * FROM assinatura_nivel ORDER BY documento ASC, codigo ASC");
@@ -57,10 +56,10 @@
     }elseif($_POST['excluir']){
         $mes = $verify->fetch();
 
-        $update = $pdo->prepare("DELETE FROM avaliacao_mensal WHERE codigo = {$cod}");
+        $update = $pdo->prepare("DELETE FROM avaliacao_mensal WHERE codigo = {$mes['codigo']}");
         $update->execute();
 
-        $update = $pdo->prepare("DELETE FROM assinaturas WHERE codigo_avaliacao_mensal = {$cod}");
+        $update = $pdo->prepare("DELETE FROM assinaturas WHERE codigo_avaliacao_mensal = {$mes['codigo']}");
         $update->execute();
 
     }else{
