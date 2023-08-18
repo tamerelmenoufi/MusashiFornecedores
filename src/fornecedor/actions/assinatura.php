@@ -30,6 +30,23 @@ if ($_POST and $_POST['acao'] === 'remover_assinatura') {
     $query1->bindValue(':c', $codigo_mensal);
 
     if (@$query1->execute()) {
+
+        $TipoDoc = [
+            'assinaturas_ipf' => 'doc_ipf',
+            'assinaturas_iqf' => 'doc_iqf',
+            'assinaturas_iaf' => 'doc_iaf',
+        ];
+
+        $query4 = $pdo->prepare("UPDATE assinaturas SET 
+                                        status = '0'
+                                    WHERE 
+                                        doc = '{$TipoDoc[$campo_assinatura]}' and 
+                                        usuario = '{$codigo}' and 
+                                        codigo_avaliacao_mensal = '{$codigo_mensal}'
+                                ");
+        $query4->execute();
+
+
         echo json_encode([
             'status'         => true,
             'msg'            => 'Assinatura removida com sucesso',

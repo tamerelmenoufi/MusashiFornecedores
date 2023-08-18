@@ -56,6 +56,22 @@ if ($_POST['acao'] === 'assinar') {
         $query3->bindValue(':c', $avaliacao_mes['codigo']);
 
         if ($query3->execute()) {
+
+            $TipoDoc = [
+                'assinaturas_ipf' => 'doc_ipf',
+                'assinaturas_iqf' => 'doc_iqf',
+                'assinaturas_iaf' => 'doc_iaf',
+            ];
+
+            $query4 = $pdo->prepare("UPDATE assinaturas SET 
+                                                status = '1'
+                                            WHERE 
+                                                doc = '{$TipoDoc[$campo_assinatura]}' and 
+                                                usuario = '{$_SESSION['musashi_cod_usu']}' and 
+                                                codigo_avaliacao_mensal = '{$avaliacao_mes['codigo']}'
+                                    ");
+            $query4->execute();
+
             echo json_encode([
                 "status"     => true,
                 "msg"        => "Assinado com sucesso",
