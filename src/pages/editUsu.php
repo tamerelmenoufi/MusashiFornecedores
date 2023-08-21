@@ -3,6 +3,10 @@ require "../../lib/config.php";
 
 global $pdo;
 
+function utf8decode($v){
+    return $v;
+}
+
 if ($_POST['tipo'] == "editar") {
     $sql = $pdo->prepare("SELECT * FROM login  WHERE codigo = :c");
     $sql->bindValue(":c", $_POST["codigo"]);
@@ -25,7 +29,7 @@ if ($_POST['tipo'] == "editar") {
                     <div class="input-group-text" style="width: 40px">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </div>
-                    <input nome iid="nome" type="text" class="form-control" value="<?= utf8_encode($user["nome"]) ?>">
+                    <input nome iid="nome" type="text" class="form-control" value="<?= utf8decode($user["nome"]) ?>">
                 </div>
             </div>
             <div class="col-md-12 p-0">
@@ -34,7 +38,7 @@ if ($_POST['tipo'] == "editar") {
                     <div class="input-group-text" style="width: 40px">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                     </div>
-                    <input email id="email" type="text" class="form-control" value="<?= utf8_encode($user["email"]) ?>">
+                    <input email id="email" type="text" class="form-control" value="<?= utf8decode($user["email"]) ?>">
                 </div>
             </div>
 
@@ -57,7 +61,7 @@ if ($_POST['tipo'] == "editar") {
                     <div class="input-group-text" style="width: 40px">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                     </div>
-                    <input cargo id="cargo" type="text" class="form-control" value="<?= utf8_encode($user["cargo"]) ?>">
+                    <input cargo id="cargo" type="text" class="form-control" value="<?= utf8decode($user["cargo"]) ?>">
                 </div>
             </div>
 
@@ -68,7 +72,7 @@ if ($_POST['tipo'] == "editar") {
                         <i class="fa fa-key" aria-hidden="true"></i>
                     </div>
                     <input usuario id="usuario" type="text" class="form-control"
-                           value="<?= utf8_encode($user["usuario"]) ?>">
+                           value="<?= utf8decode($user["usuario"]) ?>">
                 </div>
             </div>
 
