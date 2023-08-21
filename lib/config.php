@@ -31,10 +31,11 @@ try {
     if ($_SERVER['HTTP_HOST'] === 'localhost') {
         $pdo = new PDO("mysql:dbname=musashi_painel;host=localhost", "root", "");
     } else {
-        $pdo = new PDO("mysql:dbname=musashi;host=34.239.130.95", "musashi", "wu5@sh!");
+        $pdo = new PDO("mysql:dbname=musashi;host=34.239.130.95", "musashi", "wu5@sh!", array(
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+          ));
     }
-
-    $pdo->exec("set names utf8");
 
 } catch (PDOException $e) {
     echo "FALHOU:" . $e->getMessage();
