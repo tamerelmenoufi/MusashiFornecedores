@@ -21,6 +21,10 @@ function Blq(){
 
 }
 
+function utf8decode($v){
+    return $v;
+}
+
 // Blq(); exit();
 
 global $pdo;

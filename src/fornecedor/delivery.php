@@ -35,7 +35,7 @@
 
     <header class="row mb-2">
         <div class="col-md-4">
-            <span class="fw-light">Fornecedor:</span><h5><?=utf8_encode($d['nome'])?></h5>
+            <span class="fw-light">Fornecedor:</span><h5><?=utf8decode($d['nome'])?></h5>
         </div>
         <input type="hidden" fornecedor="<?=$_POST['fornecedor']?>">
         <div class="col-md-3">
@@ -77,7 +77,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_idm_emitidos']?>" selected><?=utf8_encode($avaliacao['idm_emitidos'])?></option>
+                <option value="<?=$avaliacao['delivery_idm_emitidos']?>" selected><?=utf8decode($avaliacao['idm_emitidos'])?></option>
             <?php
                 }
 
@@ -86,7 +86,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['idm_emitidos'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['idm_emitidos'])?></option>
             <?php
                 }
             ?>
@@ -103,7 +103,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_idm_reincidente']?>" selected><?=utf8_encode($avaliacao['idm_reincidente'])?></option>
+                <option value="<?=$avaliacao['delivery_idm_reincidente']?>" selected><?=utf8decode($avaliacao['idm_reincidente'])?></option>
             <?php
                 }
 
@@ -112,7 +112,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['idm_reincidente'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['idm_reincidente'])?></option>
             <?php
                 }
             ?>
@@ -129,7 +129,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_atraso_resposta']?>" selected><?=utf8_encode($avaliacao['idm_resp_atraso'])?></option>
+                <option value="<?=$avaliacao['delivery_atraso_resposta']?>" selected><?=utf8decode($avaliacao['idm_resp_atraso'])?></option>
             <?php
                 }
 
@@ -138,7 +138,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['idm_resp_atraso'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['idm_resp_atraso'])?></option>
             <?php
                 }
             ?>
@@ -159,7 +159,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_entrega']?>" selected><?=utf8_encode($avaliacao['dias_atraso'])?></option>
+                <option value="<?=$avaliacao['delivery_entrega']?>" selected><?=utf8decode($avaliacao['dias_atraso'])?></option>
             <?php
                 }
 
@@ -168,7 +168,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['dias_atraso'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['dias_atraso'])?></option>
             <?php
                 }
             ?>
@@ -186,7 +186,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_atendimento']?>" selected><?=utf8_encode($avaliacao['atendimento'])?></option>
+                <option value="<?=$avaliacao['delivery_atendimento']?>" selected><?=utf8decode($avaliacao['atendimento'])?></option>
             <?php
                 }
 
@@ -195,7 +195,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['atendimento'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['atendimento'])?></option>
             <?php
                 }
             ?>
@@ -212,7 +212,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_parada_linha']?>" selected ><?=utf8_encode($avaliacao['parada_de_linha'])?></option>
+                <option value="<?=$avaliacao['delivery_parada_linha']?>" selected ><?=utf8decode($avaliacao['parada_de_linha'])?></option>
             <?php
                 }
 
@@ -221,7 +221,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['parada_de_linha'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['parada_de_linha'])?></option>
             <?php
                 }
             ?>
@@ -238,7 +238,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['delivery_comunicacao']?>" selected><?=utf8_encode($avaliacao['comunicacao'])?></option>
+                <option value="<?=$avaliacao['delivery_comunicacao']?>" selected><?=utf8decode($avaliacao['comunicacao'])?></option>
             <?php
                 }
 
@@ -247,7 +247,7 @@
 
                 while($options = $sql->fetch()){
             ?>
-                <option value="<?=$options['codigo']?>"><?=utf8_encode($options['comunicacao'])?></option>
+                <option value="<?=$options['codigo']?>"><?=utf8decode($options['comunicacao'])?></option>
             <?php
                 }
             ?>

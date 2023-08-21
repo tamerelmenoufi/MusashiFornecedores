@@ -12,7 +12,7 @@
         data_fim = :df
         WHERE codigo = {$_POST['codigo']}");
 
-        $sql->bindValue(":n", utf8_decode($_POST['empresa']));
+        $sql->bindValue(":n", utf8decode($_POST['empresa']));
         $sql->bindValue(":cnpj", $_POST['cnpj']);
         $sql->bindValue(":senha", $_POST['senha']);
         $sql->bindValue(":t", $_POST['tipo']);

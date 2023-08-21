@@ -3,10 +3,6 @@ require "../../lib/config.php";
 
 global $pdo;
 
-function utf8decode($v){
-    return $v;
-}
-
 if ($_POST['tipo'] == "editar") {
     $sql = $pdo->prepare("SELECT * FROM login  WHERE codigo = :c");
     $sql->bindValue(":c", $_POST["codigo"]);

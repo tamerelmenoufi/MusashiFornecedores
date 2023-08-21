@@ -34,7 +34,7 @@
                 ?>
                     <tr>
                         <th scope="row"><?=$count?></th>
-                        <td ><?=utf8_encode($d['nome'])?></td>
+                        <td ><?=utf8decode($d['nome'])?></td>
                         <td><?=$d['cnpj']?></td>
                         <td><strong><?=str_pad($d['codigo'], 4, "0", STR_PAD_LEFT)?></strong></td>
                     </tr>

@@ -65,7 +65,7 @@
                                     ?>
                                     <i class="fa fa-circle" style="color:<?=$cor?>; text-decoration: normal;"></i>
                                 </th>
-                                <td ><?=utf8_encode($d['nome'])?></td>
+                                <td ><?=utf8decode($d['nome'])?></td>
                                 <td><?=$d['cnpj']?></td>
                                 <td><?=date('d/m/Y', strtotime($d['data_inicio']))?></td>
                                 <td><?=date('d/m/Y', strtotime($d['data_fim']))?></td>

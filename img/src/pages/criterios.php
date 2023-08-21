@@ -278,7 +278,7 @@
                                     ?>
                                     <tr>
                                         <th scope="row"><?=$d['demerito']?></th>
-                                        <td><?=utf8_encode($d['parada_de_linha'])?></td>
+                                        <td><?=utf8decode($d['parada_de_linha'])?></td>
                                     </tr>
                                     <?php
                                         }
@@ -310,7 +310,7 @@
                                     ?>
                                     <tr>
                                         <th scope="row"><?=$d['demerito']?></th>
-                                        <td><?=utf8_encode($d['comunicacao'])?></td>
+                                        <td><?=utf8decode($d['comunicacao'])?></td>
                                     </tr>
                                     <?php
                                         }
@@ -353,7 +353,7 @@
                             ?>
                             <tr>
                                 <th scope="row"><?=$d['demerito']?></th>
-                                <td><?=utf8_encode($d['limite_ppm'])?></td>
+                                <td><?=utf8decode($d['limite_ppm'])?></td>
                                 <td><?=$tipo?></td>
                             </tr>
                             <?php

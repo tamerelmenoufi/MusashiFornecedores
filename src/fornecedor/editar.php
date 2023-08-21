@@ -32,7 +32,7 @@
                 <div class="row g-3">
                     <div class="col-md-12">
                         <label for="nome_fornecedor" class="form-label">Razão Social:</label>
-                        <input type="text" name="nome_fornecedor" class="form-control" id="nome_fornecedor" value="<?=utf8_encode($d['nome'])?>" required>
+                        <input type="text" name="nome_fornecedor" class="form-control" id="nome_fornecedor" value="<?=utf8decode($d['nome'])?>" required>
                     </div>
                     <div class="col-md-12">
                         <label for="cnpj" class="form-label">CNPJ:</label>
@@ -90,7 +90,7 @@
                         <div class="row border p-3" style="border-left: 5px solid green !important; margin: 0px 0px 12px 0px">
                             <div class="col-md-3 fw-bolder fs-6">
                                 <span class="text-secondary" style="font-size: 11px">Nome:</span><br>
-                                <p><?=utf8_encode($d["nome"])?></p>
+                                <p><?=utf8decode($d["nome"])?></p>
                             </div>
                             <div class="col-md-3 fw-bolder fs-6">
                                 <span class="text-secondary" style="font-size: 11px">E-mail:</span><br>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-md-2 fw-bolder fs-6">
                                 <span class="text-secondary" style="font-size: 11px">Setor/Função:</span><br>
-                                <p><?=utf8_encode($d["setor"])?></p>
+                                <p><?=utf8decode($d["setor"])?></p>
                             </div>
                             <div class="col-md-2 fw-bolder fs-6">
                                 <button excluir_contato cod="<?=$d["codigo"]?>" class='btn btn-danger'>Excluir</button>

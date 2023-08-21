@@ -41,10 +41,10 @@ require "../../lib/config.php";
                             <th scope="row"><?= $count ?></th>
                             <td><?= $d['nome'] ?></td>
                             <td><?= $d['mes'] ?></td>
-                            <td><?= utf8_encode($d['ano']) ?></td>
-                            <td><?= utf8_encode($d['eficiencia']) ?></td>
-                            <td><?= utf8_encode($d['quality']) ?></td>
-                            <td><?= utf8_encode($d['delivery']) ?></td>
+                            <td><?= utf8decode($d['ano']) ?></td>
+                            <td><?= utf8decode($d['eficiencia']) ?></td>
+                            <td><?= utf8decode($d['quality']) ?></td>
+                            <td><?= utf8decode($d['delivery']) ?></td>
                             <td class="d-flex justify-content-center align-items-center" style="gap: 8px;">
                                 <button
                                         relatorio

@@ -38,7 +38,7 @@
 
     <header class="row mb-2">
         <div class="col-md-4">
-            <span class="fw-light">Fornecedor:</span><h5><?=utf8_encode($d['nome'])?></h5>
+            <span class="fw-light">Fornecedor:</span><h5><?=utf8decode($d['nome'])?></h5>
         </div>
         <input type="hidden" fornecedor="<?=$_POST['fornecedor']?>">
         <div class="col-md-3">
@@ -116,7 +116,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['quality_ip_emitido']?>" selected ><?=utf8_encode($avaliacao['ip_emissao'])?></option>
+                <option value="<?=$avaliacao['quality_ip_emitido']?>" selected ><?=utf8decode($avaliacao['ip_emissao'])?></option>
             <?php
                 }
 
@@ -142,7 +142,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['quality_ip_reincidente']?>" selected><?=utf8_encode($avaliacao['ip_reincidente'])?></option>
+                <option value="<?=$avaliacao['quality_ip_reincidente']?>" selected><?=utf8decode($avaliacao['ip_reincidente'])?></option>
             <?php
                 }
 
@@ -168,7 +168,7 @@
             <?php
                 }else{
             ?>
-                <option value="<?=$avaliacao['quality_atraso_resposta']?>" selected ><?=utf8_encode($avaliacao['atraso'])?></option>
+                <option value="<?=$avaliacao['quality_atraso_resposta']?>" selected ><?=utf8decode($avaliacao['atraso'])?></option>
             <?php
                 }
 

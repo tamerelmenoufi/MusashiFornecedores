@@ -239,7 +239,7 @@ function mesExtenso($mes)
         </div>
 
         <div class="col-5">
-            <span class="fw-light">Fornecedor:</span><h5><?= utf8_encode($fornecedor['nome']) ?> <i
+            <span class="fw-light">Fornecedor:</span><h5><?= utf8decode($fornecedor['nome']) ?> <i
                         class="fa fa-handshake-o" aria-hidden="true"></i></h5>
         </div>
         <input type="hidden" fornecedor="<?= $_POST['codigo_fornecedor'] ?>">

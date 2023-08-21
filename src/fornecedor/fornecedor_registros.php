@@ -19,7 +19,7 @@
             </div>
 
             <div class="col-md-4">
-                <span class="fw-light">Fornecedor:</span><h5><?=utf8_encode($d['nome'])?> <i class="fa fa-handshake-o" aria-hidden="true"></i></h5>
+                <span class="fw-light">Fornecedor:</span><h5><?=utf8decode($d['nome'])?> <i class="fa fa-handshake-o" aria-hidden="true"></i></h5>
             </div>
             <input type="hidden" fornecedor="<?=$codigo?>">
             <div class="col-md-4">

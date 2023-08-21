@@ -21,7 +21,7 @@
 
     <header class="row mb-2">
         <div class="col-md-4">
-            <span class="fw-light">Fornecedor:</span><h5><?=utf8_encode($d['nome'])?></h5>
+            <span class="fw-light">Fornecedor:</span><h5><?=utf8decode($d['nome'])?></h5>
         </div>
         <div class="col-md-3">
             <span class="fw-light">CNPJ:</span><p><?=$d['cnpj']?></p>
@@ -73,17 +73,17 @@
 
                     <div class="col-4 mt-2">
                         <span class="mb-1 fw-light" for="qnt_devolvida">IP Oficial Emitido: </span>
-                        <?=utf8_encode($quality['ip_emissao'])?>
+                        <?=utf8decode($quality['ip_emissao'])?>
                     </div>
 
                     <div class="col-4 mt-2">
                         <span class="mb-1 fw-light" for="qnt_devolvida">IP Reincidente: </span>
-                        <?=utf8_encode($quality['ip_reincidente'])?>
+                        <?=utf8decode($quality['ip_reincidente'])?>
                     </div>
 
                     <div class="col-4 mt-2">
                         <span class="mb-1 fw-light" for="qnt_devolvida">Atraso de Resposta (IP): </span>
-                        <?=utf8_encode($quality['atraso'])?>
+                        <?=utf8decode($quality['atraso'])?>
                     </div>
 
                     <div class="col-12 mt-2">
@@ -129,37 +129,37 @@
                 <div class="row card-body m-0">
                     <div class="col-6 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_requerida">IDM Emitido: </span>
-                        <?=utf8_encode($delivery['idm_emitidos'])?>
+                        <?=utf8decode($delivery['idm_emitidos'])?>
                     </div>
 
                     <div class="col-6 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_recebida">IDM Reincidente: </span>
-                        <?=utf8_encode($delivery['idm_reincidente'])?>
+                        <?=utf8decode($delivery['idm_reincidente'])?>
                     </div>
 
                     <div class="col-6 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_devolvida">Atraso de Resposta de IDM: </span>
-                        <?=utf8_encode($delivery['idm_resp_atraso'])?>
+                        <?=utf8decode($delivery['idm_resp_atraso'])?>
                     </div>
 
                     <div class="col-6 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_devolvida">Dias de Atraso na Entrega: </span>
-                        <?=utf8_encode($delivery['dias_atraso'])?>
+                        <?=utf8decode($delivery['dias_atraso'])?>
                     </div>
 
                     <div class="col-6 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_devolvida">% Atendimento (mês): </span>
-                        <?=utf8_encode($delivery['atendimento'])?>
+                        <?=utf8decode($delivery['atendimento'])?>
                     </div>
 
                     <div class="col-6 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_devolvida">Parada de Linha: </span>
-                        <?=utf8_encode($delivery['parada_de_linha'])?>
+                        <?=utf8decode($delivery['parada_de_linha'])?>
                     </div>
 
                     <div class="col-12 mt-2 p-0 ">
                         <span class="mb-1 fw-light" for="qnt_devolvida">Comunicação: </span>
-                        <?=utf8_encode($delivery['comunicacao'])?>
+                        <?=utf8decode($delivery['comunicacao'])?>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@
         ?>
         <tr>
             <td ><?=str_pad($d['codigo'], 4, "0", STR_PAD_LEFT)?></td>
-            <td><?=utf8_encode($d['fornecedor'])?></td>
+            <td><?=utf8decode($d['fornecedor'])?></td>
             <td><?=$d['quality']?></td>
             <td><?=$d['delivery']?></td>
             <td><?=$d['classificacao']?></td>

@@ -22,7 +22,7 @@
         }else{
             $sql = $pdo->prepare("INSERT INTO fornecedores VALUES ( default, :n, :cnpj, :senha, :t, :di, :df, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1')");
 
-            $sql->bindValue(":n", utf8_decode($_POST['empresa']));
+            $sql->bindValue(":n", utf8decode($_POST['empresa']));
             $sql->bindValue(":cnpj", $_POST['cnpj']);
             $sql->bindValue(":senha", $_POST['senha']);
             $sql->bindValue(":t", $_POST['tipo']);
