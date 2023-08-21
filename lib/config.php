@@ -34,6 +34,8 @@ try {
         $pdo = new PDO("mysql:dbname=musashi;host=34.239.130.95", "musashi", "wu5@sh!");
     }
 
+    $pdo->exec("set names utf8");
+
 } catch (PDOException $e) {
     echo "FALHOU:" . $e->getMessage();
     exit;
