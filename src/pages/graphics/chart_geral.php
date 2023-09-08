@@ -81,7 +81,7 @@
                 
 
                 $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
-                $array_valores1[$ind] = (($valor <= 100)?$valor:100.00);
+                $array_valores1[$ind] = (($valor <= 100)?$valor:(($valor == 0)?0:100.00));
 
                 if($valor <= 84.99){
                     $array_cor1[$ind] = '"#dc3545"'; /// DEFICIENTE
