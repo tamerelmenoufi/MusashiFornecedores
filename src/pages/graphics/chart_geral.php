@@ -76,7 +76,7 @@
                 if($qt_meses[$ind] > 0){
                     $valor = number_format($valor/(($qt_meses[$ind] >= 12)?12:$qt_meses[$ind]),2);
                 }else{
-                    $valor = 0.00;
+                    $valor = 100;
                 }
                 
 

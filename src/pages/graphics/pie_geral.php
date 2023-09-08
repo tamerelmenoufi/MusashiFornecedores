@@ -80,7 +80,7 @@
         }
         
 
-        if($classificacao <= 84.99){
+        if($classificacao <= 84.99){ ///// DEFICIENTE
             $array_valores[3]++;
         }elseif($classificacao >= 85.00 && $classificacao <= 93.99){ ///// REGULAR
             $array_valores[2]++;
