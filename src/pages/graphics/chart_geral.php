@@ -73,7 +73,13 @@
                 //     $array_border[$d['fornecedor_codigo']] = '"#198754"';
                 // }
 
-                $valor = number_format($valor/(($qt_meses[$ind] >= 12)?12:$qt_meses[$ind]),2);
+                if($qt_meses[$ind] > 0){
+                    $valor = number_format($valor/(($qt_meses[$ind] >= 12)?12:$qt_meses[$ind]),2);
+                }else{
+                    $valor = 0;
+                }
+                
+
                 $array_codigo1[$ind] =  "'".$nome[$ind]/*str_pad($d['fornecedor_codigo'], 4, "0", STR_PAD_LEFT)*/."'";
                 $array_valores1[$ind] = (($valor <= 100)?$valor:100.00);
 
