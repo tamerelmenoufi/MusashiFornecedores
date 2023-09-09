@@ -13,8 +13,8 @@
 
 
     $dados = [
-        'from_name' => 'Mailgun - MOHATRON',
-        'from_email' => 'mailgun@moh1.com.br',
+        'from_name' => 'Musashi Fornecedores',
+        'from_email' => 'fornecedores@musashi.com.br',
         'subject' => 'Nusashi Fornecedores - Alerta de Assinaturas',
         'html' => $html,
         // 'attachment' => [
