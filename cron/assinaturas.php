@@ -3,9 +3,9 @@
 
     global $pdo;
 
-    $query = "select *, min(ordem) as maximo from assinaturas where status != '1' group by codigo_avaliacao_mensal, doc order by codigo asc";
-    $result = mysqli_query($con, $query);
-    while($d = mysqli_fetch_object($result)){
+    $sql = $pdo->prepare("select *, min(ordem) as maximo from assinaturas where status != '1' group by codigo_avaliacao_mensal, doc order by codigo asc");
+    $sql->execute();
+    while($d = $sql->fetch()){
         echo "{$d->codigo}<br>";
     }
 
