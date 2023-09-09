@@ -48,4 +48,4 @@
     // print_r($result);
     // echo "</pre>";
 
-    return $result->status;
+    echo $result->status;
