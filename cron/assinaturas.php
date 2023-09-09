@@ -5,7 +5,7 @@
 
     $query = "select *, min(ordem) as maximo from assinaturas where status != '1' group by codigo_avaliacao_mensal, doc order by codigo asc";
     $result = mysqli_query($con, $query);
-    wheile($d = mysqli_fetch_object($result)){
+    while($d = mysqli_fetch_object($result)){
         echo "{$d->codigo}<br>";
     }
 
