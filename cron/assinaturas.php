@@ -26,8 +26,8 @@
                 'http://musashi.mohatron.com/img/banner_notificacao.png',
         ],
         'to' => [
-                ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
-                // ['to_name' => 'Tamer Mohamed', 'to_email' => 'tamer@mohatron.com.br'],
+                // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
+                ['to_name' => 'Tamer Mohamed', 'to_email' => 'tamer@mohatron.com.br'],
         ]
     ];
 
