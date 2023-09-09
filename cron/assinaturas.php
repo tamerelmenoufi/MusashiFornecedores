@@ -3,4 +3,4 @@
 
     global $pdo;
 
-    $query = "select * from avaliacao_mensal where ";
+    $query = "select *, min(ordem) as maximo from assinaturas where status != '1' group by codigo_avaliacao_mensal, doc order by codigo asc";
