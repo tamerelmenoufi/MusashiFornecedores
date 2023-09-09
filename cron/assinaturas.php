@@ -14,7 +14,7 @@
 
     $dados = [
         'from_name' => 'Musashi Fornecedores',
-        'from_email' => 'fornecedores@musashi.com.br',
+        'from_email' => 'mailgun@moh1.com.br',
         'subject' => 'Nusashi Fornecedores - Alerta de Assinaturas',
         'html' => $html,
         // 'attachment' => [
