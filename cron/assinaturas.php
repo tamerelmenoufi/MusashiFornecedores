@@ -74,6 +74,27 @@
 
         $html = str_replace($lib, $data, $html);
 
+
+        $dados = [
+            'from_name' => 'Musashi Fornecedores',
+            'from_email' => 'mailgun@moh1.com.br',
+            'subject' => 'Nusashi Fornecedores - Alerta de Assinaturas',
+            'html' => $html,
+            // 'attachment' => [
+            //         './img_bk.png',
+            //         './cliente-mohatron.xls',
+            //         './formulario_prato_cheio.pdf',
+            // ],
+            'inline' => [
+                    'http://musashi.mohatron.com/img/banner_notificacao.png',
+            ],
+            'to' => [
+                    // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
+                    ['to_name' => $d['nome'], 'to_email' => trim($d['email'])],
+            ]
+        ];
+
+
         $url = "http://email.mohatron.com/send.php";
 
         $options = stream_context_create(['http' => [
