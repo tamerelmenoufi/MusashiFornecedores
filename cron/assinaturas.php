@@ -46,7 +46,7 @@
                                 a.doc,
                                 b.nome,
                                 /*b.email,*/
-                                'tamer@mohatron.com.br' as email,
+                                'tamer.menoufi@gmail.com' as email,
                                 c.mes,
                                 c.ano,
                                 d.nome as fornecedor_nome,
