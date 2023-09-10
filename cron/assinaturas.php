@@ -72,14 +72,14 @@
             $d['fornecedor_cnpj']
         ];
 
-        $html = str_replace($lib, $data, $html);
+        $html_dados = str_replace($lib, $data, $html);
 
 
         $dados = [
             'from_name' => 'Musashi Fornecedores',
             'from_email' => 'mailgun@moh1.com.br',
             'subject' => 'Nusashi Fornecedores - Alerta de Assinaturas',
-            'html' => $html,
+            'html' => $html_dados,
             // 'attachment' => [
             //         './img_bk.png',
             //         './cliente-mohatron.xls',
@@ -107,7 +107,7 @@
         $result = file_get_contents($url, false, $options);
         $result = json_decode($result);
 
-        echo $result->status;
+        echo $result->status."<br>";
 
     }
 
