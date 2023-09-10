@@ -86,7 +86,8 @@
             //         './formulario_prato_cheio.pdf',
             // ],
             'inline' => [
-                    'http://musashi.mohatron.com/img/banner_notificacao.png',
+                    'http://musashi.mohatron.com/img/banner_topo.png',
+                    'http://musashi.mohatron.com/img/banner_rodape.png',
             ],
             'to' => [
                     // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
