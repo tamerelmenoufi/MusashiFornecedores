@@ -54,7 +54,7 @@
                         left join fornecedores d on c.codigo_fornecedor = d.codigo
                         where a.status != '1'
                         group by a.codigo_avaliacao_mensal, a.doc
-                        order by a.codigo asc limit 3");
+                        order by a.codigo");
     $sql->execute();
     while($d = $sql->fetch()){
 
