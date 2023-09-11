@@ -19,9 +19,6 @@
         exit;
     }
 
-
-
-
     global $pdo;
 
     $lib = [
@@ -45,8 +42,8 @@
     $sql = $pdo->prepare("select 
                                 a.doc,
                                 b.nome,
-                                /*b.email,*/
-                                'tamer.menoufi@gmail.com' as email,
+                                b.email,
+                                /*'tamer.menoufi@gmail.com' as email,*/
                                 c.mes,
                                 c.ano,
                                 d.nome as fornecedor_nome,
