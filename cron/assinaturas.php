@@ -1,5 +1,5 @@
 <?php
-    
+    exit();
     global $pdo;
 
     date_default_timezone_set('America/Manaus');
@@ -109,7 +109,7 @@
 
     }
 
-    exit();
+    
 
 
     // $dados = [
