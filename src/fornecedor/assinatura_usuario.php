@@ -3,6 +3,13 @@ require "../../lib/config.php";
 
 global $pdo;
 
+$doc = [
+    'doc_geral' => 'Geral',
+    'doc_iaf' => 'IAF',
+    'doc_ipf' => 'IPF',
+    'doc_iqf' => 'IQF',
+];
+
 if ($_POST['acao'] === 'assinar') {
     #@formatter:off
     $senha          = md5($_POST['senha']);
@@ -100,13 +107,22 @@ if ($_POST['acao'] === 'assinar') {
     exit();
 }
 
-
 ?>
 
 <div class="container container-assinatura">
     <div class="row">
         <div class="col-md-12">
             <div class="p-3">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>mes/ano</th>
+                            <th>Fornecedor</th>
+                            <th>CNPJ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
         <?php
 
         $sql = $pdo->prepare("select 
@@ -128,14 +144,19 @@ if ($_POST['acao'] === 'assinar') {
         order by a.codigo");
         $sql->execute();
         while($d = $sql->fetch()){
-
-            echo $d['doc']."<br>";
-
-
+?>
+                        <tr>
+                            <td><?=$d['doc']?></td>
+                            <td><?="{$d['mes']}/$d['ano']}"?></td>
+                            <td><?=$d['fornecedor_nome']?></td>
+                            <td><?=$d['fornecedor_cnpj']?></td>
+                        </tr>
+<?php
         }
-
-        ?>
-        </div>
+?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
