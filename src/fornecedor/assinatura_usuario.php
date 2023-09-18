@@ -116,6 +116,8 @@ if ($_POST['acao'] === 'assinar') {
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Seq.</th>
                             <th>Documento</th>
                             <th>mes/ano</th>
                             <th>Fornecedor</th>
@@ -143,15 +145,21 @@ if ($_POST['acao'] === 'assinar') {
         group by a.codigo_avaliacao_mensal, a.doc
         order by a.codigo");
         $sql->execute();
+        $i = 1;
         while($d = $sql->fetch()){
 ?>
                         <tr>
+                            <td>
+                                <input type="checkbox" />
+                            </td>
+                            <td><?=$i?></td>
                             <td><?=$d['doc']?></td>
                             <td><?="{$d['mes']}/{$d['ano']}"?></td>
                             <td><?=$d['fornecedor_nome']?></td>
                             <td><?=$d['fornecedor_cnpj']?></td>
                         </tr>
 <?php
+        $i++;
         }
 ?>
                     </tbody>
