@@ -64,7 +64,7 @@
         $data[$d['usuario']]['nome'] = $d['nome'];
         $data[$d['usuario']]['email'] = $d['email'];
 
-        $data[$d['usuario']]['doc'][] = $d['doc'];
+        $data[$d['usuario']]['doc'][] = $doc[$d['doc']];
         $data[$d['usuario']]['mes'][] = $d['mes'];
         $data[$d['usuario']]['ano'][] = $d['ano'];
         $data[$d['usuario']]['fornecedor_nome'][] = $d['fornecedor_nome'];
