@@ -79,7 +79,7 @@
                 <?php
                   }
                 ?>
-                <li><a senha cod_usu="<?=$ConfUsu['codigo']?>" local="src/fornecedor/assinatura_usuario.php" class="dropdown-item">Assinaturas Pendentes</a></li>
+                <li><a abrir local="src/fornecedor/assinatura_usuario.php" class="dropdown-item">Assinaturas Pendentes</a></li>
                 <li><a senha cod_usu="<?=$ConfUsu['codigo']?>" local="src/components/senha.php" class="dropdown-item">Alterar Senha</a></li>
                 <li><a sair local="src/pages/actions/home_action.php" class="dropdown-item">Sair</a></li>
               </ul>
