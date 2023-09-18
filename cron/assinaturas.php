@@ -79,16 +79,16 @@
 
         list($cabecalho, $corpo, $rodape) = explode('<>', $html_dados);
 
-        $html_dados = str_replace('[nome]', $usu['nome'], $cabecalho);
+        $html_dados = str_replace('[nome]', $vetor['nome'], $cabecalho);
 
         foreach($usu['doc'] as $i => $v){
 
             $r = [
-                $usu['doc'][$i],
-                $usu['mes'][$i],
-                $usu['ano'][$i],
-                $usu['fornecedor_nome'][$i],
-                $usu['fornecedor_cnpj'][$i]
+                $vetor['doc'][$i],
+                $vetor['mes'][$i],
+                $vetor['ano'][$i],
+                $vetor['fornecedor_nome'][$i],
+                $vetor['fornecedor_cnpj'][$i]
             ];
 
             $html_dados .= str_replace($lib, $r, $corpo);
@@ -113,7 +113,7 @@
             ],
             'to' => [
                     // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
-                    ['to_name' => $usu['nome'], 'to_email' => trim($usu['email'])],
+                    ['to_name' => $vetor['nome'], 'to_email' => trim($vetor['email'])],
             ]
         ];
 
