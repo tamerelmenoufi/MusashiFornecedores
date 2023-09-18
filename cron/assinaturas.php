@@ -75,7 +75,7 @@
 
     foreach($data as $usu => $vetor){
 
-        $html_dados = str_replace($lib, $data, $html);
+        $html_dados = $html;
 
         list($cabecalho, $corpo, $rodape) = explode('<>', $html_dados);
 
