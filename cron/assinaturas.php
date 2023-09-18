@@ -81,7 +81,7 @@
 
         $html_dados = str_replace('[nome]', $vetor['nome'], $cabecalho);
 
-        foreach($usu['doc'] as $i => $v){
+        foreach($vetor['doc'] as $i => $v){
 
             $r = [
                 $vetor['doc'][$i],
