@@ -101,34 +101,6 @@ if ($_POST['acao'] === 'assinar') {
 }
 
 
-
-$sql = $pdo->prepare("select 
-a.usuario,
-a.doc,
-b.nome,
-b.email,
-/*'tamer.menoufi@gmail.com' as email,*/
-c.mes,
-c.ano,
-d.nome as fornecedor_nome,
-d.cnpj as fornecedor_cnpj
-from assinaturas a 
-left join login b on a.usuario = b.codigo
-left join avaliacao_mensal c on a.codigo_avaliacao_mensal = c.codigo
-left join fornecedores d on c.codigo_fornecedor = d.codigo
-where a.status != '1'
-group by a.codigo_avaliacao_mensal, a.doc
-order by a.codigo");
-$sql->execute();
-while($d = $sql->fetch()){
-
-
-
-
-}
-
-
-
 ?>
 
 <div class="container container-assinatura">
@@ -152,7 +124,7 @@ while($d = $sql->fetch()){
         left join login b on a.usuario = b.codigo
         left join avaliacao_mensal c on a.codigo_avaliacao_mensal = c.codigo
         left join fornecedores d on c.codigo_fornecedor = d.codigo
-        where a.status != '1'
+        where a.status != '1' and a.usuario = '{$_SESSION['musashi_cod_usu']}'
         group by a.codigo_avaliacao_mensal, a.doc
         order by a.codigo");
         $sql->execute();
