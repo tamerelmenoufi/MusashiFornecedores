@@ -65,28 +65,28 @@ if ($_POST['acao'] === 'assinar') {
             array_push($assinaturas, $nova_assinatura);
 
 
-            $q[] = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'|UPDATE assinaturas SET status = '1' WHERE codigo = '{$_POST['cod_assinatura'][$i]}'";
+            // $q[] = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'|UPDATE assinaturas SET status = '1' WHERE codigo = '{$_POST['cod_assinatura'][$i]}'";
 
-            // $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
-            // $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-            // $query3->bindValue(':c', $avaliacao_mes['codigo']);
+            $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
+            $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $query3->bindValue(':c', $avaliacao_mes['codigo']);
 
-            // if ($query3->execute()) {
+            if ($query3->execute()) {
 
-            //     $query4 = $pdo->prepare("UPDATE assinaturas SET 
-            //                                         status = '1'
-            //                                     WHERE 
-            //                                         codigo = '{$_POST['cod_assinatura'][$i]}'
-            //                             ");
-            //     $query4->execute();
+                $query4 = $pdo->prepare("UPDATE assinaturas SET 
+                                                    status = '1'
+                                                WHERE 
+                                                    codigo = '{$_POST['cod_assinatura'][$i]}'
+                                        ");
+                $query4->execute();
 
-            // } 
+            } 
             
         }
 
         echo json_encode([
             "status" => true,
-            "msg" => "Assinatura realizada com sucesso!". implode('|',$q)
+            "msg" => "Assinatura realizada com sucesso!", //. implode('|',$q)
         ]);
 
     } else {
@@ -220,7 +220,14 @@ if ($_POST['acao'] === 'assinar') {
                                     acao:'assinar'
                                 },
                                 success:function(dados){
-                                    console.log(dados)
+                                    // console.log(dados)
+                                    $.alert(dados.msg)
+                                    $.ajax({
+                                        url: "src/fornecedor/assinatura_usuario.php",
+                                        success: function(retorno){
+                                            $('div#home').html(retorno)
+                                        }
+                                    })
                                 }
                             });
                         }
