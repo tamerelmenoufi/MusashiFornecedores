@@ -60,7 +60,6 @@
 
         set_time_limit(90);
 
-
         $data[$d['usuario']]['nome'] = $d['nome'];
         $data[$d['usuario']]['email'] = $d['email'];
 
@@ -118,24 +117,23 @@
             ]
         ];
 
-        var_dump($dados);
+        // var_dump($dados);
 
-        echo "<hr>";
+        // echo "<hr>";
 
+        $url = "http://email.mohatron.com/send.php";
 
-        // $url = "http://email.mohatron.com/send.php";
+        $options = stream_context_create(['http' => [
+                'method'  => 'POST',
+                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                'content' => http_build_query($dados)
+            ]
+        ]);
 
-        // $options = stream_context_create(['http' => [
-        //         'method'  => 'POST',
-        //         'header' => 'Content-Type: application/x-www-form-urlencoded',
-        //         'content' => http_build_query($dados)
-        //     ]
-        // ]);
+        $result = file_get_contents($url, false, $options);
+        $result = json_decode($result);
 
-        // $result = file_get_contents($url, false, $options);
-        // $result = json_decode($result);
-
-        // echo $result->status."<br>";
+        echo $result->status."<br>";
 
     }
 
