@@ -51,6 +51,7 @@ if ($_POST['acao'] === 'assinar') {
                         . $usuario['nome']
                         . $usuario['cargo']
                         . $tipo_relatorio
+                        . $avaliacao_mes['codigo']
             );
 
             $nova_assinatura = [
