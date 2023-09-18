@@ -112,8 +112,8 @@
                     'http://musashi.mohatron.com/img/banner_rodape.png',
             ],
             'to' => [
-                    // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
-                    ['to_name' => $vetor['nome'], 'to_email' => trim($vetor['email'])],
+                    ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
+                    // ['to_name' => $vetor['nome'], 'to_email' => trim($vetor['email'])],
             ]
         ];
 
