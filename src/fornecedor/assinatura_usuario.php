@@ -153,7 +153,7 @@ if ($_POST['acao'] === 'assinar') {
                                 <input type="checkbox" />
                             </td>
                             <td><?=$i?></td>
-                            <td><?=$d['doc']?></td>
+                            <td><?=$doc[$d['doc']]?></td>
                             <td><?="{$d['mes']}/{$d['ano']}"?></td>
                             <td><?=$d['fornecedor_nome']?></td>
                             <td><?=$d['fornecedor_cnpj']?></td>
