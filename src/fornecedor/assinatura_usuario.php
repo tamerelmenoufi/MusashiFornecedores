@@ -21,62 +21,70 @@ if ($_POST['acao'] === 'assinar') {
     $query->execute();
 
     if ($query->rowCount() > 0) {
-        $campo_assinatura = "";
 
-        if ($tipo_relatorio === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
-        elseif ($tipo_relatorio === 'IQF') $campo_assinatura = 'assinaturas_iqf';
-        elseif ($tipo_relatorio === 'IAF') $campo_assinatura = 'assinaturas_iaf';
+        for($i = 0; $i < count($_POST['cod_assinatura']); $i++){
 
-        $usuario = $query->fetch();
+            $campo_assinatura = "";
 
-        $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
+            if ($_POST['tipo_relatorio'][$i] === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
+            elseif ($_POST['tipo_relatorio'][$i] === 'IQF') $campo_assinatura = 'assinaturas_iqf';
+            elseif ($_POST['tipo_relatorio'][$i] === 'IAF') $campo_assinatura = 'assinaturas_iaf';
 
-        $query2->bindValue(":c", $_SESSION['cod_mensal']);
-        $query2->execute();
+            $usuario = $query->fetch();
 
-        $assinaturas = [];
+            $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
 
-        $avaliacao_mes = $query2->fetch();
+            $query2->bindValue(":c", $_POST['cod_mensal'][$i]);
+            $query2->execute();
 
-        $assinaturas    = json_decode($avaliacao_mes[$campo_assinatura]) ?: [];
-        $data_hora      = date('Y-m-d H:i:s');
-        $chave          = md5(
-                $_SESSION['musashi_cod_usu']
-                    . $data_hora
-                    . $usuario['nome']
-                    . $usuario['cargo']
-                    . $tipo_relatorio
-        );
+            $assinaturas = [];
 
-        $nova_assinatura = [
-            "codigo"    => $_SESSION['musashi_cod_usu'],
-            "usuario"   => $usuario['nome'],
-            "cargo"     => $usuario['cargo'],
-            "data_hora" => $data_hora,
-            "chave"     => $chave,
-        ];
+            $avaliacao_mes = $query2->fetch();
 
-        array_push($assinaturas, $nova_assinatura);
+            $assinaturas    = json_decode($avaliacao_mes[$campo_assinatura]) ?: [];
+            $data_hora      = date('Y-m-d H:i:s');
+            $chave          = md5(
+                        $_SESSION['musashi_cod_usu']
+                        . $data_hora
+                        . $usuario['nome']
+                        . $usuario['cargo']
+                        . $tipo_relatorio
+            );
 
-        $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
-        $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-        $query3->bindValue(':c', $avaliacao_mes['codigo']);
+            $nova_assinatura = [
+                "codigo"    => $_SESSION['musashi_cod_usu'],
+                "usuario"   => $usuario['nome'],
+                "cargo"     => $usuario['cargo'],
+                "data_hora" => $data_hora,
+                "chave"     => $chave,
+            ];
 
-        if ($query3->execute()) {
+            array_push($assinaturas, $nova_assinatura);
 
-            $query4 = $pdo->prepare("UPDATE assinaturas SET 
-                                                status = '1'
-                                            WHERE 
-                                                codigo = '{$_POST['cod_assinatura']}'
-                                    ");
-            $query4->execute();
 
-        } 
+            $q = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'";
 
+
+            // $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
+            // $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            // $query3->bindValue(':c', $avaliacao_mes['codigo']);
+
+            // if ($query3->execute()) {
+
+            //     $query4 = $pdo->prepare("UPDATE assinaturas SET 
+            //                                         status = '1'
+            //                                     WHERE 
+            //                                         codigo = '{$_POST['cod_assinatura'][$i]}'
+            //                             ");
+            //     $query4->execute();
+
+            // } 
+            
+        }
 
         echo json_encode([
             "status" => true,
-            "msg" => "Assinatura realizada com sucesso!"
+            "msg" => "Assinatura realizada com sucesso!". $q
         ]);
 
     } else {
@@ -177,9 +185,58 @@ if ($_POST['acao'] === 'assinar') {
                 }                
             })
 
-            console.log(tipo_relatorio)
-            console.log(cod_mensal)
-            console.log(cod_assinatura)
+
+            $.confirm({
+                title: 'Assinar Relatórios',
+                content: '' +
+                '<form action="" class="formName">' +
+                '<div class="form-group">' +
+                '<label>Informe sua senha do sistema para efetuar a sua assinatura:</label>' +
+                '<input type="password" placeholder="Digite a senha" class="senha form-control" required />' +
+                '</div>' +
+                '</form>',
+                buttons: {
+                    formSubmit: {
+                        text: 'Assinar',
+                        btnClass: 'btn-success',
+                        action: function () {
+                            var senha = this.$content.find('.senha').val();
+                            if(!senha){
+                                $.alert('Favor digite sua senha');
+                                return false;
+                            }
+
+                            $.ajax({
+                                url:"src/fornecedor/assinatura_usuario.php",
+                                type:"POST",
+                                dataType:"JSON",
+                                data:{
+                                    senha,
+                                    tipo_relatorio,
+                                    cod_mensal,
+                                    cod_assinatura,
+                                    acao:'assinar'
+                                },
+                                success:function(dados){
+                                    console.log(dados)
+                                }
+                            });
+                        }
+                    },
+                    'Cancelar': function () {
+                        //close
+                    },
+                },
+                onContentReady: function () {
+                    // bind to events
+                    var jc = this;
+                    this.$content.find('form').on('submit', function (e) {
+                        // if the user submits the form by pressing enter in the field.
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    });
+                }
+            });
 
         })
     });
