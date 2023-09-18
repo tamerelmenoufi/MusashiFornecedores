@@ -170,9 +170,11 @@ if ($_POST['acao'] === 'assinar') {
             cod_mensal = [];
             cod_assinatura = [];             
             $("input[opcoes]").each(function(){
-                tipo_relatorio.push($(this).attr("tipo_relatorio"));
-                cod_mensal.push($(this).attr("cod_mensal"));
-                cod_assinatura.push($(this).attr("cod_assinatura"));                
+                if($(this).prop("checked") == true){
+                    tipo_relatorio.push($(this).attr("tipo_relatorio"));
+                    cod_mensal.push($(this).attr("cod_mensal"));
+                    cod_assinatura.push($(this).attr("cod_assinatura"));
+                }                
             })
 
             console.log(tipo_relatorio)
