@@ -1,5 +1,5 @@
 <?php
-    exit();
+    // exit();
     global $pdo;
 
     date_default_timezone_set('America/Manaus');
@@ -23,7 +23,6 @@
 
     $lib = [
         '[doc]',
-        '[nome]',
         '[mes]',
         '[ano]',
         '[fornecedor_nome]',
@@ -60,16 +59,42 @@
 
         set_time_limit(90);
 
-        $data = [
-            $doc[$d['doc']],
-            $d['nome'],
-            $d['mes'],
-            $d['ano'],
-            $d['fornecedor_nome'],
-            $d['fornecedor_cnpj']
-        ];
+
+        $data[$d['usuario']]['nome'] = $d['nome'];
+        $data[$d['usuario']]['email'] = $d['email'];
+
+        $data[$d['usuario']]['doc'][] = $d['doc'];
+        $data[$d['usuario']]['mes'][] = $d['mes'];
+        $data[$d['usuario']]['ano'][] = $d['ano'];
+        $data[$d['usuario']]['fornecedor_nome'][] = $d['fornecedor_nome'];
+        $data[$d['usuario']]['fornecedor_cnpj'][] = $d['fornecedor_cnpj'];
+
+    }
+
+    
+
+    foreach($data as $usu => $vetor){
 
         $html_dados = str_replace($lib, $data, $html);
+
+        list($cabecalho, $corpo, $rodape) = explode('<>', $html_dados);
+
+        $html_dados = str_replace('[nome]', $usu['nome'], $cabecalho);
+
+        foreach($usu['doc'] as $i => $v){
+
+            $r = [
+                $usu['doc'][$i],
+                $usu['mes'][$i],
+                $usu['ano'][$i],
+                $usu['fornecedor_nome'][$i],
+                $usu['fornecedor_cnpj'][$i]
+            ];
+
+            $html_dados .= str_replace($lib, $r, $corpo);
+        }
+
+        $html_dados .= $rodape;
 
 
         $dados = [
@@ -88,64 +113,28 @@
             ],
             'to' => [
                     // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
-                    ['to_name' => $d['nome'], 'to_email' => trim($d['email'])],
+                    ['to_name' => $usu['nome'], 'to_email' => trim($usu['email'])],
             ]
         ];
 
+        var_dump($dados);
 
-        $url = "http://email.mohatron.com/send.php";
+        echo "<hr>";
 
-        $options = stream_context_create(['http' => [
-                'method'  => 'POST',
-                'header' => 'Content-Type: application/x-www-form-urlencoded',
-                'content' => http_build_query($dados)
-            ]
-        ]);
 
-        $result = file_get_contents($url, false, $options);
-        $result = json_decode($result);
+        // $url = "http://email.mohatron.com/send.php";
 
-        echo $result->status."<br>";
+        // $options = stream_context_create(['http' => [
+        //         'method'  => 'POST',
+        //         'header' => 'Content-Type: application/x-www-form-urlencoded',
+        //         'content' => http_build_query($dados)
+        //     ]
+        // ]);
+
+        // $result = file_get_contents($url, false, $options);
+        // $result = json_decode($result);
+
+        // echo $result->status."<br>";
 
     }
 
-    
-
-
-    // $dados = [
-    //     'from_name' => 'Musashi Fornecedores',
-    //     'from_email' => 'mailgun@moh1.com.br',
-    //     'subject' => 'Nusashi Fornecedores - Alerta de Assinaturas',
-    //     'html' => $html,
-    //     // 'attachment' => [
-    //     //         './img_bk.png',
-    //     //         './cliente-mohatron.xls',
-    //     //         './formulario_prato_cheio.pdf',
-    //     // ],
-    //     'inline' => [
-    //             'http://musashi.mohatron.com/img/banner_notificacao.png',
-    //     ],
-    //     'to' => [
-    //             // ['to_name' => 'Tamer Elmenoufi', 'to_email' => 'tamer.menoufi@gmail.com'],
-    //             ['to_name' => $d['nome'], 'to_email' => trim($d['email'])],
-    //     ]
-    // ];
-
-    // $url = "http://email.mohatron.com/send.php";
-    // // Make a POST request
-    // $options = stream_context_create(['http' => [
-    //         'method'  => 'POST',
-    //         'header' => 'Content-Type: application/x-www-form-urlencoded',
-    //         'content' => http_build_query($dados)
-    //     ]
-    // ]);
-
-    // // Send a request
-    // $result = file_get_contents($url, false, $options);
-    // $result = json_decode($result);
-
-    // // echo "<pre>";   
-    // // print_r($result);
-    // // echo "</pre>";
-
-    // echo $result->status;
