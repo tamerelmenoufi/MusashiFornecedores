@@ -106,9 +106,8 @@ if ($_POST['acao'] === 'assinar') {
 <div class="container container-assinatura">
     <div class="row">
         <div class="col-md-12">
+            <div class="p-3">
         <?php
-
-
 
         $sql = $pdo->prepare("select 
         a.usuario,
@@ -135,9 +134,8 @@ if ($_POST['acao'] === 'assinar') {
 
         }
 
-
-
         ?>
+        </div>
         </div>
     </div>
 </div>
