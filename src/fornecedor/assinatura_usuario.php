@@ -22,6 +22,8 @@ if ($_POST['acao'] === 'assinar') {
 
     if ($query->rowCount() > 0) {
 
+        $usuario = $query->fetch();
+
         for($i = 0; $i < count($_POST['cod_assinatura']); $i++){
 
             $campo_assinatura = "";
@@ -29,8 +31,6 @@ if ($_POST['acao'] === 'assinar') {
             if ($_POST['tipo_relatorio'][$i] === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
             elseif ($_POST['tipo_relatorio'][$i] === 'IQF') $campo_assinatura = 'assinaturas_iqf';
             elseif ($_POST['tipo_relatorio'][$i] === 'IAF') $campo_assinatura = 'assinaturas_iaf';
-
-            $usuario = $query->fetch();
 
             $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
 
