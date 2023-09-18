@@ -147,7 +147,7 @@ if ($_POST['acao'] === 'assinar') {
 ?>
                         <tr>
                             <td><?=$d['doc']?></td>
-                            <td><?="{$d['mes']}/$d['ano']}"?></td>
+                            <td><?="{$d['mes']}/{$d['ano']}"?></td>
                             <td><?=$d['fornecedor_nome']?></td>
                             <td><?=$d['fornecedor_cnpj']?></td>
                         </tr>
