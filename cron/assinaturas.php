@@ -39,6 +39,7 @@
     $html = file_get_contents("./alert.html");
 
     $sql = $pdo->prepare("select 
+                                a.usuario,
                                 a.doc,
                                 b.nome,
                                 b.email,
