@@ -20,6 +20,8 @@ if ($_POST['acao'] === 'assinar') {
     $query->bindValue(":c", $_SESSION['musashi_cod_usu']);
     $query->execute();
 
+    $q = [];
+
     if ($query->rowCount() > 0) {
 
         $usuario = $query->fetch();
@@ -62,7 +64,7 @@ if ($_POST['acao'] === 'assinar') {
             array_push($assinaturas, $nova_assinatura);
 
 
-            $q = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'";
+            $q[] = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'";
 
 
             // $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
@@ -84,7 +86,7 @@ if ($_POST['acao'] === 'assinar') {
 
         echo json_encode([
             "status" => true,
-            "msg" => "Assinatura realizada com sucesso!". $q
+            "msg" => "Assinatura realizada com sucesso!". implode('|',$q)
         ]);
 
     } else {
