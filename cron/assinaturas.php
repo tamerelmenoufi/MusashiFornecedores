@@ -52,7 +52,7 @@
                         left join login b on a.usuario = b.codigo
                         left join avaliacao_mensal c on a.codigo_avaliacao_mensal = c.codigo
                         left join fornecedores d on c.codigo_fornecedor = d.codigo
-                        where a.status != '1'
+                        where a.status != '1' and a.doc != 'doc_geral'
                         group by a.codigo_avaliacao_mensal, a.doc
                         order by a.codigo");
     $sql->execute();
