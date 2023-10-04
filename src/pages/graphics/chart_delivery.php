@@ -45,7 +45,7 @@
 
                 $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['delivery'];
                 $nome[$d['fornecedor_codigo']] = $d['nome'];
-                $qt_meses[$d['fornecedor_codigo']] = ($d['qt_meses'] + 1);
+                $qt_meses[$d['fornecedor_codigo']] = ($d['qt_meses']);
             }
 
             foreach($fornecedor as $ind => $valor){
