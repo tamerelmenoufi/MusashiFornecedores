@@ -76,7 +76,7 @@
         if($qt_meses[$ind] > 0){
             $classificacao = number_format($valor/(($qt_meses[$ind] >= 12)?12:(($qt_meses[$ind])?:1)),2);
         }else{
-            $classificacao = 100;
+            $classificacao = 100.00;
         }
         
 
