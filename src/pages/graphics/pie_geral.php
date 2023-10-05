@@ -76,7 +76,8 @@
         if($qt_meses[$ind] > 0){
             $classificacao = number_format($valor/(($qt_meses[$ind] >= 12)?12:(($qt_meses[$ind])?:1)),2);
         }else{
-            $classificacao = 100.00;
+            echo $classificacao = 100.00;
+            echo "<br>";
         }
         
 
@@ -87,8 +88,8 @@
         }elseif($classificacao >= 94.00 && $classificacao <= 98.99){ //// BOM
             $array_valores[1]++;
         }elseif($classificacao >= 99.00 && $classificacao <= 100.00){ /// OTIMO
-            echo $array_valores[0]++;
-            echo "<br>";
+            $array_valores[0]++;
+            
         }
 
 
