@@ -95,7 +95,7 @@
 
     ?>
 
-
+<?=count($fornecedor)?>
 <canvas can style="" id="pie_geral"></canvas>
 
 <script>
