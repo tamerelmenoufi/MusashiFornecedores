@@ -78,7 +78,7 @@
             if($classificacao > 100) $classificacao = 100.00;
 
         }else{
-            echo $classificacao = 100.00;
+            $classificacao = 100.00;
         }
         
 
