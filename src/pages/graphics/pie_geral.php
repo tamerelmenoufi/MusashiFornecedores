@@ -87,7 +87,8 @@
         }elseif($classificacao >= 94.00 && $classificacao <= 98.99){ //// BOM
             $array_valores[1]++;
         }elseif($classificacao >= 99.00 && $classificacao <= 100.00){ /// OTIMO
-            $array_valores[0]++;
+            echo $array_valores[0]++;
+            echo "<br>";
         }
 
 
