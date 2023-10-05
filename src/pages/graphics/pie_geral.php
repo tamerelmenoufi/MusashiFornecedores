@@ -74,8 +74,8 @@
 
         $n =  $nome[$ind];
         if($qt_meses[$ind] > 0){
-            echo $classificacao = number_format($valor/(($qt_meses[$ind] >= 12)?12:(($qt_meses[$ind])?:1)),2);
-            echo "<br>";
+            $classificacao = number_format($valor/(($qt_meses[$ind] >= 12)?12:(($qt_meses[$ind])?:1)),2);
+            if($classificacao > 100) $classificacao = 100.00;
 
         }else{
             echo $classificacao = 100.00;
