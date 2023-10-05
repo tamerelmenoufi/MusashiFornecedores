@@ -78,6 +78,7 @@ foreach($fornecedor as $ind => $valor){
 
     $n =  $nome[$ind];
     $classificacao = number_format($valor/(($qt_meses[$ind] >= 12)?12:(($qt_meses[$ind])?:1)),2);
+    if($classificacao > 100) $classificacao = 100.00;
 
     if($classificacao <= 77.99){
         $array_valores[3]++;
