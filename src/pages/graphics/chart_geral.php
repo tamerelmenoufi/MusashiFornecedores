@@ -101,13 +101,6 @@
         }
     }
 
-    $Console[] = $array_codigo1;
-    $Console[] = $array_valores1;
-    $Console[] = $array_cor1;
-    $Console[] = $array_border1;
-
-    $Console = 'ok1';
-
     arsort($array_valores1);
 
     foreach($array_valores1 as $ind => $val){
