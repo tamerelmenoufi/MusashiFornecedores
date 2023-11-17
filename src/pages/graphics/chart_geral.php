@@ -123,7 +123,7 @@
 <canvas can id="chart_geral"></canvas>
 
 <script>
-    console.log('<?=$Console?>');
+    console.log(`<?=$Console?>`);
     var ctx10 = document.getElementById('chart_geral');
     var chart_ano = new Chart(ctx10, {
         type: 'bar',
