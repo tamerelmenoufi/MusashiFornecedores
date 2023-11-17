@@ -106,7 +106,7 @@
     $Console[] = $array_cor1;
     $Console[] = $array_border1;
 
-    $Console = 'ok';
+    $Console = 'ok1';
 
     arsort($array_valores1);
 
