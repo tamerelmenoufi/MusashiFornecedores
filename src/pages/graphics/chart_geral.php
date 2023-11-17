@@ -101,6 +101,13 @@
         }
     }
 
+    $Console[] = $array_codigo1;
+    $Console[] = $array_valores1;
+    $Console[] = $array_cor1;
+    $Console[] = $array_border1;
+
+    $Console = json_encode($Console);
+
     arsort($array_valores1);
 
     foreach($array_valores1 as $ind => $val){
@@ -116,6 +123,7 @@
 <canvas can id="chart_geral"></canvas>
 
 <script>
+    console.log('<?=$Console?>');
     var ctx10 = document.getElementById('chart_geral');
     var chart_ano = new Chart(ctx10, {
         type: 'bar',
