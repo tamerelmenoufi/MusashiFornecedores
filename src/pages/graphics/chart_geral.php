@@ -106,7 +106,7 @@
     $Console[] = $array_cor1;
     $Console[] = $array_border1;
 
-    $Console = json_encode($Console);
+    $Console = 'ok';
 
     arsort($array_valores1);
 
