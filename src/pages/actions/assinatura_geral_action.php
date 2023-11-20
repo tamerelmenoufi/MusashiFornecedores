@@ -15,6 +15,7 @@ if ($_POST['acao'] === 'remover_assinatura') {
 
     $assinatura_json = json_decode($assinatura_fetch['assinaturas'], true);
     $search = array_search($cod_assinatura, array_column($assinatura_json, 'codigo'));
+    $assinatura =  $assinatura_json[$search]['assinatura'];
     array_splice($assinatura_json, $search, 1);
 
     $query1 = $pdo->prepare("UPDATE assinatura_geral SET assinaturas = :assinaturas WHERE codigo = :codigo");
@@ -22,6 +23,10 @@ if ($_POST['acao'] === 'remover_assinatura') {
     $query1->bindValue(':codigo', $codigo);
 
     if (@$query1->execute()) {
+
+        $query1 = $pdo->prepare("UPDATE assinaturas SET status = '0' WHERE codigo = '{$assinatura}'");
+        $query1->execute();
+
         echo json_encode([
             'status' => true,
             'msg'    => 'Assinatura removida com sucesso',

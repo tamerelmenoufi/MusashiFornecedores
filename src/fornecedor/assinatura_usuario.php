@@ -30,48 +30,64 @@ if ($_POST['acao'] === 'assinar') {
 
             $campo_assinatura = "";
 
-            if ($_POST['tipo_relatorio'][$i] === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
-            elseif ($_POST['tipo_relatorio'][$i] === 'IQF') $campo_assinatura = 'assinaturas_iqf';
-            elseif ($_POST['tipo_relatorio'][$i] === 'IAF') $campo_assinatura = 'assinaturas_iaf';
 
-            $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
+            if($_POST['tipo_relatorio'][$i] === 'Geral'){
 
-            $query2->bindValue(":c", $_POST['cod_mensal'][$i]);
-            $query2->execute();
-
-            $assinaturas = [];
-
-            $avaliacao_mes = $query2->fetch();
-
-            $assinaturas    = json_decode($avaliacao_mes[$campo_assinatura]) ?: [];
-            $data_hora      = date('Y-m-d H:i:s');
-            $chave          = md5(
-                        $_SESSION['musashi_cod_usu']
-                        . $data_hora
-                        . $usuario['nome']
-                        . $usuario['cargo']
-                        . $tipo_relatorio
-                        . $avaliacao_mes['codigo']
-            );
-
-            $nova_assinatura = [
-                "codigo"    => $_SESSION['musashi_cod_usu'],
-                "usuario"   => $usuario['nome'],
-                "cargo"     => $usuario['cargo'],
-                "data_hora" => $data_hora,
-                "chave"     => $chave,
-            ];
-
-            array_push($assinaturas, $nova_assinatura);
+                $query2 = $pdo->prepare("SELECT mes, ano FROM avaliacao_mensal WHERE codigo = :c");
+                $query2->bindValue(":c", $_POST['cod_mensal'][$i]);
+                $query2->execute();
+                $avaliacao_mes = $query2->fetch();
+                $ano = $avaliacao_mes['ano'];
+                $mes = $avaliacao_mes['mes'];
 
 
-            // $q[] = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'|UPDATE assinaturas SET status = '1' WHERE codigo = '{$_POST['cod_assinatura'][$i]}'";
-
-            $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
-            $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-            $query3->bindValue(':c', $avaliacao_mes['codigo']);
-
-            if ($query3->execute()) {
+                $query_select = $pdo->prepare("SELECT codigo, assinaturas FROM assinatura_geral WHERE mes = :m AND ano = :a LIMIT 1");
+                $query_select->bindValue(":a", $ano);
+                $query_select->bindValue(":m", $mes);
+                $query_select->execute();
+        
+                $assinaturas_fetch = $query_select->fetch();
+        
+                $assinaturas = [];
+                $data_hora      = date('Y-m-d H:i:s');
+                $chave          = md5(
+                    $_SESSION['musashi_cod_usu']
+                    . $data_hora
+                    . $usuario['nome']
+                    . $usuario['cargo']
+                );
+        
+                $nova_assinatura = [
+                    "codigo"    => $_SESSION['musashi_cod_usu'],
+                    "usuario"   => $usuario['nome'],
+                    "cargo"     => $usuario['cargo'],
+                    "data_hora" => $data_hora,
+                    "chave"     => $chave,
+                    "assinatura" => $_POST['cod_assinatura'][$i],
+                ];
+        
+                $retorno = false;
+                $error_query = '';
+        
+                if($query_select->rowCount()){
+                    $assinaturas = json_decode($assinaturas_fetch['assinaturas']) ?: [];
+                    array_push($assinaturas, $nova_assinatura);
+        
+                    $query_update = $pdo->prepare("UPDATE assinatura_geral SET assinaturas = :assinaturas WHERE codigo = :codigo");
+                    $query_update->bindValue(':assinaturas', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                    $query_update->bindValue(':codigo', $assinaturas_fetch['codigo']);
+        
+                    $retorno = $query_update->execute();
+                    $error_query = $query_update->errorInfo();
+                }else{
+                    $query_insert = $pdo->prepare('INSERT INTO assinatura_geral SET mes = :mes, ano = :ano, assinaturas = :assinaturas');
+                    $query_insert->bindValue(':mes', $mes);
+                    $query_insert->bindValue(':ano', $ano);
+                    $query_insert->bindValue(':assinaturas', json_encode([$nova_assinatura], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        
+                    $retorno = $query_insert->execute();
+                    $error_query = $query_insert->errorInfo();
+                }
 
                 $query4 = $pdo->prepare("UPDATE assinaturas SET 
                                                     status = '1'
@@ -80,7 +96,64 @@ if ($_POST['acao'] === 'assinar') {
                                         ");
                 $query4->execute();
 
-            } 
+
+
+            }else{
+
+
+
+                if ($_POST['tipo_relatorio'][$i] === 'IPF')     $campo_assinatura = 'assinaturas_ipf';
+                elseif ($_POST['tipo_relatorio'][$i] === 'IQF') $campo_assinatura = 'assinaturas_iqf';
+                elseif ($_POST['tipo_relatorio'][$i] === 'IAF') $campo_assinatura = 'assinaturas_iaf';
+
+                $query2 = $pdo->prepare("SELECT codigo, {$campo_assinatura} FROM avaliacao_mensal WHERE codigo = :c");
+
+                $query2->bindValue(":c", $_POST['cod_mensal'][$i]);
+                $query2->execute();
+
+                $assinaturas = [];
+
+                $avaliacao_mes = $query2->fetch();
+
+                $assinaturas    = json_decode($avaliacao_mes[$campo_assinatura]) ?: [];
+                $data_hora      = date('Y-m-d H:i:s');
+                $chave          = md5(
+                            $_SESSION['musashi_cod_usu']
+                            . $data_hora
+                            . $usuario['nome']
+                            . $usuario['cargo']
+                            . $tipo_relatorio
+                            . $avaliacao_mes['codigo']
+                );
+
+                $nova_assinatura = [
+                    "codigo"    => $_SESSION['musashi_cod_usu'],
+                    "usuario"   => $usuario['nome'],
+                    "cargo"     => $usuario['cargo'],
+                    "data_hora" => $data_hora,
+                    "chave"     => $chave,
+                ];
+
+                array_push($assinaturas, $nova_assinatura);
+
+
+                // $q[] = "UPDATE avaliacao_mensal SET {$campo_assinatura} = '".json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."' WHERE codigo = '{$avaliacao_mes['codigo']}'|UPDATE assinaturas SET status = '1' WHERE codigo = '{$_POST['cod_assinatura'][$i]}'";
+
+                $query3 = $pdo->prepare("UPDATE avaliacao_mensal SET {$campo_assinatura} = :a WHERE codigo = :c");
+                $query3->bindValue(':a', json_encode($assinaturas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+                $query3->bindValue(':c', $avaliacao_mes['codigo']);
+
+                if ($query3->execute()) {
+
+                    $query4 = $pdo->prepare("UPDATE assinaturas SET 
+                                                        status = '1'
+                                                    WHERE 
+                                                        codigo = '{$_POST['cod_assinatura'][$i]}'
+                                            ");
+                    $query4->execute();
+
+                } 
+            }
             
         }
 
