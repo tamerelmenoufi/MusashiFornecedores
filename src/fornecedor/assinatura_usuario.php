@@ -192,6 +192,13 @@ if ($_POST['acao'] === 'assinar') {
                     <tbody>
         <?php
 
+
+
+
+        $sql = $pdo->prepare("update `assinaturas` set status = '1' where doc = 'doc_geral'");
+        $sql->execute();
+
+
         $sql = $pdo->prepare("select 
         a.codigo,
         a.codigo_avaliacao_mensal,
