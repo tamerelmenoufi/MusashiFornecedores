@@ -55,7 +55,7 @@ if ($_POST['acao'] == 'logar') {
 
         echo json_encode(["status" => true, "url" => $url]);
     } else {
-        $msg = $tipo === "administrador" ? "Usuário e/ou senha incorretos!" : "Fornecedor não encontrado!";
+        $msg = $tipo === "administrador" ? "Usuário e/ou senha incorretos XXX!" : "Fornecedor não encontrado!";
 
         echo json_encode(["status" => false, "msg" => $msg]);
     }
