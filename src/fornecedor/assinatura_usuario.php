@@ -195,7 +195,7 @@ if ($_POST['acao'] === 'assinar') {
 
 
 
-        $sql = $pdo->prepare("update `assinaturas` set status = '1' where doc = 'doc_geral'");
+        $sql = $pdo->prepare("update `assinaturas` set status = '1' where doc = 'doc_geral' and status = '0'");
         $sql->execute();
 
 
