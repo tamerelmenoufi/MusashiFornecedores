@@ -39,15 +39,17 @@
         $sql1->execute();
         $count = 1;
         while($d = $sql1->fetch()){
-            $insert = $pdo->prepare("REPLACE INTO assinaturas SET 
-                                                    codigo_avaliacao_mensal = '{$cod}',
-                                                    usuario = '{$d['assinantes']}',
-                                                    doc = '{$d['documento']}',
-                                                    ordem = '{$count}',
-                                                    status = '0',
-                                                    chave = '".md5($cod.$d['assinantes'].$d['documento'])."'");
-            $insert->execute();
-            $count++;
+            if($d['documento'] != 'doc_geral'){
+                $insert = $pdo->prepare("REPLACE INTO assinaturas SET 
+                                                        codigo_avaliacao_mensal = '{$cod}',
+                                                        usuario = '{$d['assinantes']}',
+                                                        doc = '{$d['documento']}',
+                                                        ordem = '{$count}',
+                                                        status = '0',
+                                                        chave = '".md5($cod.$d['assinantes'].$d['documento'])."'");
+                $insert->execute();
+                $count++;
+            }
         }
 
     }elseif($_POST['excluir']){
