@@ -55,7 +55,6 @@
                 $qt_meses[$d['fornecedor_codigo']] = $d['qt_meses'];
             }
 
-            
         }
     }
 
