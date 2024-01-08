@@ -58,9 +58,9 @@
         }
     }
 
-    print_r($fornecedor);
-    print_r($nome);
-    print_r($qt_meses);
+    // print_r($fornecedor);
+    // print_r($nome);
+    // print_r($qt_meses);
     
 
 
