@@ -58,6 +58,11 @@
         }
     }
 
+    print_r($fornecedor);
+    print_r($nome);
+    print_r($qt_meses);
+    
+
 
     foreach($fornecedor as $ind => $valor){
 
