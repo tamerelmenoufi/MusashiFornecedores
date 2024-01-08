@@ -2,6 +2,8 @@
     require_once "../../../lib/config.php";
     global $pdo;
 
+    //TIMESTAMPDIFF( MONTH, concat ( YEAR(min(data_registro)) , '-' , MONTH(min(data_registro)), '-01' ), concat ( YEAR(NOW()) , '-' , MONTH(NOW()), '-01' ))
+
     if(!isset($_POST['ano'])){
         $Y = date("Y");
     }else{
@@ -37,7 +39,7 @@
         ava.delivery,
         ((ava.quality+ava.delivery)/2) as classificacao,
         ava.posicao,
-        (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
+        (SELECT TIMESTAMPDIFF( MONTH, concat ( YEAR(min(data_registro)) , '-' , MONTH(min(data_registro)), '-01' ), concat ( YEAR(NOW()) , '-' , MONTH(NOW()), '-01' )) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
 
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo

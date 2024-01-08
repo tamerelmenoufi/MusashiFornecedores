@@ -29,7 +29,7 @@
         ava.ano,
         ava.quality,
         ava.posicao,
-        (SELECT TIMESTAMPDIFF(MONTH,min(data_registro),NOW()) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
+        (SELECT TIMESTAMPDIFF( MONTH, concat ( YEAR(min(data_registro)) , '-' , MONTH(min(data_registro)), '-01' ), concat ( YEAR(NOW()) , '-' , MONTH(NOW()), '-01' )) from registros_diarios where codigo_fornecedor = ava.codigo_fornecedor) as qt_meses
         FROM avaliacao_mensal ava
         LEFT JOIN fornecedores f ON ava.codigo_fornecedor = f.codigo
         WHERE ava.ano = '{$Ano}' AND ava.mes = '{$Mes}' AND f.situacao = '1' AND f.deletado != '1' GROUP BY ava.codigo_fornecedor");
