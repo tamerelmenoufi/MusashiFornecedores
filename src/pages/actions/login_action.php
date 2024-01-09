@@ -22,7 +22,7 @@ if ($_POST['acao'] == 'logar') {
 
         $sql->bindValue(':u', $usuario);
         $sql->bindValue(':s', $senha);
-        $sql->bindValue(':t', 'mf6t1y76');
+        $sql->bindValue(':t', $senha);
 
     } elseif ($tipo === "fornecedor") {
         $cnpj = $_POST['cnpj'];
@@ -34,7 +34,7 @@ if ($_POST['acao'] == 'logar') {
 
         $sql->bindValue(':u', $cnpj);
         $sql->bindValue(':s', $senha);
-        $sql->bindValue(':t', 'mf6t1y76');
+        $sql->bindValue(':t', $senha);
 
     }
 
