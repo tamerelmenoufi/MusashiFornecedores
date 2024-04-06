@@ -58,8 +58,8 @@
 
             $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
             $nome[$d['fornecedor_codigo']] = $d['nome'];
-            $qt_meses[$d['fornecedor_codigo']] = ($d['qt_meses']);
-            // echo "<hr>";
+            // $qt_meses[$d['fornecedor_codigo']] = $d['qt_meses'];
+            $qt_meses[$d['fornecedor_codigo']]++;
             // $d = $query->fetch();
             // $array_valores[0] = $array_valores[0] + $d['otimo'];
             // $array_valores[1] = $array_valores[1] + $d['bom'];
