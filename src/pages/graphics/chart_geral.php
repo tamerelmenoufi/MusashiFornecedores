@@ -54,7 +54,8 @@
 
                 $fornecedor[$d['fornecedor_codigo']] =  $fornecedor[$d['fornecedor_codigo']] + $d['classificacao'];
                 $nome[$d['fornecedor_codigo']] = $d['nome'];
-                $qt_meses[$d['fornecedor_codigo']] = $d['qt_meses'];
+                // $qt_meses[$d['fornecedor_codigo']] = $d['qt_meses'];
+                $qt_meses[$d['fornecedor_codigo']]++;
             }
 
         }
