@@ -31,7 +31,7 @@
         $Mes = date("m", mktime(0, 0, 0, ($M - $i), 1, $Y));
         $Ano = date("Y", mktime(0, 0, 0, ($M - $i), 1, $Y));
 
-        echo $q = "SELECT f.nome,
+        $q = "SELECT f.nome,
         f.codigo as fornecedor_codigo,
         ava.ano,
         /*ava.classificacao,*/
