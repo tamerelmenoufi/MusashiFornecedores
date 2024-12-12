@@ -20,7 +20,7 @@
             </div>
         <?php
         }else{
-            $sql = $pdo->prepare("INSERT INTO fornecedores VALUES ( default, :n, :cnpj, :senha, :t, :di, :df, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1')");
+            $sql = $pdo->prepare("INSERT INTO fornecedores VALUES ( default, :n, :cnpj, :senha, :t, :di, :df, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', '0')");
 
             $sql->bindValue(":n", utf8decode($_POST['empresa']));
             $sql->bindValue(":cnpj", $_POST['cnpj']);
