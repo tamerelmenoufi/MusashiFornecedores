@@ -23,7 +23,7 @@ if ($_POST["acao"] == "resetar") {
     $y = date("Y");
 
     $update = $pdo->prepare("UPDATE login SET senha = :s WHERE codigo = :c");
-    $update->bindValue(":s", md5("123456"));
+    $update->bindValue(":s", md5("musashi@" . $y));
     $update->bindValue(":c", $_POST['codigo_usuario']);
 
     $update->execute();
